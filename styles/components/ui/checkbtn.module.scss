@@ -1,0 +1,36 @@
+.flex {
+  position: relative;
+  width: 100%;
+  @include flex(null, null, center, 10px);
+  background-color: $bg-white;
+  padding: 15px 0 15px 15px;
+  border-radius: 10px;
+}
+
+.square-check-box[type=checkbox] {
+  opacity: 0;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.square-check-box[type=checkbox] + label {
+  display: inline-block;
+  @include bgImg("/imgs/icons/check-btn-square-18.svg", 0, 23px);
+  color: transparent;
+  width: 25px;
+  height: 25px;
+  // transition: background-image .2s ease-in-out;
+}
+
+.square-check-box[type=checkbox]:checked + label {
+  background-image: url("/imgs/icons/checked-btn-square-18.svg");
+  // transition: background-image .2s ease-in-out;
+}
+
+.meta {
+  width: 100%;
+  @include flex(column, center, null, 3px);
+  cursor: pointer;
+}

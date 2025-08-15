@@ -1,0 +1,5 @@
+.flex {
+  @include flex(null, null, center, 5px);
+  @include font-theme($bodyMdPlus-b);
+  padding: 0 8px;
+}

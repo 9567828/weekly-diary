@@ -27,15 +27,6 @@ type TxtAbsent = {
   label?: never;
 };
 
-// type BtnFunctional = {
-//   isFunc: true;
-//   onClick: () => void;
-// };
-// type BtnStatic = {
-//   isFunc?: false;
-//   onClick?: never;
-// };
-
 type Props = IbaseBtn & (ImgRequired | ImgAbsent) & (TxtRequired | TxtAbsent);
 
 export default function Button({ classNameKey, existImg, src, alt, isTxtBtn, label, onClick }: Props) {

@@ -1,0 +1,28 @@
+.position {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-wrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+}
+
+.label {
+  color: $gray-800;
+}
+
+.time-line {
+  @include flex(null, null, center, 3px);
+  @include font-theme($captionXs-b);
+}
+
+.time {
+  color: $gray-400;
+}

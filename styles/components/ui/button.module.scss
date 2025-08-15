@@ -1,6 +1,7 @@
 .txtBtn {
   @include font-theme($captionSm-ext);
   color: $blue-color;
+  width: 50px;
   &.cancel {
     color: $gray-700;
     font-weight: $regular;
@@ -9,4 +10,16 @@
     @include font-theme($bodyLg-b);
     color: $gray-600;
   }
+}
+
+.edit-btn {
+  width: 60px;
+  height: 100%;
+  background-color: $gray-600;
+}
+
+.del-btn {
+  width: 60px;
+  height: 100%;
+  background-color: $red-color;
 }

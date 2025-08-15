@@ -1,0 +1,7 @@
+.add-todo {
+  width: 100%;
+  @include flex(null, center, center, 20px);
+  padding: 20px;
+  background-color: $bg-white;
+  border-radius: 10px;
+}

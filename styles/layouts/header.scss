@@ -1,10 +1,15 @@
 header {
-  width: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
   background-color: $bg-white;
-  padding: 30px 30px 10px;
+  padding: 20px 30px 10px;
+  ul {
+    @include flex(null, space-between, center, null);
+  }
 }
 
 .page-name {
-  @include font-theme($bodyLg-ext);
+  @include font-theme($bodyMdPlus-ext);
   color: $gray-700;
 }

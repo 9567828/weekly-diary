@@ -1,0 +1,7 @@
+.column {
+  @include flex(column, center, null, 40px)
+}
+.todo-list {
+  margin-top: 20px;
+  @include flex(column, center, null, 20px);
+}
