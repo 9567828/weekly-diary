@@ -1,0 +1,12 @@
+.txtBtn {
+  @include font-theme($captionSm-ext);
+  color: $blue-color;
+  &.cancel {
+    color: $gray-700;
+    font-weight: $regular;
+  }
+  &.todayBtn {
+    @include font-theme($bodyLg-b);
+    color: $gray-600;
+  }
+}

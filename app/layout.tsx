@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import "../styles/global-style";
+import Tabbar from "./components/layouts/Tabbar";
+import Header from "./components/layouts/Header";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,7 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <div className="container">
+          <Header />
+          <main>{children}</main>
+          <Tabbar />
+        </div>
+      </body>
     </html>
   );
 }

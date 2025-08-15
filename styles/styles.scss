@@ -1,0 +1,25 @@
+@use "./base/reset" as *;
+@use "./abstract/font" as *;
+
+// 전체설정
+body {
+  background-color: #FFFBFA;
+}
+.container {
+  width: 580px;
+  height: 100%;
+  margin: 0 auto;
+  background-color: $bg-gray;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 144px);
+}
+
+article {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}

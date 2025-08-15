@@ -1,0 +1,14 @@
+.date-wrap {
+  @include flex(null, space-between, center, null);
+  background-color: $bg-white;
+}
+
+.btn-wrap {
+  @extend .date-wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.this-month {
+  @include font-theme($titleXl-ext)
+}

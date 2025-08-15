@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div>
-      <h1>홈이다</h1>
+      <h1>todo</h1>
     </div>
   );
 }
