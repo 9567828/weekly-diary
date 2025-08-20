@@ -2,20 +2,35 @@
   width: 100%;
   position: relative;
   overflow: hidden;
+  background-color: $bg-white;
+  padding: 15px;
+  border-radius: 10px;
+  @include flex(null, center, center, 10px);
+  // &:hover .btn-wrap {
+  //   display: block;
+  // }
+  &.isComplete {
+    background-color: $gray-200;
+  }
 }
 
-.btn-wrap {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  overflow: hidden;
+.flex {
+  width: 100%;
+  @include flex(null, null, center, 10px);
+}
+
+.title {
+  @include flex(null, null, center, 5px);
 }
 
 .label {
   color: $gray-800;
+}
+
+.position.isComplete .label {
+  width: 100%;
+  color: $gray-400;
+  text-decoration: line-through;
 }
 
 .time-line {
@@ -25,4 +40,15 @@
 
 .time {
   color: $gray-400;
+}
+
+.btn-wrap {
+  // position: absolute;
+  // top: 0;
+  // right: 0;
+  // height: 100%;
+  // display: none;
+  // width: 100%;
+  height: 100%;
+  @include flex(null, center, center, 10px);
 }

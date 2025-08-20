@@ -1,20 +1,29 @@
+"use client";
+
 import style from "../../../styles/components/todos/todopage.module.scss";
 import AddTodo from "../../components/todos/AddTodo";
-import TodoListTitle from "../../components/ui/TodoListTitle";
-import Todo from "../../components/todos/Todo";
+import { RootState, ITodo } from "@/lib/store";
+import { connect } from "react-redux";
+import { ChangeEvent } from "react";
+import TodoSection from "../../components/todos/TodoSection";
 
-export default function Home() {
+interface HomeProps {
+  toDos: ITodo[];
+  editTodo: (todo: ITodo) => void;
+}
+
+function Home({ toDos }: HomeProps) {
   return (
     <div className={style["column"]}>
       <AddTodo />
-      <div>
-        <TodoListTitle title="할일 목록" number={0} />
-        <div className={style["todo-list"]}>
-          <Todo id="dd" label="출근하기" isTime={false} />
-          <Todo id="bb" label="일지쓰기" isTime={true} time="08:00" />
-        </div>
-      </div>
-      <TodoListTitle title="완료 목록" number={0} />
+      <TodoSection title="할일 목록" toDos={toDos} filter={(t) => !t.isComplete} />
+      <TodoSection title="완료 목록" toDos={toDos} filter={(t) => t.isComplete} />
     </div>
   );
 }
+
+function mapStateToProps(state: RootState) {
+  return { toDos: state.toDos };
+}
+
+export default connect(mapStateToProps)(Home);

@@ -1,0 +1,45 @@
+.edit-todo-wrap {
+  position: fixed;
+  bottom: 0;
+  margin-left: -20px;
+  width: 100%;
+  max-width: 580px;
+  padding: 20px 20px 80px;
+  border-radius: 10px;
+  background-color: $bg-white;
+  @include flex(column, center, null, 30px)
+}
+
+.edit-box {
+  width: 100%;
+}
+
+.btn-wrap {
+  width: 100%;
+  @include flex(null, space-between, center, null);
+}
+
+.select-box {
+  width: 100%;
+  padding-left: 5px;
+  @include flex(null, null, center, 10px);
+  &:first-child {
+    margin: 10px 0 5px;
+  }
+}
+
+.right {
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid $gray-300;
+  @include flex(null, space-between, center, null);
+  .title {
+    color: $gray-700;
+  }
+}
+
+.time-txt {
+  padding-top: 3px;
+  @include font-theme($captionXs-b);
+  color: $blue-color;
+}

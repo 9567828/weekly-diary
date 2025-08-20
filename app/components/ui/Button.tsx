@@ -1,8 +1,9 @@
+import { MouseEvent } from "react";
 import style from "../../../styles/components/ui/button.module.scss";
 
 interface IbaseBtn {
   classNameKey?: keyof typeof style;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 type ImgRequired = {
@@ -31,7 +32,7 @@ type Props = IbaseBtn & (ImgRequired | ImgAbsent) & (TxtRequired | TxtAbsent);
 
 export default function Button({ classNameKey, existImg, src, alt, isTxtBtn, label, onClick }: Props) {
   return (
-    <button className={`${isTxtBtn ? style.txtBtn : ""} ${style[classNameKey ?? ""]}`} onClick={onClick}>
+    <button className={`${isTxtBtn ? style.txtBtn : ""} ${style[classNameKey ?? ""]}`.trim()} onClick={onClick}>
       {existImg ? <img src={src} alt={alt} /> : null}
       {isTxtBtn ? <p>{label}</p> : null}
     </button>

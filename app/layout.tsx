@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "../styles/global-style";
+import ReduxProvider from "./ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,9 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
-        <div className="container">{children}</div>
-      </body>
+      <ReduxProvider>
+        <body>
+          <div className="container">{children}</div>
+        </body>
+      </ReduxProvider>
     </html>
   );
 }

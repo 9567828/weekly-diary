@@ -1,0 +1,22 @@
+.time-container {
+  width: 100%;
+  padding: 35px 20px 20px;
+  @include flex(column, center, null, 10px);
+}
+
+.radio-wrap {
+  width: 100%;
+  padding: 0 20px;
+  @include flex(null, null, center, 20px);
+}
+
+.time-text {
+  padding: 8px 0;
+  background-color: $gray-200;
+  border-radius: 8px;
+  @include flex(null, center, center, 20px)
+}
+
+.width {
+  width: 45px;
+}

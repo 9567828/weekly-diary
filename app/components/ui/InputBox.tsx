@@ -1,22 +1,25 @@
-"use client";
-
-import { ChangeEvent, useState } from "react";
+import { ChangeEventHandler } from "react";
 import style from "../../../styles/components/ui/inputbox.module.scss";
 
 interface IInput {
   placeholder?: string;
+  value: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  classNameKey?: keyof typeof style;
 }
 
-export default function InputBox({ placeholder }: IInput) {
-  const [value, setValue] = useState("");
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.currentTarget.value);
-  };
-
+export default function InputBox({ placeholder, value, onChange, classNameKey }: IInput) {
   return (
-    <label className={style["input-box"]}>
-      <input type="text" name="" id="" value={value} onChange={onChange} placeholder={placeholder} />
-    </label>
+    <div className={style["input-box"]}>
+      <input
+        type="text"
+        name=""
+        id=""
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`${style["input"]} ${classNameKey ? style[classNameKey] : ""}`.trim()}
+      />
+    </div>
   );
 }

@@ -1,0 +1,27 @@
+.toggle-btn {
+  display: block;
+  width: 51px;
+  height: 31px;
+  border-radius: 100px;
+  background-color: $gray-300;
+  position: relative;
+  cursor: pointer;
+  &.on {
+    background-color: $main-color;
+  }
+}
+
+.toggle-switch {
+  display: block;
+  width: 27px;
+  height: 27px;
+  border-radius: 100%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: $bg-white;
+  &.on {
+    left: unset;
+    right: 2px;
+  }
+}
