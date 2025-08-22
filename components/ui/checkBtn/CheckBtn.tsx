@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEventHandler, ReactNode } from "react";
-import style from "../../../styles/components/ui/checkbtn.module.scss";
+import style from "./checkbtn.module.scss";
 
 interface ICheckBtn {
   id: string;

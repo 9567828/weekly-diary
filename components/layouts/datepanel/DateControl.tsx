@@ -1,5 +1,5 @@
-import Button from "../../ui/Button";
-import style from "../../../../styles/layouts/datepanel/datecontrol.module.scss";
+import Button from "../../ui/button/Button";
+import style from "./datecontrol.module.scss";
 
 interface IButtn {
   prevBtn?: () => void;

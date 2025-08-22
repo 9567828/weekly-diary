@@ -1,6 +1,6 @@
-import style from "../../../styles/components/todos/todo.module.scss";
-import CheckBtn from "../ui/CheckBtn";
-import Button from "../ui/Button";
+import style from "./todo.module.scss";
+import CheckBtn from "../../../../components/ui/checkBtn/CheckBtn";
+import Button from "../../../../components/ui/button/Button";
 import EditTodo from "./EditTodo";
 import { ChangeEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";

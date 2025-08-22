@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { menuList } from "@/app/utils/menuList";
+import { menuList } from "@/utils/menuList";
 
 interface IMenu {
   isTab: boolean;

@@ -1,4 +1,4 @@
-import style from "../../../../styles/layouts/datepanel/datepanel.module.scss";
+import style from "./datepanel.module.scss";
 import DateControl from "./DateControl";
 import PeriodView from "./PeriodView";
 

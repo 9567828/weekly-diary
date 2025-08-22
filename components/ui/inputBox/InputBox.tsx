@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from "react";
-import style from "../../../styles/components/ui/inputbox.module.scss";
+import style from "./inputbox.module.scss";
 
 interface IInput {
   placeholder?: string;

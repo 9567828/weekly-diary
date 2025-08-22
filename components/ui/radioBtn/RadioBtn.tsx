@@ -1,4 +1,4 @@
-import style from "../../../styles/components/ui/radiobtn.module.scss";
+import style from "./radiobtn.module.scss";
 
 interface IRadio {
   id: string;

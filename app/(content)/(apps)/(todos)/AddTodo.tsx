@@ -1,8 +1,8 @@
 "use client";
 
-import style from "../../../styles/components/todos/addtodo.module.scss";
-import InputBox from "../ui/InputBox";
-import Button from "../ui/Button";
+import style from "./addtodo.module.scss";
+import InputBox from "../../../../components/ui/inputBox/InputBox";
+import Button from "../../../../components/ui/button/Button";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { connect } from "react-redux";
 import { add, getLocalItem, setLocalItem, ITodo } from "@/lib/store";

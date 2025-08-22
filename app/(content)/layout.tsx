@@ -1,6 +1,6 @@
-import Header from "../components/layouts/Header";
-import Tabbar from "../components/layouts/Tabbar";
-import Sidebar from "../components/layouts/Sidebar";
+import Header from "../../components/layouts/header/Header";
+import Tabbar from "../../components/layouts/tabbar/Tabbar";
+import Sidebar from "../../components/layouts/sidebar/Sidebar";
 import { isMobile } from "react-device-detect";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

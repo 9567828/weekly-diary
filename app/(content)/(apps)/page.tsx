@@ -1,11 +1,10 @@
 "use client";
 
-import style from "../../../styles/components/todos/todopage.module.scss";
-import AddTodo from "../../components/todos/AddTodo";
+import style from "./page.module.scss";
+import AddTodo from "./(todos)/AddTodo";
 import { RootState, ITodo } from "@/lib/store";
 import { connect } from "react-redux";
-import { ChangeEvent } from "react";
-import TodoSection from "../../components/todos/TodoSection";
+import TodoSection from "./(todos)/TodoSection";
 
 interface HomeProps {
   toDos: ITodo[];

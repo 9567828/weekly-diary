@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import style from "../../../styles/components/ui/toggle.module.scss";
+import style from "./toggle.module.scss";
 
 interface IToggle {
   id: string;

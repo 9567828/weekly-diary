@@ -1,6 +1,6 @@
 "use client";
 
-import MenuList from "../ui/MenuList";
+import MenuList from "../../ui/MenuList";
 
 export default function Tabbar() {
   return (

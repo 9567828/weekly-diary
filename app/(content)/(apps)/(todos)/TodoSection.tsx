@@ -1,8 +1,8 @@
-import TodoListTitle from "../ui/TodoListTitle";
-import style from "../../../styles/components/todos/todopage.module.scss";
+import style from "../page.module.scss";
 import { ITodo } from "@/lib/store";
 import Todo from "./Todo";
 import { useEffect, useState } from "react";
+import TodoListTitle from "@/components/ui/todoListTitle/TodoListTitle";
 
 interface ITodoSectionProps {
   title: string;

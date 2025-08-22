@@ -1,4 +1,4 @@
-import style from "../../../styles/components/ui/todolisttitle.module.scss";
+import style from "./todolisttitle.module.scss";
 
 interface IProps {
   title: string;

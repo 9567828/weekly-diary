@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import style from "../../../styles/components/ui/button.module.scss";
+import style from "./button.module.scss";
 
 interface IbaseBtn {
   classNameKey?: keyof typeof style;

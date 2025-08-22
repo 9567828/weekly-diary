@@ -1,7 +1,7 @@
 "use client";
 
-import MenuList from "../ui/MenuList";
-import Button from "../ui/Button";
+import MenuList from "../../ui/MenuList";
+import Button from "../../ui/button/Button";
 
 interface Ibtn {
   onClick: () => void;

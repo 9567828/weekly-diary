@@ -1,4 +1,4 @@
 import "./styles.scss";
-import "./layouts/tabbar.scss";
-import "./layouts/header.scss";
-import "./layouts/sidebar.scss";
+import "../components/layouts/header/header.scss";
+import "../components/layouts/sidebar/sidebar.scss";
+import "../components/layouts/tabbar/tabbar.scss";

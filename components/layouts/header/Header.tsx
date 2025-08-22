@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Button from "../ui/Button";
-import Sidebar from "./Sidebar";
+import Button from "../../ui/button/Button";
+import Sidebar from "../sidebar/Sidebar";
 
 export default function Header() {
   const [name, setName] = useState("");

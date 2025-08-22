@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import style from "../../../styles/components/todos/time.module.scss";
-import RadioBtn from "../ui/RadioBtn";
-import InputBox from "../ui/InputBox";
+import style from "./time.module.scss";
+import RadioBtn from "../../../../components/ui/radioBtn/RadioBtn";
+import InputBox from "../../../../components/ui/inputBox/InputBox";
 
 export default function TimeWrite() {
   const [hour, setHour] = useState<number[]>([]);

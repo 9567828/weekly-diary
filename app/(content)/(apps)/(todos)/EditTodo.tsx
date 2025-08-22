@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import style from "../../../styles/components/todos/edittodo.module.scss";
-import Button from "../ui/Button";
-import InputBox from "../ui/InputBox";
-import ToggleBtn from "../ui/ToggleBtn";
+import style from "./edittodo.module.scss";
+import Button from "../../../../components/ui/button/Button";
+import InputBox from "../../../../components/ui/inputBox/InputBox";
+import ToggleBtn from "../../../../components/ui/toggleBtn/ToggleBtn";
 import { edit, getLocalItem, ITodo, remove, setLocalItem } from "@/lib/store";
 import TimePicker from "./TimeWrite";
 import { connect } from "react-redux";
