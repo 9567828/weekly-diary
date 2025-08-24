@@ -40,37 +40,31 @@
   }
 }
 
-@mixin font-style($size, $weight, $line, $letter) {
+@mixin font-style($size, $weight, $letter) {
   font-size: $size;
   font-weight: $weight;
-  line-height: $line;
   letter-spacing: $letter;
 }
 
 @mixin headXxl-font ($weight) {
-  @include font-style($headXxl, $weight, 150%, -0.02em)
+  @include font-style($headXxl, $weight, -0.02em)
 }
 
 @mixin titleXl-font($weight) {
-  @include font-style($titleXl, $weight, 150%, -0.02em)
+  @include font-style($titleXl, $weight, -0.02em)
 }
 
 @mixin body-font($size, $weight) {
-  @include font-style($size, $weight, 140%, -0.02em)
+  @include font-style($size, $weight, -0.02em)
 }
 
-@mixin caption-font($size, $weight, $line:130%) {
-  @include font-style($size, $weight, $line)
+@mixin caption-font($size, $weight) {
+  @include font-style($size, $weight)
 }
-
-$themes: (
-  primary: (color: #0ea5e9, bg: #e0f2fe),
-  danger:  (color: #ef4444, bg: #fee2e2),
-);
 
 @mixin font-theme($name) {
   $f: map.get($font-map, $name);
   @if $f == null { @error "Unknown theme `#{$name}`"; }
 
-  @include font-style(map.get($f, size), map.get($f, weight), map.get($f, line), map.get($f, letter));
+  @include font-style(map.get($f, size), map.get($f, weight), map.get($f, letter));
 }

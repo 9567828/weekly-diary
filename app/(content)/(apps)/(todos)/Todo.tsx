@@ -27,15 +27,6 @@ type FullProps = IBaseTodo & IHandler;
 
 function Todo(props: FullProps) {
   const { id, label, isImport, isTime, isComplete, isOpen, onClick, editTodo, onDeleteTodo } = props;
-  // const [openEdit, setOpenEdit] = useState(isOpen);
-
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     isComplete ?? setOpenEdit(false);
-  //   }
-  // }, [openEdit]);
-
-  // console.log(openEdit);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checkedId = e.target.id;
@@ -55,6 +46,17 @@ function Todo(props: FullProps) {
 
     editTodo(updatedTodo);
   };
+
+  // useEffect(() => {
+  //   const footer = document.querySelector("footer");
+  //   if (footer) {
+  //     if (isOpen) {
+  //       footer.style.bottom = "-69px";
+  //     } else {
+  //       footer.style.removeProperty("bottom");
+  //     }
+  //   }
+  // }, [isOpen]);
 
   return (
     <>

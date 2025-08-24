@@ -4,7 +4,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <DatePanel />
-      <article>{children}</article>
+      <div className={"hidden"}>
+        <article>{children}</article>
+      </div>
     </>
   );
 }

@@ -1,13 +1,26 @@
+.bg {
+  width: 100%;
+  max-width: 580px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.43);
+  z-index: 20;
+}
+
 .edit-todo-wrap {
   position: fixed;
   bottom: 0;
-  margin-left: -20px;
+  // margin-left: -20px;
   width: 100%;
-  max-width: 580px;
+  // max-width: 580px;
   padding: 20px 20px 80px;
-  border-radius: 10px;
+  border-radius: 20px 20px 0 0;
   background-color: $bg-white;
-  @include flex(column, center, null, 30px)
+  z-index: 30;
+  @include flex(column, center, flex-end, 30px);
 }
 
 .edit-box {

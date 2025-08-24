@@ -1,9 +1,14 @@
 footer {
   width: 100%;
-  height: 69px;
-  padding: 10px 30px;
+  max-width: 580px;
+  // height: 100%;
+  padding: 20px 30px;
   border-top: 1px solid $gray-300;
   background-color: $bg-white;
+  // position: sticky;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
   ul {
     width: 100%;
     @include flex(null, space-between, center, null);
@@ -11,6 +16,15 @@ footer {
     li {
       .menu-name {
         @include font-theme($captionXxs-b);
+      }
+      a {
+        display: block;
+        width: 24px;
+        height: 24px;
+        img {
+          width: 100%;
+          height: 100%S;
+        }
       }
     }
   }

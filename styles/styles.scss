@@ -4,6 +4,8 @@
 // 전체설정
 body {
   background-color: #FFFBFA;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .container {
   position: relative;
@@ -13,12 +15,18 @@ body {
   background-color: $bg-gray;
 }
 
-main {
+// main {
+//   width: 100%;
+//   height: 100%;
+// }
+
+.hidden {
   width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  .mobile {
-    min-height: calc(100vh - 134px);
+  height: calc(100dvh - 228px);
+  overflow: hidden;
+  &.mypage {
+    padding: 20px;
+    height: calc(100dvh - 118px);
   }
 }
 
@@ -26,6 +34,8 @@ article {
   width: 100%;
   height: 100%;
   padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 // form태그 초기화

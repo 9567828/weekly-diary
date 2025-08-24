@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import style from "./edittodo.module.scss";
 import Button from "../../../../components/ui/button/Button";
 import InputBox from "../../../../components/ui/inputBox/InputBox";
@@ -7,6 +7,7 @@ import { edit, getLocalItem, ITodo, remove, setLocalItem } from "@/lib/store";
 import TimePicker from "./TimeWrite";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { createPortal } from "react-dom";
 
 interface IEditTodo {
   id: string;
@@ -32,6 +33,7 @@ const selectBox = [
 
 function EditTodo({ id, label, isImport, isTime, time, isComplete, editTodo, onDeleteTodo, onClick }: props) {
   const [value, setValue] = useState(label);
+  const [mounted, setMounted] = useState(false);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -57,36 +59,47 @@ function EditTodo({ id, label, isImport, isTime, time, isComplete, editTodo, onD
     editTodo(updatedTodo);
   };
 
-  return (
-    <div className={style["edit-todo-wrap"]}>
-      <div className={style["btn-wrap"]}>
-        <Button isTxtBtn={true} label="취소" classNameKey={"cancel"} onClick={onClick} />
-        <Button isTxtBtn={true} label="완료" classNameKey={"txtBtn"} />
-      </div>
-      <div className={style["edit-box"]}>
-        <InputBox onChange={onChange} value={value} />
-        <div className="select-wrap">
-          {selectBox.map((sel, i) => (
-            <div key={i} className={style["select-box"]}>
-              <img src={sel.src} alt={sel.alt} />
-              <div className={style.right}>
-                <div>
-                  <p className={style.title}>{sel.title}</p>
-                  {sel.toggleId === "time" && isTime ? <p className={style["time-txt"]}>{`오후 ${time}`}</p> : null}
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className={style.bg}>
+      <div className={style["edit-todo-wrap"]}>
+        <Button
+          isTxtBtn={false}
+          existImg={true}
+          src="/imgs/icons/ic_Close.svg"
+          alt="닫기"
+          classNameKey={"btn24"}
+          onClick={onClick}
+        />
+        <div className={style["edit-box"]}>
+          <InputBox onChange={onChange} value={value} />
+          <div className="select-wrap">
+            {selectBox.map((sel, i) => (
+              <div key={i} className={style["select-box"]}>
+                <img src={sel.src} alt={sel.alt} />
+                <div className={style.right}>
+                  <div>
+                    <p className={style.title}>{sel.title}</p>
+                    {sel.toggleId === "time" && isTime ? <p className={style["time-txt"]}>{`오후 ${time}`}</p> : null}
+                  </div>
+                  <ToggleBtn
+                    id={sel.toggleId}
+                    onChange={onChangeToggle}
+                    on={sel.toggleId === "important" ? isImport : sel.toggleId === "time" ? isTime : false}
+                  />
                 </div>
-                <ToggleBtn
-                  id={sel.toggleId}
-                  onChange={onChangeToggle}
-                  on={sel.toggleId === "important" ? isImport : sel.toggleId === "time" ? isTime : false}
-                />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <TimePicker />
         </div>
-        <TimePicker />
+        <Button isTxtBtn={true} label="할일 삭제하기" classNameKey={"delete-todo"} onClick={onDeleteTodo} />
       </div>
-      <Button isTxtBtn={true} label="할일 삭제하기" classNameKey={"delete-todo"} onClick={onDeleteTodo} />
-    </div>
+    </div>,
+    document.body
   );
 }
 

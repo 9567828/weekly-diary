@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "../../ui/button/Button";
 import Sidebar from "../sidebar/Sidebar";
+import { isMobile } from "react-device-detect";
 
 export default function Header() {
   const [name, setName] = useState("");
@@ -34,16 +35,20 @@ export default function Header() {
 
   return (
     <>
-      {isSideOpne ? <Sidebar onClick={handleSideClose} /> : null}
+      {/* {isSideOpne ? <Sidebar onClick={handleSideClose} /> : null} */}
       <header>
-        <ul>
+        <p className="page-name">{name}</p>
+
+        {/* <ul>
           <li>
             <p className="page-name">{name}</p>
           </li>
-          <li>
-            <Button isTxtBtn={false} existImg={true} src="/imgs/icons/ic_sidebar.svg" alt="검색" onClick={handleSideOpen} />
-          </li>
-        </ul>
+          {isMobile ? (
+            <li>
+              <Button isTxtBtn={false} existImg={true} src="/imgs/icons/ic_sidebar.svg" alt="검색" onClick={handleSideOpen} />
+            </li>
+          ) : null}
+        </ul> */}
       </header>
     </>
   );

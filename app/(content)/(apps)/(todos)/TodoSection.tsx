@@ -18,6 +18,10 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
     setOpenEditId((prev) => (prev === id ? null : id));
   };
 
+  useEffect(() => {
+    const main = document.querySelector("main");
+  }, [openEditId]);
+
   return (
     <div>
       <TodoListTitle title={title} number={filteredTodos.length} />
