@@ -1,6 +1,6 @@
 import style from "./todo.module.scss";
 import CheckBtn from "../../../../components/ui/checkBtn/CheckBtn";
-import Button from "../../../../components/ui/button/Button";
+import Button from "../../../../components/ui/Button";
 import EditTodo from "./EditTodo";
 import { ChangeEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";
@@ -47,17 +47,6 @@ function Todo(props: FullProps) {
     editTodo(updatedTodo);
   };
 
-  // useEffect(() => {
-  //   const footer = document.querySelector("footer");
-  //   if (footer) {
-  //     if (isOpen) {
-  //       footer.style.bottom = "-69px";
-  //     } else {
-  //       footer.style.removeProperty("bottom");
-  //     }
-  //   }
-  // }, [isOpen]);
-
   return (
     <>
       <div className={`${style.position} ${isComplete ? style.isComplete : ""}`.trim()}>
@@ -77,23 +66,9 @@ function Todo(props: FullProps) {
         </div>
         <div className={style["btn-wrap"]}>
           {!isComplete ? (
-            <Button
-              isTxtBtn={false}
-              existImg={true}
-              src="/imgs/icons/ic_edit-pencel.svg"
-              alt="투두수정"
-              classNameKey={"edit-btn"}
-              onClick={onClick}
-            />
+            <Button existImg={true} src="/imgs/icons/ic_edit-pencel.svg" alt="투두수정" className="btn-18" onClick={onClick} />
           ) : null}
-          <Button
-            isTxtBtn={false}
-            existImg={true}
-            src="/imgs/icons/ic_delete.svg"
-            alt="투두삭제"
-            classNameKey={"del-btn"}
-            onClick={onDeleteTodo}
-          />
+          <Button existImg={true} src="/imgs/icons/ic_delete.svg" alt="투두삭제" className="btn-18" onClick={onDeleteTodo} />
         </div>
       </div>
       {isOpen ? (

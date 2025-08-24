@@ -1,0 +1,5 @@
+.error-msg {
+  padding: 0 8px;
+  color: $red-color;
+  @include font-theme($captionXs-b);
+}

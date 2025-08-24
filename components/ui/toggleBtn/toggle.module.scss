@@ -6,6 +6,8 @@
   background-color: $gray-300;
   position: relative;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none; /* 드래그 방지 */
   &.on {
     background-color: $main-color;
   }
@@ -20,8 +22,9 @@
   top: 2px;
   left: 2px;
   background-color: $bg-white;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s ease-in-out;
   &.on {
-    left: unset;
-    right: 2px;
+    transform: translateX(20px); // 이동할 거리
   }
 }

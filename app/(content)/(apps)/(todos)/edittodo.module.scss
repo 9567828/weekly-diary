@@ -13,10 +13,8 @@
 .edit-todo-wrap {
   position: fixed;
   bottom: 0;
-  // margin-left: -20px;
   width: 100%;
-  // max-width: 580px;
-  padding: 20px 20px 80px;
+  padding: 20px 20px 50px;
   border-radius: 20px 20px 0 0;
   background-color: $bg-white;
   z-index: 30;
@@ -34,7 +32,7 @@
 
 .select-box {
   width: 100%;
-  padding-left: 5px;
+  padding: 0 5px;
   @include flex(null, null, center, 10px);
   &:first-child {
     margin: 10px 0 5px;

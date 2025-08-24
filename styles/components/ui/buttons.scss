@@ -1,0 +1,70 @@
+.primary-btn {
+  width: 100%;
+  height: 52px;
+  padding: 15px 20px;
+  border-radius: 15px;
+  background-color: $main-color;
+  color: $bg-white;
+  @include font-theme($bodyMd-b);
+}
+
+.google-btn {
+  @extend .primary-btn;
+  background-color: $bg-white;
+  border: 1px solid $gray-400;
+  color: $gray-700;
+  @include flex(false, center, center, 10px);
+  img {
+    width: 20px;
+    height: 20px;
+    border: 1px solid $gray-500;
+    border-radius: 100%;
+  }
+}
+
+.txt-btn {
+  @include font-theme($captionSm-ext);
+  color: $blue-color;
+  width: 50px;
+}
+
+.cancel-btn {
+  @extend .txt-btn;
+  color: $gray-700;
+  font-weight: $regular;
+}
+
+.today-btn {
+  @extend .txt-btn;
+  @include font-theme($bodyLg-b);
+  color: $gray-600;
+}
+
+.btn-18 {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+  }
+}
+
+.delete-txt-btn {
+  width: 100%;
+  @include font-theme($bodyMd-b);
+  color: $red-color;
+}
+
+.btn-24 {
+  width: 24px;
+  height: 24px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}

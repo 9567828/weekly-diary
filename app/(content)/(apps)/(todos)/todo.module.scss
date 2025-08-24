@@ -6,9 +6,6 @@
   padding: 15px;
   border-radius: 10px;
   @include flex(null, center, center, 10px);
-  // &:hover .btn-wrap {
-  //   display: block;
-  // }
   &.isComplete {
     background-color: $gray-200;
   }
@@ -20,6 +17,7 @@
 }
 
 .title {
+  width: 100%;
   @include flex(null, null, center, 5px);
 }
 
@@ -43,12 +41,16 @@
 }
 
 .btn-wrap {
-  // position: absolute;
-  // top: 0;
-  // right: 0;
-  // height: 100%;
-  // display: none;
-  // width: 100%;
+  width: auto;
   height: 100%;
-  @include flex(null, center, center, 10px);
+  @include flex(null, center, center, 15px);
+}
+
+@media (max-width: 560px) {
+  .label {
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+  }
 }

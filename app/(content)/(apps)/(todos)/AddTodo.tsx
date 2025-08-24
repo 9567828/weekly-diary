@@ -2,12 +2,13 @@
 
 import style from "./addtodo.module.scss";
 import InputBox from "../../../../components/ui/inputBox/InputBox";
-import Button from "../../../../components/ui/button/Button";
+import Button from "../../../../components/ui/Button";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { connect } from "react-redux";
 import { add, getLocalItem, setLocalItem, ITodo } from "@/lib/store";
 import { Dispatch } from "redux";
 import { v4 as uuidv4 } from "uuid";
+import { inputBlur } from "@/utils/inputBlur";
 
 interface AddTodoProps {
   addTodo: (todo: ITodo) => void;
@@ -43,12 +44,13 @@ function AddTodo({ addTodo }: AddTodoProps) {
     setLocalItem(updateTodo);
 
     setValue("");
+    inputBlur(e);
   };
 
   return (
     <form className={style["add-todo"]} onSubmit={handleSubmit}>
-      <InputBox value={value} onChange={onChange} placeholder="할일을 입력하세요" />
-      <Button isTxtBtn={true} existImg={false} label="완료" />
+      <InputBox variant={"underline"} value={value} onChange={onChange} maxLength={15} placeholder="할일을 입력하세요" />
+      <Button variant="txt-btn" existImg={false} label="완료" />
     </form>
   );
 }

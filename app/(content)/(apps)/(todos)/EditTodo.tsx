@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import style from "./edittodo.module.scss";
-import Button from "../../../../components/ui/button/Button";
+import Button from "../../../../components/ui/Button";
 import InputBox from "../../../../components/ui/inputBox/InputBox";
 import ToggleBtn from "../../../../components/ui/toggleBtn/ToggleBtn";
 import { edit, getLocalItem, ITodo, remove, setLocalItem } from "@/lib/store";
@@ -66,16 +66,9 @@ function EditTodo({ id, label, isImport, isTime, time, isComplete, editTodo, onD
   return createPortal(
     <div className={style.bg}>
       <div className={style["edit-todo-wrap"]}>
-        <Button
-          isTxtBtn={false}
-          existImg={true}
-          src="/imgs/icons/ic_Close.svg"
-          alt="닫기"
-          classNameKey={"btn24"}
-          onClick={onClick}
-        />
+        <Button existImg={true} src="/imgs/icons/ic_Close.svg" alt="닫기" variant={"btn24"} onClick={onClick} />
         <div className={style["edit-box"]}>
-          <InputBox onChange={onChange} value={value} />
+          <InputBox variant={"underline"} onChange={onChange} value={value} />
           <div className="select-wrap">
             {selectBox.map((sel, i) => (
               <div key={i} className={style["select-box"]}>
@@ -96,7 +89,7 @@ function EditTodo({ id, label, isImport, isTime, time, isComplete, editTodo, onD
           </div>
           <TimePicker />
         </div>
-        <Button isTxtBtn={true} label="할일 삭제하기" classNameKey={"delete-todo"} onClick={onDeleteTodo} />
+        <Button label="할일 삭제하기" variant="txt-btn" className="delete-txt-btn" onClick={onDeleteTodo} />
       </div>
     </div>,
     document.body

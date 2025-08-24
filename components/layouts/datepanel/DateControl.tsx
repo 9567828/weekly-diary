@@ -1,4 +1,4 @@
-import Button from "../../ui/button/Button";
+import Button from "../../ui/Button";
 import style from "./datecontrol.module.scss";
 
 interface IButtn {
@@ -13,23 +13,9 @@ export default function DateControl({ date, prevBtn, today, nextBtn }: IButtn) {
     <div className={style["date-wrap"]}>
       <p className={style["this-month"]}>{date}</p>
       <div className={style["btn-wrap"]}>
-        <Button
-          existImg={true}
-          isTxtBtn={false}
-          src="/imgs/icons/ic_arrow-left.svg"
-          alt="이전으로가기"
-          classNameKey={"btn24"}
-          onClick={prevBtn}
-        />
-        <Button isTxtBtn={true} label="오늘" classNameKey={"todayBtn"} onClick={today} />
-        <Button
-          existImg={true}
-          isTxtBtn={false}
-          src="/imgs/icons/ic_arrow-right.svg"
-          alt="다음으로가기"
-          classNameKey={"btn24"}
-          onClick={nextBtn}
-        />
+        <Button existImg={true} src="/imgs/icons/ic_arrow-left.svg" alt="이전으로가기" variant="btn-24" onClick={prevBtn} />
+        <Button label="오늘" variant="txt-btn" className="today-btn" onClick={today} />
+        <Button existImg={true} src="/imgs/icons/ic_arrow-right.svg" alt="다음으로가기" variant="btn-24" onClick={nextBtn} />
       </div>
     </div>
   );

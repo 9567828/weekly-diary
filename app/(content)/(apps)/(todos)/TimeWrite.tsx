@@ -20,11 +20,11 @@ export default function TimeWrite() {
       </div>
       <div className={style["time-text"]}>
         <div className={style.width}>
-          <InputBox onChange={onChange} value="09" classNameKey={"input-time"} />
+          <InputBox variant={"input-time"} onChange={onChange} value="09" />
         </div>
         <p>:</p>
         <div className={style.width}>
-          <InputBox onChange={onChange} value="25" classNameKey={"input-time"} />
+          <InputBox variant={"input-time"} onChange={onChange} value="25" />
         </div>
       </div>
     </div>

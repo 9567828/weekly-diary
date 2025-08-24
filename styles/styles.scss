@@ -3,8 +3,8 @@
 
 // 전체설정
 body {
-  background-color: #FFFBFA;
-  overflow: auto;
+  background-color: #BFA6A2;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
 }
 .container {
@@ -15,18 +15,23 @@ body {
   background-color: $bg-gray;
 }
 
-// main {
-//   width: 100%;
-//   height: 100%;
-// }
+.account-container {
+  padding: 0 50px;
+  height: 100dvh;
+  @include flex(true, center, center, 50px);
+}
+
+.form-container {
+  @include flex(true, center, center, 20px);
+}
 
 .hidden {
   width: 100%;
-  height: calc(100dvh - 228px);
+  height: calc(100dvh - 238px);
   overflow: hidden;
   &.mypage {
     padding: 20px;
-    height: calc(100dvh - 118px);
+    height: calc(100dvh - 128px);
   }
 }
 
@@ -42,16 +47,21 @@ article {
 button {
   outline: none;
   cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
 }
 
 input:focus {
   outline: none;
+  box-shadow: none;  
 }
 
 input {
   outline: none;
   box-shadow: none;
   border-radius: 0; /* 둥근 모서리 제거 */
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
 }
 
 input[type="search"] {

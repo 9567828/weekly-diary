@@ -12,16 +12,14 @@
   color: transparent;
   width: 24px;
   height: 24px;
-  // transition: background-image .2s ease-in-out;
 }
 
 .square-check-box[type=checkbox]:checked + label {
   background-image: url("/imgs/icons/checked-btn-square-18.svg");
-  // transition: background-image .2s ease-in-out;
 }
 
 .meta {
-  width: 100%;
+  width: auto;
   @include flex(column, center, null, 3px);
   cursor: pointer;
 }
