@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import style from "./time.module.scss";
 import RadioBtn from "../../../../components/ui/radioBtn/RadioBtn";
-import InputBox from "../../../../components/ui/inputBox/InputBox";
+import InputBox from "../../../../components/ui/InputBox";
 
 export default function TimeWrite() {
   const [hour, setHour] = useState<number[]>([]);
@@ -20,11 +20,11 @@ export default function TimeWrite() {
       </div>
       <div className={style["time-text"]}>
         <div className={style.width}>
-          <InputBox variant={"input-time"} onChange={onChange} value="09" />
+          <InputBox variant="input-time" onChange={onChange} value="09" />
         </div>
         <p>:</p>
         <div className={style.width}>
-          <InputBox variant={"input-time"} onChange={onChange} value="25" />
+          <InputBox variant="input-time" onChange={onChange} value="25" />
         </div>
       </div>
     </div>

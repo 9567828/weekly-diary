@@ -1,0 +1,15 @@
+.result {
+  width: 100%;
+  @include flex(false, space-between, center, null);
+  padding: 20px;
+  border-radius: 15px;
+  background-color: $gray-300;
+  p:first-child {
+    @include font-theme($bodyMd-b);
+    color: $gray-700;
+  }
+  p:last-child {
+    @include font-theme($captionSmPluse-b);
+    color: $gray-500;
+  }
+}

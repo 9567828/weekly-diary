@@ -1,7 +1,7 @@
 "use client";
 
 import style from "./addtodo.module.scss";
-import InputBox from "../../../../components/ui/inputBox/InputBox";
+import InputBox from "../../../../components/ui/InputBox";
 import Button from "../../../../components/ui/Button";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { connect } from "react-redux";
@@ -49,7 +49,7 @@ function AddTodo({ addTodo }: AddTodoProps) {
 
   return (
     <form className={style["add-todo"]} onSubmit={handleSubmit}>
-      <InputBox variant={"underline"} value={value} onChange={onChange} maxLength={15} placeholder="할일을 입력하세요" />
+      <InputBox variant={"input-underline"} value={value} onChange={onChange} maxLength={15} placeholder="할일을 입력하세요" />
       <Button variant="txt-btn" existImg={false} label="완료" />
     </form>
   );

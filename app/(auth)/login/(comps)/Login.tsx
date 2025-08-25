@@ -1,7 +1,7 @@
 "use client";
 
 import style from "./login.module.scss";
-import InputBox from "../../../../components/ui/inputBox/InputBox";
+import InputBox from "../../../../components/ui/InputBox";
 import { ChangeEvent, useState } from "react";
 import ErrorMsg from "../../../../components/error-msg/ErrorMsg";
 import Link from "next/link";
@@ -32,12 +32,12 @@ export default function Login() {
       <div className={style["login-wrap"]}>
         <div>
           <form action="" id="loginForm" className="form-container">
-            <div className={style["input-wrap"]}>
+            <div className="input-wrap">
               <InputBox
                 id="inputId"
                 onChange={onIdChange}
                 value={idValue}
-                variant={"border"}
+                variant={"border-login"}
                 onFocus={() => setIsIdFocus(true)}
                 onBlur={() => setIsIdFocus(false)}
               >
@@ -47,12 +47,12 @@ export default function Login() {
               </InputBox>
               <ErrorMsg text="아이디 또는 비밀번호를 확인해 주세요" />
             </div>
-            <div className={style["input-wrap"]}>
+            <div className="input-wrap">
               <InputBox
                 id="inputPW"
                 onChange={onPwChange}
                 value={pwValue}
-                variant={"border"}
+                variant={"border-login"}
                 onFocus={() => setIsPwFocus(true)}
                 onBlur={() => setIsPwFocus(false)}
               >
@@ -63,17 +63,17 @@ export default function Login() {
             </div>
           </form>
           <div className={style["account-meta-wrap"]}>
-            <Link href={""}>회원가입</Link>
+            <Link href={"/join"}>회원가입</Link>
             <div>
-              <Link href={""} className={style["col-line"]}>
+              <Link href={"/find-id"} className={style["col-line"]}>
                 아이디찾기
               </Link>
-              <Link href={""}>비밀번호찾기</Link>
+              <Link href={"/find-pw"}>비밀번호찾기</Link>
             </div>
           </div>
         </div>
         <div className={style["btn-wrap"]}>
-          <Button label="로그인" variant="primary-btn" />
+          <Button type="submit" label="로그인" variant="primary-btn" />
           <Button existImg={true} src="/imgs/icons/Google.svg" alt="구글로그인" label="구글 로그인" variant="google-btn" />
         </div>
       </div>

@@ -1,10 +1,9 @@
-import { MouseEvent } from "react";
+import { ButtonHTMLAttributes, MouseEvent } from "react";
 
-interface IbaseBtn {
+interface IbaseBtn extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;
   variant?: string;
   className?: string;
-  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 type ImgRequired = {
@@ -21,9 +20,9 @@ type ImgAbsent = {
 
 type Props = IbaseBtn & (ImgRequired | ImgAbsent);
 
-export default function Button({ label, variant, className, existImg, src, alt, onClick }: Props) {
+export default function Button({ label, variant, className, existImg, src, alt, ...rest }: Props) {
   return (
-    <button className={`${variant ? variant : ""} ${className ? className : ""}`.trim()} onClick={onClick}>
+    <button {...rest} className={`${variant ? variant : ""} ${className ? className : ""}`.trim()}>
       {existImg ? <img src={src} alt={alt} /> : null}
       {label ? <p>{label}</p> : null}
     </button>

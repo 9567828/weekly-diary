@@ -3,7 +3,7 @@ header {
   top: 0;
   left: 0;
   background-color: $bg-white;
-  padding: 20px 30px;
+  padding: 20px 30px 10px;
   z-index: 20;
   ul {
     @include flex(null, space-between, center, null);

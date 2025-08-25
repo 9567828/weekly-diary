@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import style from "./edittodo.module.scss";
 import Button from "../../../../components/ui/Button";
-import InputBox from "../../../../components/ui/inputBox/InputBox";
+import InputBox from "../../../../components/ui/InputBox";
 import ToggleBtn from "../../../../components/ui/toggleBtn/ToggleBtn";
 import { edit, getLocalItem, ITodo, remove, setLocalItem } from "@/lib/store";
 import TimePicker from "./TimeWrite";
@@ -68,7 +68,7 @@ function EditTodo({ id, label, isImport, isTime, time, isComplete, editTodo, onD
       <div className={style["edit-todo-wrap"]}>
         <Button existImg={true} src="/imgs/icons/ic_Close.svg" alt="닫기" variant={"btn24"} onClick={onClick} />
         <div className={style["edit-box"]}>
-          <InputBox variant={"underline"} onChange={onChange} value={value} />
+          <InputBox variant="input-underline" onChange={onChange} value={value} />
           <div className="select-wrap">
             {selectBox.map((sel, i) => (
               <div key={i} className={style["select-box"]}>

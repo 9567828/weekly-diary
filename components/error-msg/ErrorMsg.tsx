@@ -2,9 +2,9 @@ import style from "./errormsg.module.scss";
 
 interface IMsg {
   text: string;
-  variant?: keyof typeof style;
+  className?: keyof typeof style;
 }
 
-export default function ErrorMsg({ text, variant }: IMsg) {
-  return <p className={`${style["error-msg"]} ${variant ? style[variant] : ""}`.trim()}>{text}</p>;
+export default function ErrorMsg({ text, className }: IMsg) {
+  return <p className={`${style["error-msg"]} ${className ? style[className] : ""}`.trim()}>{text}</p>;
 }
