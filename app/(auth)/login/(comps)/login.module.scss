@@ -22,14 +22,14 @@
   color: $gray-500;
   transition: all .3s cubic-bezier(.4,0,.2,1);
   &.focus {
-    top: 16px;
+    top: 18px;
     font-size: 12px;
   }
 }
 
 .account-meta-wrap {
   @include flex(false, space-between, center, null);
-  @include font-theme($bodySm-b);
+  @include font-theme($bodyMd-b);
   color: $gray-600;
   padding: 0 10px;
   margin-top: 15px;
@@ -41,13 +41,22 @@
   &::after {
     position: absolute;
     content: "|";
-    font-size: 12px;
+    font-size: 14px;
     top: 2px;
     right: 8px;
   }
 }
 
 .btn-wrap {
-  margin-top: 80px;
+  margin-top:  80px;
   @include flex(true, center, null, 10px);
+}
+
+.auto-login {
+  @include flex(false, center, center, 10px);
+}
+
+.join-link {
+  color: $gray-600;
+  @include font-theme($bodyLg-b)
 }

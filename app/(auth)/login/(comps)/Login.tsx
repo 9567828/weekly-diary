@@ -6,12 +6,14 @@ import { ChangeEvent, useState } from "react";
 import ErrorMsg from "../../../../components/error-msg/ErrorMsg";
 import Link from "next/link";
 import Button from "../../../../components/ui/Button";
+import CheckBtn from "../../../../components/ui/checkBtn/CheckBtn";
 
 export default function Login() {
   const [idValue, setIdValue] = useState("");
   const [pwValue, setPwValue] = useState("");
   const [isIdFocus, setIsIdFocus] = useState(false);
   const [isPwFocus, setIsPwFocus] = useState(false);
+  const [checkAuto, setCheckAuto] = useState(false);
 
   const onIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIdValue(e.currentTarget.value);
@@ -63,7 +65,12 @@ export default function Login() {
             </div>
           </form>
           <div className={style["account-meta-wrap"]}>
-            <Link href={"/join"}>회원가입</Link>
+            <div className={style["auto-login"]}>
+              <CheckBtn id="autoLogin" shape="circle" onChange={(e) => setCheckAuto(e.target.checked)} checked={checkAuto}>
+                <p>자동로그인</p>
+              </CheckBtn>
+            </div>
+
             <div>
               <Link href={"/find-id"} className={style["col-line"]}>
                 아이디찾기
@@ -72,11 +79,15 @@ export default function Login() {
             </div>
           </div>
         </div>
+
         <div className={style["btn-wrap"]}>
           <Button type="submit" label="로그인" variant="primary-btn" />
           <Button existImg={true} src="/imgs/icons/Google.svg" alt="구글로그인" label="구글 로그인" variant="google-btn" />
         </div>
       </div>
+      <Link href={"/join"} className={style["join-link"]}>
+        회원가입
+      </Link>
     </>
   );
 }

@@ -16,10 +16,6 @@ export default function FindId() {
     setValue(e.target.value);
   };
 
-  const onBtnClick = () => {
-    console.log();
-  };
-
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(e.currentTarget);
@@ -28,17 +24,9 @@ export default function FindId() {
   return (
     <>
       {!isDone ? (
-        <FormLayout
-          pageTitle={isDone ? "아이디찾기 결과" : "아이디찾기"}
-          btnClick={onBtnClick}
-          onSubmit={onSubmit}
-          btnLabel="확인"
-        >
+        <FormLayout pageTitle={isDone ? "아이디찾기 결과" : "아이디찾기"} onSubmit={onSubmit} btnLabel="확인">
           <InputText
-            id="phone"
-            variant="input-border"
-            placeholder="010-1234-5678"
-            label="전화번호"
+            whichInput="phone"
             errorTxt="가입시 입력한 핸드폰 번호를 입력해 주세요."
             className="inform"
             value={value}

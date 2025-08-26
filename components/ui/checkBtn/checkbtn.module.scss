@@ -1,4 +1,5 @@
-.square-check-box[type=checkbox] {
+.square-check-box[type=checkbox],
+.circle-check-box[type=checkbox] {
   opacity: 0;
   position: absolute;
   width: 24px;
@@ -6,16 +7,30 @@
   cursor: pointer;
 }
 
-.square-check-box[type=checkbox] + label {
+.square-check-box[type=checkbox] + label,
+.circle-check-box[type=checkbox] + label {
   display: inline-block;
-  @include bgImg("/imgs/icons/check-btn-square-18.svg", 0, contain);
   color: transparent;
   width: 24px;
   height: 24px;
+  transition: all 0.2s ease-in-out;
+}
+
+.square-check-box[type=checkbox] + label {
+  @include bgImg("/imgs/icons/check-btn-square-18.svg", 0, contain);
+}
+
+.circle-check-box[type=checkbox] + label {
+  @include bgImg("/imgs/icons/check-btn-circle.svg", 0, contain);
+  transition: all 0.2s ease-in-out;
 }
 
 .square-check-box[type=checkbox]:checked + label {
   background-image: url("/imgs/icons/checked-btn-square-18.svg");
+}
+
+.circle-check-box[type=checkbox]:checked + label {
+  background-image: url("/imgs/icons/check-btn-circle-checked.svg");
 }
 
 .meta {

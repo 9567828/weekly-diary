@@ -1,13 +1,15 @@
-import { InputHTMLAttributes } from "react";
+import { ChangeEvent, InputHTMLAttributes } from "react";
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   classNameKey?: string;
   variant: string;
   label?: string;
   children?: React.ReactNode;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 }
 
-export default function InputBox({ classNameKey, label, variant, children, ...rest }: IInput) {
+export default function InputBox({ classNameKey, label, variant, children, onChange, value, ...rest }: IInput) {
   return (
     <div className={`input-box ${label ? "input-label-flex" : ""}`.trim()}>
       {label ? (
@@ -15,7 +17,7 @@ export default function InputBox({ classNameKey, label, variant, children, ...re
           {label}
         </label>
       ) : null}
-      <input {...rest} className={`${variant} ${classNameKey ? classNameKey : ""}`.trim()} />
+      <input {...rest} onChange={onChange} value={value} className={`${variant} ${classNameKey ? classNameKey : ""}`.trim()} />
       {children}
     </div>
   );

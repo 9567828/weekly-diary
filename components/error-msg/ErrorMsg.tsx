@@ -1,7 +1,7 @@
 import style from "./errormsg.module.scss";
 
 interface IMsg {
-  text: string;
+  text: string | undefined;
   className?: keyof typeof style;
 }
 

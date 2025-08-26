@@ -8,11 +8,10 @@ interface IFormLayout {
   formClass?: string;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   btnLabel: string;
-  btnClick: (e: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
 }
 
-export default function FormLayout({ pageTitle, children, onSubmit, formClass, btnLabel, btnClick, disabled }: IFormLayout) {
+export default function FormLayout({ pageTitle, children, onSubmit, formClass, btnLabel, disabled }: IFormLayout) {
   const router = useRouter();
 
   return (
@@ -21,7 +20,7 @@ export default function FormLayout({ pageTitle, children, onSubmit, formClass, b
       <form className={`form-container ${formClass ? formClass : ""}`.trim()} onSubmit={onSubmit}>
         {children}
         <div className="form-btn-wrap">
-          <Button type="submit" label={btnLabel} variant="primary-btn" onClick={btnClick} disabled={disabled} />
+          <Button type="submit" label={btnLabel} variant="primary-btn" disabled={disabled} />
           <button className="back-btn" onClick={() => router.back()}>
             돌아가기
           </button>
