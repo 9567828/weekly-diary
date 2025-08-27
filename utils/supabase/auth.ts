@@ -1,34 +1,21 @@
-import { supabase } from "./client";
+"use server";
 
-export async function signUp(email: string, password: string, phone: string) {
-  const { data: authData, error: authError } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+import { Provider } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
 
-  if (authError) throw authError;
+import { createClient } from "./server";
 
-  // 프로필 생성
-  const { error: profileError } = await supabase.from("user").insert([
-    {
-      user_uid: authData.user?.id, // 외래키 연결
-      email: email.trim(),
-      password: password.trim(),
-      phone_num: phone.trim(),
-    },
-  ]);
+export const signIn = async (provider: Provider): Promise<void> => {
+  const supabase = await createClient();
 
-  return { authData, profileError, authError };
-}
-
-export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
+    provider,
     options: {
-      redirectTo: "http://localhost:3000/", // 로그인 후 돌아올 URL
+      redirectTo: "http://localhost:3000/callback",
     },
   });
 
-  if (error) throw error;
-  return data;
-}
+  redirect(data.url as string);
+};
+
+export const signInGoogle = async () => signIn("google");

@@ -9,6 +9,7 @@ import { add, getLocalItem, setLocalItem, ITodo } from "@/lib/store";
 import { Dispatch } from "redux";
 import { v4 as uuidv4 } from "uuid";
 import { inputBlur } from "@/utils/inputBlur";
+import { insertTodo } from "@/utils/supabase/todo";
 
 interface AddTodoProps {
   addTodo: (todo: ITodo) => void;
@@ -21,7 +22,7 @@ function AddTodo({ addTodo }: AddTodoProps) {
     setValue(e.currentTarget.value);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (value === "") {
       return;
@@ -42,6 +43,13 @@ function AddTodo({ addTodo }: AddTodoProps) {
 
     const updateTodo = [newObj, ...existed];
     setLocalItem(updateTodo);
+
+    try {
+      const { data, error } = await insertTodo(value);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
 
     setValue("");
     inputBlur(e);
