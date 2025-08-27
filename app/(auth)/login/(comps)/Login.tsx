@@ -7,6 +7,7 @@ import ErrorMsg from "../../../../components/error-msg/ErrorMsg";
 import Link from "next/link";
 import Button from "../../../../components/ui/Button";
 import CheckBtn from "../../../../components/ui/checkBtn/CheckBtn";
+import { signInWithGoogle } from "@/utils/supabase/auth";
 
 export default function Login() {
   const [idValue, setIdValue] = useState("");
@@ -21,6 +22,15 @@ export default function Login() {
 
   const onPwChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPwValue(e.currentTarget.value);
+  };
+
+  const onLoingGoogle = () => {
+    try {
+      const data = signInWithGoogle();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -82,7 +92,14 @@ export default function Login() {
 
         <div className={style["btn-wrap"]}>
           <Button type="submit" label="로그인" variant="primary-btn" />
-          <Button existImg={true} src="/imgs/icons/Google.svg" alt="구글로그인" label="구글 로그인" variant="google-btn" />
+          <Button
+            existImg={true}
+            src="/imgs/icons/Google.svg"
+            alt="구글로그인"
+            label="구글 로그인"
+            variant="google-btn"
+            onClick={onLoingGoogle}
+          />
         </div>
       </div>
       <Link href={"/join"} className={style["join-link"]}>

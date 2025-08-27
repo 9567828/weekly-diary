@@ -5,6 +5,7 @@ import InputText from "../(input-comp)/InputText";
 import FormLayout from "../(form-comp)/FormLayout";
 import { onChangeEmail, onChangePhone, onChangeRegex, pwRegex } from "@/utils/regex";
 import { vaildateCheck } from "@/utils/valueCheck";
+import { signUp } from "@/utils/supabase/auth";
 
 export default function Join() {
   const [emailId, setEmailId] = useState("");
@@ -70,6 +71,10 @@ export default function Join() {
         [key]: { isError: msg !== "", msg },
       }));
     });
+
+    const data = signUp(emailId, password, phone);
+
+    console.log(data);
   };
 
   return (
