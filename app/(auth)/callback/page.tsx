@@ -16,12 +16,6 @@ export default function CallbackPage() {
       } = await supabase.auth.getSession();
 
       if (session) {
-        // 로그인 성공 → 프로필 업데이트
-        const user = session.user;
-        await supabase.from("profiles").upsert({
-          user_uid: user.id,
-          avatar_url: user.user_metadata.avatar_url,
-        });
         // 홈으로 이동
         router.replace("/");
       } else {

@@ -70,35 +70,6 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "diary_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      profiles: {
-        Row: {
-          avatar_url: string | null
-          created_at: string
-          id: string
-          user_uid: string | null
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          id?: string
-          user_uid?: string | null
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string
-          id?: string
-          user_uid?: string | null
-        }
         Relationships: []
       }
       todo: {
@@ -135,15 +106,7 @@ export type Database = {
           todo_date?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "todo_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {

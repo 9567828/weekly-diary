@@ -27,20 +27,19 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getSession();
 
   const url = request.nextUrl.clone();
-  // 로그인 안 된 경우만 /login 으로 보냄
-  if (!session && !data.user?.email) {
+  const isLoginPage = url.pathname.startsWith("/login");
+
+  if (!session && !data.user?.email && !isLoginPage) {
     url.pathname = "/login";
     return NextResponse.redirect(url);
-  }
-
-  // 로그인 된 상태에서 /login 페이지 접근 → 홈으로 보냄
-  if (session && url.pathname.startsWith("/login")) {
+  } else {
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
-}
 
-// 필요하다면 matcher 추가
-export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|login).*)"],
-};
+  // // 로그인 된 상태에서 /login 페이지 접근 → 홈으로 보냄
+  // if (session && isLoginPage) {
+  //   url.pathname = "/";
+  //   return NextResponse.redirect(url);
+  // }
+}

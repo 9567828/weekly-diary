@@ -44,12 +44,12 @@ function AddTodo({ addTodo }: AddTodoProps) {
     const updateTodo = [newObj, ...existed];
     setLocalItem(updateTodo);
 
-    try {
-      const { data, error } = await insertTodo(value);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const { data, error } = await insertTodo(value);
+    //   console.log(data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     setValue("");
     inputBlur(e);
