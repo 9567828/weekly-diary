@@ -10,32 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.4"
-  }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
@@ -72,13 +47,31 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          id: string
+          nickname: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          id?: string
+          nickname?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          id?: string
+          nickname?: string | null
+        }
+        Relationships: []
+      }
       todo: {
         Row: {
           created_at: string
           id: string
-          is_done: boolean | null
+          is_done: boolean
           is_import: boolean | null
-          is_tme: boolean | null
+          is_time: boolean | null
           text: string | null
           time: string | null
           todo_date: string
@@ -87,9 +80,9 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
-          is_done?: boolean | null
+          is_done?: boolean
           is_import?: boolean | null
-          is_tme?: boolean | null
+          is_time?: boolean | null
           text?: string | null
           time?: string | null
           todo_date?: string
@@ -98,9 +91,9 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
-          is_done?: boolean | null
+          is_done?: boolean
           is_import?: boolean | null
-          is_tme?: boolean | null
+          is_time?: boolean | null
           text?: string | null
           time?: string | null
           todo_date?: string
@@ -242,9 +235,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },

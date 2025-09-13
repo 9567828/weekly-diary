@@ -28,9 +28,9 @@ $captionSmPluse-size: 13px;
 $captionXs-size: 12px;
 $captionXxs-size: 10px;
 
-$ext-weight: 700;
-$bold: 400;
-$regular: 300;
+$ext-weight: 800;
+$bold: 600;
+$regular: 500;
 
 $headXxl-ext: headXxl-ext;
 $headXxl-b: headXxl-b;
@@ -68,37 +68,37 @@ $captionXxs-r: captionXxs-r;
 
 
 $font-map: (
-  headXxl-ext: (size: $headXxl-size, weight: $ext-weight, letter: -0.02em),
-  headXxl-b: (size: $headXxl-size, weight: $bold, letter: -0.02em),
-  headXxl-r: (size: $headXxl-size, weight: $regular, letter: -0.02em),
-  headXl-ext: (size: $headXl-size, weight: $ext-weight, letter: -0.02em),
-  headXl-b: (size: $headXl-size, weight: $bold, letter: -0.02em),
-  headXl-r: (size: $headXl-size, weight: $regular, letter: -0.02em),
-  titleXl-ext: (size: $titleXl-size, weight: $ext-weight, letter: -0.02em),
-  titleXl-b: (size: $titleXl-size, weight: $bold, letter: -0.02em),
-  titleXl-r: (size: $titleXl-size, weight: $regular, letter: -0.02em),
-  bodyLg-ext: (size: $bodyLg-size, weight: $ext-weight, letter: -0.02em),
-  bodyLg-b: (size: $bodyLg-size, weight: $bold, letter: -0.02em),
-  bodyLg-r: (size: $bodyLg-size, weight: $regular, letter: -0.02em),
-  bodyMdPlus-ext: (size: $bodyMdPlus-size, weight: $ext-weight, letter: -0.02em),
-  bodyMdPlus-b: (size: $bodyMdPlus-size, weight: $bold, letter: -0.02em),
-  bodyMdPlus-r: (size: $bodyMdPlus-size, weight: $regular, letter: -0.02em),
-  bodyMd-ext: (size: $bodyMd-size, weight: $ext-weight, letter: -0.02em),
-  bodyMd-b: (size: $bodyMd-size, weight: $bold, letter: -0.02em),
-  bodyMd-r: (size: $bodyMd-size, weight: $regular, letter: -0.02em),
-  bodySm-ext: (size: $bodySm-size, weight: $ext-weight, letter: -0.02em),
-  bodySm-b: (size: $bodySm-size, weight: $bold, letter: -0.02em),
-  bodySm-r: (size: $bodySm-size, weight: $regular, letter: -0.02em),
-  captionSm-ext: (size: $captionSm-size, weight: $ext-weight, letter: null),
-  captionSm-b: (size: $captionSm-size, weight: $bold, letter: null),
-  captionSm-r: (size: $captionSm-size, weight: $regular, letter: null),
-  captionSmPluse-ext: (size: $captionSmPluse-size, weight: $ext-weight, letter: null),
-  captionSmPluse-b: (size: $captionSmPluse-size, weight: $bold, letter: null),
-  captionSmPluse-r: (size: $captionSmPluse-size, weight: $regular, letter: null),
-  captionXs-ext: (size: $captionXs-size, weight: $ext-weight, letter: null),
-  captionXs-b: (size: $captionXs-size, weight: $bold, letter: null),
-  captionXs-r: (size: $captionXs-size, weight: $regular, letter: null),
-  captionXxs-ext: (size: $captionXxs-size, weight: $ext-weight, letter: null),
-  captionXxs-b: (size: $captionXxs-size, weight: $bold, letter: null),
-  captionXxs-r: (size: $captionXxs-size, weight: $regular, letter: null),
+  headXxl-ext: (size: $headXxl-size, line: 1.5, weight: $ext-weight, letter: -0.02em),
+  headXxl-b: (size: $headXxl-size, line: 1.5, weight: $bold, letter: -0.02em),
+  headXxl-r: (size: $headXxl-size, line: 1.5, weight: $regular, letter: -0.02em),
+  headXl-ext: (size: $headXl-size, line: 1.5, weight: $ext-weight, letter: -0.02em),
+  headXl-b: (size: $headXl-size, line: 1.5, weight: $bold, letter: -0.02em),
+  headXl-r: (size: $headXl-size, line: 1.5, weight: $regular, letter: -0.02em),
+  titleXl-ext: (size: $titleXl-size, line: 1.4, weight: $ext-weight, letter: -0.02em),
+  titleXl-b: (size: $titleXl-size, line: 1.4, weight: $bold, letter: -0.02em),
+  titleXl-r: (size: $titleXl-size, line: 1.4, weight: $regular, letter: -0.02em),
+  bodyLg-ext: (size: $bodyLg-size, line: 1.4, weight: $ext-weight, letter: -0.02em),
+  bodyLg-b: (size: $bodyLg-size, line: 1.4, weight: $bold, letter: -0.02em),
+  bodyLg-r: (size: $bodyLg-size, line: 1.4, weight: $regular, letter: -0.02em),
+  bodyMdPlus-ext: (size: $bodyMdPlus-size, line: 1.4, weight: $ext-weight, letter: -0.02em),
+  bodyMdPlus-b: (size: $bodyMdPlus-size, line: 1.4, weight: $bold, letter: -0.02em),
+  bodyMdPlus-r: (size: $bodyMdPlus-size, line: 1.4, weight: $regular, letter: -0.02em),
+  bodyMd-ext: (size: $bodyMd-size, line: 1.4, weight: $ext-weight, letter: -0.02em),
+  bodyMd-b: (size: $bodyMd-size, line: 1.4, weight: $bold, letter: -0.02em),
+  bodyMd-r: (size: $bodyMd-size, line: 1.4, weight: $regular, letter: -0.02em),
+  bodySm-ext: (size: $bodySm-size, line: 1.4, weight: $ext-weight, letter: -0.02em),
+  bodySm-b: (size: $bodySm-size, line: 1.4, weight: $bold, letter: -0.02em),
+  bodySm-r: (size: $bodySm-size, line: 1.4, weight: $regular, letter: -0.02em),
+  captionSm-ext: (size: $captionSm-size, line: 1.3, weight: $ext-weight, letter: null),
+  captionSm-b: (size: $captionSm-size, line: 1.3, weight: $bold, letter: null),
+  captionSm-r: (size: $captionSm-size, line: 1.3, weight: $regular, letter: null),
+  captionSmPluse-ext: (size: $captionSmPluse-size, line: 1.3, weight: $ext-weight, letter: null),
+  captionSmPluse-b: (size: $captionSmPluse-size, line: 1.3, weight: $bold, letter: null),
+  captionSmPluse-r: (size: $captionSmPluse-size, line: 1.3, weight: $regular, letter: null),
+  captionXs-ext: (size: $captionXs-size, line: 1.3, weight: $ext-weight, letter: null),
+  captionXs-b: (size: $captionXs-size, line: 1.3, weight: $bold, letter: null),
+  captionXs-r: (size: $captionXs-size, line: 1.3, weight: $regular, letter: null),
+  captionXxs-ext: (size: $captionXxs-size, line: 1.3, weight: $ext-weight, letter: null),
+  captionXxs-b: (size: $captionXxs-size, line: 1.3, weight: $bold, letter: null),
+  captionXxs-r: (size: $captionXxs-size, line: 1.3, weight: $regular, letter: null),
 )

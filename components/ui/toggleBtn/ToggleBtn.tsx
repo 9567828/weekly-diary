@@ -4,15 +4,15 @@ import style from "./toggle.module.scss";
 interface IToggle {
   id: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  on: boolean;
+  checked: boolean;
 }
 
-export default function ToggleBtn({ id, onChange, on }: IToggle) {
+export default function ToggleBtn({ id, onChange, checked }: IToggle) {
   return (
     <div>
-      <input type="checkbox" id={id} hidden onChange={onChange} checked={on} />
-      <label htmlFor={id} className={`${style["toggle-btn"]} ${on ? style.on : ""}`.trim()}>
-        <span className={`${style["toggle-switch"]} ${on ? style.on : ""}`.trim()}></span>
+      <input type="checkbox" id={id} hidden onChange={onChange} checked={checked} />
+      <label htmlFor={id} className={`${style["toggle-btn"]} ${checked ? style.on : ""}`.trim()}>
+        <span className={`${style["toggle-switch"]} ${checked ? style.on : ""}`.trim()}></span>
       </label>
     </div>
   );

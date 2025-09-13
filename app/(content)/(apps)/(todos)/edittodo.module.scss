@@ -14,11 +14,12 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 20px 20px 50px;
+  height: 60%;
+  padding: 30px;
   border-radius: 20px 20px 0 0;
   background-color: $bg-white;
   z-index: 30;
-  @include flex(column, center, flex-end, 30px);
+  @include flex(column, null, flex-end, 30px);
 }
 
 .edit-box {

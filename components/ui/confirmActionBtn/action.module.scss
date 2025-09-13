@@ -1,0 +1,4 @@
+.btn-wrap {
+  width: 100%;
+  @include flex(null, space-between, center, null);
+}

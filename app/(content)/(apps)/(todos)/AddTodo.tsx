@@ -3,70 +3,48 @@
 import style from "./addtodo.module.scss";
 import InputBox from "../../../../components/ui/InputBox";
 import Button from "../../../../components/ui/Button";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { connect } from "react-redux";
-import { add, getLocalItem, setLocalItem, ITodo } from "@/lib/store";
-import { Dispatch } from "redux";
-import { v4 as uuidv4 } from "uuid";
-import { inputBlur } from "@/utils/inputBlur";
-import { insertTodo } from "@/utils/supabase/todo";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { addTodoThunk } from "@/lib/todos/todo.thunk";
+import { useAppDispatch } from "@/lib/hooks";
 
-interface AddTodoProps {
-  addTodo: (todo: ITodo) => void;
+interface IAdd {
+  addTodo: (text: string) => void;
 }
 
-function AddTodo({ addTodo }: AddTodoProps) {
+export default function AddTodo() {
   const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (value === "") {
       return;
     }
 
-    const newObj = {
-      id: uuidv4(),
-      text: value,
-      isImportant: false,
-      isTime: false,
-      time: "09:00",
-      isComplete: false,
-    };
-
-    const existed = getLocalItem();
-
-    addTodo(newObj);
-
-    const updateTodo = [newObj, ...existed];
-    setLocalItem(updateTodo);
-
-    // try {
-    //   const { data, error } = await insertTodo(value);
-    //   console.log(data);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    dispatch(addTodoThunk(value));
 
     setValue("");
-    inputBlur(e);
+    inputRef.current?.blur();
   };
 
   return (
     <form className={style["add-todo"]} onSubmit={handleSubmit}>
-      <InputBox variant={"input-underline"} value={value} onChange={onChange} maxLength={15} placeholder="할일을 입력하세요" />
-      <Button variant="txt-btn" existImg={false} label="완료" />
+      <InputBox
+        ref={inputRef}
+        variant={"input-underline"}
+        value={value}
+        onChange={onChange}
+        maxLength={15}
+        placeholder="할일을 입력하세요"
+      />
+      <Button type="submit" variant="txt-btn" existImg={false} label="완료" />
     </form>
   );
 }
-
-function mapDispatchToProps(dispatch: Dispatch) {
-  return {
-    addTodo: ({ text, id }: ITodo) => dispatch(add({ text, id })),
-  };
-}
-
-export default connect(null, mapDispatchToProps)(AddTodo);

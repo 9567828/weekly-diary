@@ -1,29 +1,38 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createClient } from "@/utils/supabase/client";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-interface UserState {
-  id: string | null;
-  name: string | null;
-  email: string | null;
-  isGoogle: boolean;
+interface IUser {
+  isLoggedIn: boolean;
+  userId: string | null;
 }
 
-const initialState: UserState = {
-  id: null,
-  name: null,
-  email: null,
-  isGoogle: false,
+const initialState: IUser = {
+  isLoggedIn: false,
+  userId: null,
 };
+
+export const fetchUserThunk = createAsyncThunk("auth/fetchUser", async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) throw error;
+
+  return data.user?.id ?? null;
+});
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserState>) => {
-      return action.payload; // 전체 교체
+    logout: (state, action) => {
+      (state.isLoggedIn = !!action.payload), (state.userId = null);
     },
-    clearUser: () => initialState, // 초기화
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUserThunk.fulfilled, (state, action) => {
+      (state.isLoggedIn = true), (state.userId = action.payload);
+    });
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;

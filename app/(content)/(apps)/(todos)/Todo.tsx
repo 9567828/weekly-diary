@@ -2,15 +2,14 @@ import style from "./todo.module.scss";
 import CheckBtn from "../../../../components/ui/checkBtn/CheckBtn";
 import Button from "../../../../components/ui/Button";
 import EditTodo from "./EditTodo";
-import { ChangeEvent, useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { edit, getLocalItem, ITodo, remove, setLocalItem } from "@/lib/store";
-import { Dispatch } from "redux";
+import { ChangeEvent, useEffect } from "react";
+import { checkDone } from "@/utils/supabase/todo";
+import { ITodo } from "@/lib/todos/todo.interface";
 
 interface IHandler {
   onClick: () => void;
   isOpen: boolean;
-  editTodo: (todo: ITodo) => void;
+  // editTodo: (todo: ITodo) => void;
   onDeleteTodo: () => void;
 }
 
@@ -18,15 +17,15 @@ interface IBaseTodo {
   id: string;
   label: string;
   isImport: boolean;
-  isComplete: boolean;
+  isDone: boolean;
   isTime: boolean;
-  time: string;
+  time?: string;
 }
 
 type FullProps = IBaseTodo & IHandler;
 
-function Todo(props: FullProps) {
-  const { id, label, isImport, isTime, isComplete, isOpen, onClick, editTodo, onDeleteTodo } = props;
+export default function Todo(props: FullProps) {
+  const { id, label, isImport, isTime, isDone, isOpen, onClick, onDeleteTodo } = props;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checkedId = e.target.id;
@@ -35,23 +34,30 @@ function Todo(props: FullProps) {
     const targetTodo = id === checkedId;
     if (!targetTodo) return;
 
-    const updatedTodo: ITodo = {
+    const updatedTodo = {
       id,
       text: label,
-      isImportant: isImport,
+      isImport: isImport,
       isTime,
       time: isTime ? props.time : "",
-      isComplete: checkedState,
+      isDone: checkedState,
     };
 
-    editTodo(updatedTodo);
+    // editTodo(updatedTodo);
   };
+
+  useEffect(() => {
+    const getList = async () => {
+      return await checkDone(id, isDone);
+    };
+    getList();
+  });
 
   return (
     <>
-      <div className={`${style.position} ${isComplete ? style.isComplete : ""}`.trim()}>
+      <div className={`${style.position} ${isDone ? style.isDone : ""}`.trim()}>
         <div className={style.flex}>
-          <CheckBtn id={id} onChange={onChange} checked={isComplete}>
+          <CheckBtn id={id} onChange={onChange} checked={isDone}>
             <div className={style.title}>
               {isImport ? <img src="/imgs/icons/ic_important-3x.svg" alt="중요" /> : null}
               <p className={style["label"]}>{label}</p>
@@ -65,7 +71,7 @@ function Todo(props: FullProps) {
           </CheckBtn>
         </div>
         <div className={style["btn-wrap"]}>
-          {!isComplete ? (
+          {!isDone ? (
             <Button existImg={true} src="/imgs/icons/ic_edit-pencel.svg" alt="투두수정" className="btn-18" onClick={onClick} />
           ) : null}
           <Button existImg={true} src="/imgs/icons/ic_delete.svg" alt="투두삭제" className="btn-18" onClick={onDeleteTodo} />
@@ -78,29 +84,30 @@ function Todo(props: FullProps) {
           isImport={isImport}
           isTime={isTime}
           time={props.time}
-          isComplete={isComplete}
+          isDone={isDone}
           onClick={onClick}
+          onDeleteTodo={onClick}
         />
       ) : null}
     </>
   );
 }
 
-function mapDispatchToProps(dispatch: Dispatch, ownProps: IBaseTodo) {
-  return {
-    editTodo: (todo: ITodo) => {
-      const updateTodo = getLocalItem().map((t) =>
-        t.id === todo.id ? { ...t, ...todo, time: todo.isTime ? todo.time : "" } : t
-      );
-      setLocalItem(updateTodo);
-      dispatch(edit(todo));
-    },
-    onDeleteTodo: () => {
-      const deleteTodo = getLocalItem().filter((todo) => todo.id !== ownProps.id);
-      setLocalItem(deleteTodo);
-      dispatch(remove(ownProps.id));
-    },
-  };
-}
+// function mapDispatchToProps(dispatch: Dispatch, ownProps: IBaseTodo) {
+//   return {
+//     editTodo: (todo: ITodo) => {
+//       const updateTodo = getLocalItem().map((t) =>
+//         t.id === todo.id ? { ...t, ...todo, time: todo.isTime ? todo.time : "" } : t
+//       );
+//       setLocalItem(updateTodo);
+//       dispatch(edit(todo));
+//     },
+//     onDeleteTodo: () => {
+//       const deleteTodo = getLocalItem().filter((todo) => todo.id !== ownProps.id);
+//       setLocalItem(deleteTodo);
+//       dispatch(remove(ownProps.id));
+//     },
+//   };
+// }
 
-export default connect(null, mapDispatchToProps)(Todo);
+// export default connect(null, mapDispatchToProps)(Todo);

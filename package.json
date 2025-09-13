@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "update-types": "supabase gen types typescript --project-id \"uweadyjpzagnrgbdskqo\" --schema public > database.types.ts",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -26,7 +27,7 @@
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19",
     "sass": "^1.90.0",
-    "supabase": "^2.34.3",
+    "supabase": "^2.39.2",
     "typescript": "^5.9.2"
   }
 }

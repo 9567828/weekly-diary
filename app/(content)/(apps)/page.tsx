@@ -2,27 +2,24 @@
 
 import style from "./page.module.scss";
 import AddTodo from "./(todos)/AddTodo";
-import { RootState, ITodo } from "@/lib/store";
-import { connect } from "react-redux";
 import TodoSection from "./(todos)/TodoSection";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { fetchTodos } from "@/lib/todos/todo.thunk";
 
-interface HomeProps {
-  toDos: ITodo[];
-  editTodo: (todo: ITodo) => void;
-}
+export default function Home() {
+  const dispatch = useAppDispatch();
+  const toDos = useAppSelector((state) => state.toDos);
 
-function Home({ toDos }: HomeProps) {
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
+
   return (
     <div className={style["column"]}>
       <AddTodo />
-      <TodoSection title="할일 목록" toDos={toDos} filter={(t) => !t.isComplete} />
-      <TodoSection title="완료 목록" toDos={toDos} filter={(t) => t.isComplete} />
+      <TodoSection title="할일 목록" toDos={toDos} filter={(t) => !t.isDone} />
+      <TodoSection title="완료 목록" toDos={toDos} filter={(t) => t.isDone} />
     </div>
   );
 }
-
-function mapStateToProps(state: RootState) {
-  return { toDos: state.toDos };
-}
-
-export default connect(mapStateToProps)(Home);

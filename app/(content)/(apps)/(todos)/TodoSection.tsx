@@ -1,8 +1,8 @@
 import style from "../page.module.scss";
-import { ITodo } from "@/lib/store";
 import Todo from "./Todo";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TodoListTitle from "@/components/ui/todoListTitle/TodoListTitle";
+import { ITodo } from "@/lib/todos/todo.interface";
 
 interface ITodoSectionProps {
   title: string;
@@ -18,9 +18,9 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
     setOpenEditId((prev) => (prev === id ? null : id));
   };
 
-  useEffect(() => {
-    const main = document.querySelector("main");
-  }, [openEditId]);
+  const onDelete = () => {
+    console.log("클릭");
+  };
 
   return (
     <div>
@@ -32,11 +32,12 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
             id={menu.id}
             label={menu.text}
             isTime={menu.isTime}
-            isImport={menu.isImportant}
+            isImport={menu.isImport}
             time={menu.time}
-            isComplete={menu.isComplete}
+            isDone={menu.isDone}
             onClick={() => onClickEdit(menu.id)}
             isOpen={openEditId === menu.id}
+            onDeleteTodo={onDelete}
           />
         ))}
       </div>

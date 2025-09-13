@@ -28,18 +28,19 @@ export async function updateSession(request: NextRequest) {
 
   const url = request.nextUrl.clone();
   const isLoginPage = url.pathname.startsWith("/login");
+  const isCallback = url.pathname.startsWith("/auth/callback");
+
+  // ✅ callback은 무조건 통과
+  if (isCallback) return;
 
   if (!session && !data.user?.email && !isLoginPage) {
     url.pathname = "/login";
     return NextResponse.redirect(url);
-  } else {
+  }
+
+  // 로그인 된 상태에서 /login 페이지 접근 → 홈으로 보냄
+  if (session && data.user?.email && isLoginPage) {
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
-
-  // // 로그인 된 상태에서 /login 페이지 접근 → 홈으로 보냄
-  // if (session && isLoginPage) {
-  //   url.pathname = "/";
-  //   return NextResponse.redirect(url);
-  // }
 }

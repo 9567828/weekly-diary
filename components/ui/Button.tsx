@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, MouseEvent } from "react";
+import { ButtonHTMLAttributes } from "react";
 
 interface IbaseBtn extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;

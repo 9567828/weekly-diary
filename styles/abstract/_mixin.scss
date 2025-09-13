@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:math";
 @use "./variables" as *;
 
 @mixin flex($col, $justi, $align, $gap) {
@@ -40,31 +41,34 @@
   }
 }
 
-@mixin font-style($size, $weight, $letter) {
+@mixin font-style($size, $line, $weight, $letter) {
   font-size: $size;
   font-weight: $weight;
+  @if ($line) {
+    line-height: math.round($size * $line);
+  }
   letter-spacing: $letter;
 }
 
-@mixin headXxl-font ($weight) {
-  @include font-style($headXxl, $weight, -0.02em)
+@mixin headXxl-font ($line, $weight) {
+  @include font-style($headXxl, $line, $weight, -0.02em)
 }
 
-@mixin titleXl-font($weight) {
-  @include font-style($titleXl, $weight, -0.02em)
+@mixin titleXl-font($line, $weight) {
+  @include font-style($titleXl, $line, $weight, -0.02em)
 }
 
-@mixin body-font($size, $weight) {
-  @include font-style($size, $weight, -0.02em)
+@mixin body-font($size, $line, $weight) {
+  @include font-style($size, $line, $weight, -0.02em)
 }
 
-@mixin caption-font($size, $weight) {
-  @include font-style($size, $weight)
+@mixin caption-font($size, $line, $weight) {
+  @include font-style($size, $line, $weight)
 }
 
 @mixin font-theme($name) {
   $f: map.get($font-map, $name);
   @if $f == null { @error "Unknown theme `#{$name}`"; }
 
-  @include font-style(map.get($f, size), map.get($f, weight), map.get($f, letter));
+  @include font-style(map.get($f, size), map.get($f, line), map.get($f, weight), map.get($f, letter));
 }
