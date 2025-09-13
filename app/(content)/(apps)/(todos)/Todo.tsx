@@ -3,8 +3,7 @@ import CheckBtn from "../../../../components/ui/checkBtn/CheckBtn";
 import Button from "../../../../components/ui/Button";
 import EditTodo from "./EditTodo";
 import { ChangeEvent, useEffect } from "react";
-import { checkDone } from "@/utils/supabase/todo";
-import { ITodo } from "@/lib/todos/todo.interface";
+import { checkDone } from "@/utils/supabase/sql/todo";
 
 interface IHandler {
   onClick: () => void;
