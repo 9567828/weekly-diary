@@ -6,16 +6,27 @@ import Button from "../../../../components/ui/Button";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { addTodoThunk } from "@/lib/todos/todo.thunk";
 import { useAppDispatch } from "@/lib/hooks";
-
-interface IAdd {
-  addTodo: (text: string) => void;
-}
+import { useParams, usePathname } from "next/navigation";
+import { format } from "date-fns";
 
 export default function AddTodo() {
+  const { date } = useParams();
+  const path = usePathname();
+
   const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
+
+  const addDate = () => {
+    const todayStr = format(new Date(), "yyyy-MM-dd");
+
+    if (path === "/") {
+      return todayStr;
+    } else {
+      return String(date);
+    }
+  };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -28,7 +39,7 @@ export default function AddTodo() {
       return;
     }
 
-    dispatch(addTodoThunk(value));
+    dispatch(addTodoThunk({ text: value, todoDate: addDate() }));
 
     setValue("");
     inputRef.current?.blur();

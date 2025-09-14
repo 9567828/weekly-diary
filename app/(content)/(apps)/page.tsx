@@ -1,25 +1,18 @@
 "use client";
 
-import style from "./page.module.scss";
-import AddTodo from "./(todos)/AddTodo";
-import TodoSection from "./(todos)/TodoSection";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { fetchTodos } from "@/lib/todos/todo.thunk";
+import { useAppDispatch } from "@/lib/hooks";
+import { fetchDateTodos } from "@/lib/todos/todo.thunk";
+import Todos from "./(todos)/Todos";
+import { format } from "date-fns";
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const toDos = useAppSelector((state) => state.toDos);
+  const today = format(new Date(), "yyyy-MM-dd");
 
   useEffect(() => {
-    dispatch(fetchTodos());
+    dispatch(fetchDateTodos(today));
   }, [dispatch]);
 
-  return (
-    <div className={style["column"]}>
-      <AddTodo />
-      <TodoSection title="할일 목록" toDos={toDos} filter={(t) => !t.isDone} />
-      <TodoSection title="완료 목록" toDos={toDos} filter={(t) => t.isDone} />
-    </div>
-  );
+  return <Todos />;
 }

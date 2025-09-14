@@ -4,4 +4,5 @@
   padding: 0 30px 30px;
   @include flex(column, center, null, 20px);
   background-color: $bg-white;
+  border-bottom: 1px solid $gray-300;
 }

@@ -1,15 +1,16 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Header() {
   const [name, setName] = useState("");
   const [isSideOpne, setIsSideOpen] = useState(false);
   const path = usePathname();
+  const { date } = useParams();
 
   useEffect(() => {
-    if (path === "/") {
+    if (path === "/" || path === `/${String(date)}`) {
       setName("TODO-LIST");
     } else if (path === "/diary") {
       setName("주간 일기");

@@ -42,7 +42,7 @@ body {
 
 .hidden {
   width: 100%;
-  height: calc(100dvh - 212px);
+  height: calc(100dvh - 278px);
   overflow: hidden;
   &.mypage {
     padding: 20px;
@@ -101,4 +101,30 @@ input {
 
 input[type="search"] {
   -webkit-appearance: none;
+}
+
+
+// input number 화살표 삭제
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox  */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+// select 화살표 삭제
+select {
+  -webkit-appearance: none;  /* 크롬 화살표 없애기 */
+  -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
+  appearance: none;  /* 화살표 없애기 */
+  background-color: transparent;
+}
+
+select:focus {
+  outline: none;
 }

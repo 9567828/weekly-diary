@@ -49,19 +49,37 @@ export type Database = {
       }
       profiles: {
         Row: {
+          admin: boolean
           avatar_url: string | null
           id: string
           nickname: string | null
         }
         Insert: {
+          admin?: boolean
           avatar_url?: string | null
           id?: string
           nickname?: string | null
         }
         Update: {
+          admin?: boolean
           avatar_url?: string | null
           id?: string
           nickname?: string | null
+        }
+        Relationships: []
+      }
+      setting: {
+        Row: {
+          id: string
+          is_24hour: boolean | null
+        }
+        Insert: {
+          id?: string
+          is_24hour?: boolean | null
+        }
+        Update: {
+          id?: string
+          is_24hour?: boolean | null
         }
         Relationships: []
       }
@@ -69,6 +87,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_ampm: string
           is_done: boolean
           is_import: boolean | null
           is_time: boolean | null
@@ -80,6 +99,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          is_ampm?: string
           is_done?: boolean
           is_import?: boolean | null
           is_time?: boolean | null
@@ -91,6 +111,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          is_ampm?: string
           is_done?: boolean
           is_import?: boolean | null
           is_time?: boolean | null

@@ -17,6 +17,8 @@ export const signIn = async (provider: Provider): Promise<void> => {
     },
   });
 
+  if (error) throw error;
+
   redirect(data.url as string);
 };
 

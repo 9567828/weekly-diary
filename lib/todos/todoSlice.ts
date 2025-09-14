@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addTodoThunk, fetchTodos } from "./todo.thunk";
+import { addTodoThunk, checkDoneThunk, deleteTodoThunk, editTodoThunk, fetchDateTodos, fetchTodos } from "./todo.thunk";
 import { ITodo } from "./todo.interface";
 
-const initialState: ITodo[] = [];
+const initialState = {
+  all: [] as ITodo[],
+  currDate: [] as ITodo[],
+};
 
 const todoSlice = createSlice({
   name: "todos",
@@ -11,22 +14,46 @@ const todoSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addTodoThunk.fulfilled, (state, action: PayloadAction<ITodo>) => {
-        state.unshift(action.payload);
+        state.all.unshift(action.payload);
+
+        // If the new todo belongs to current date, add it to currDate as well
+
+        state.currDate.unshift(action.payload);
       })
       .addCase(fetchTodos.fulfilled, (state, action) => {
-        return action.payload;
+        state.all = action.payload ?? [];
+      })
+      .addCase(fetchDateTodos.fulfilled, (state, action: PayloadAction<ITodo[]>) => {
+        state.currDate = action.payload;
+      })
+      .addCase(checkDoneThunk.fulfilled, (state, action) => {
+        const updated = action.payload;
+        if (!updated) return;
+
+        const allIdx = state.all.findIndex((t) => t.id === updated.id);
+        if (allIdx >= 0) state.all[allIdx] = updated;
+
+        const currDateIdx = state.currDate.findIndex((t) => t.id === updated.id);
+        if (currDateIdx >= 0) state.currDate[currDateIdx] = updated;
+      })
+      .addCase(editTodoThunk.fulfilled, (state, action) => {
+        const updated = action.payload;
+        if (!updated) return;
+
+        const allIdx = state.all.findIndex((t) => t.id === updated.id);
+        if (allIdx >= 0) state.all[allIdx] = updated;
+
+        const currDateIdx = state.currDate.findIndex((t) => t.id === updated.id);
+        if (currDateIdx >= 0) state.currDate[currDateIdx] = updated;
+      })
+      .addCase(deleteTodoThunk.fulfilled, (state, action) => {
+        const allIdx = state.all.findIndex((todo) => todo.id === action.payload);
+        if (allIdx >= 0) state.all.splice(allIdx, 1);
+
+        const currDateIdx = state.currDate.findIndex((todo) => todo.id === action.payload);
+        if (currDateIdx >= 0) state.currDate.splice(currDateIdx, 1);
       });
   },
 });
-
-// reducers: {
-//   add: (state, action: PayloadAction<{ id: string; text: string }>) => {},
-//   remove: (state, action: PayloadAction<string>) => {
-//     return state.filter((todo) => todo.id !== action.payload);
-//   },
-//   edit: (state, action: PayloadAction<ITodo>) => {
-//     return state.map((todo) => (todo.id === action.payload.id ? action.payload : todo));
-//   },
-// },
 
 export default todoSlice.reducer;

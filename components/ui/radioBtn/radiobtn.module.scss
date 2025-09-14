@@ -1,7 +1,3 @@
-.time-container {
-  @include flex(null, null, center, 5px);
-}
-
 .input-radio {
   -webkit-appearance: none; /* 웹킷 브라우저에서 기본 스타일 제거*/
   -moz-appearance: none; /* 모질라 브라우저에서 기본 스타일 제거*/ 

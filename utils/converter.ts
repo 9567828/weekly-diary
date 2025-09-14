@@ -1,4 +1,5 @@
 import { ITodo } from "@/lib/todos/todo.interface";
+import { format } from "date-fns";
 
 export const convertTodo = (row: any): ITodo => ({
   id: row.id,
@@ -8,5 +9,6 @@ export const convertTodo = (row: any): ITodo => ({
   isImport: row.is_import,
   isTime: row.is_time,
   time: row.time,
-  todoDate: row.todo_date,
+  isAmpm: row.is_ampm,
+  todoDate: format(new Date(row.todo_date), "yyyy-MM-dd"),
 });

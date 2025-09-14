@@ -2,9 +2,9 @@ import Button from "../../ui/Button";
 import style from "./datecontrol.module.scss";
 
 interface IButtn {
-  prevBtn?: () => void;
-  nextBtn?: () => void;
-  today?: () => void;
+  prevBtn: () => void;
+  nextBtn: () => void;
+  today: () => void;
   date: string;
 }
 
