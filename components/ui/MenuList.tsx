@@ -35,7 +35,7 @@ export default function MenuList() {
   const path = usePathname();
   const { date } = useParams();
 
-  const homePath = path === "/" || path === `/${date}`;
+  const homePath = path === "/" || path === `/${String(date)}`;
 
   console.log("true?", homePath);
 
@@ -46,16 +46,11 @@ export default function MenuList() {
     console.log("DEBUG homePath:", path === "/" || path === `/${date}`);
   }, [path, date]);
 
-  const isActive = (href: string, srcAc: string, src: string) => {
-    if (path === href) {
-      return srcAc;
-    } else if (homePath) {
-      return "/imgs/icons/tabbar/new/todo_active.svg";
-    } else if (!homePath) {
-      return "/imgs/icons/tabbar/new/todo.svg";
-    } else {
-      return src;
+  const isActive = (menuHref: string) => {
+    if (menuHref === "/") {
+      return homePath;
     }
+    return path === menuHref;
   };
 
   return (
@@ -63,7 +58,7 @@ export default function MenuList() {
       {menuList.map((menu, i) => (
         <li key={i}>
           <Link href={menu.href}>
-            <img src={isActive(menu.href, menu.srcTabActive, menu.srcTab)} alt={menu.alt} />
+            <img src={isActive(menu.href) ? menu.srcTabActive : menu.srcTab} alt={menu.alt} />
             {/* <img src={path === menu.href ? menu.srcTabActive : menu.srcTab} alt={menu.alt} /> */}
             {/* <p className="menu-name">{menu.menu}</p> */}
           </Link>

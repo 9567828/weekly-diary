@@ -16,7 +16,7 @@ interface IWeekDate {
 
 export default function Calendar({ weekDates }: IWeekDate) {
   const path = usePathname();
-  const toDos = useAppSelector((state) => state.toDos);
+  const toDos = useAppSelector((state) => state.toDos.all);
 
   const dispatch = useAppDispatch();
   useEffect(() => {

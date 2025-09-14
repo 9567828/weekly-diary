@@ -6,7 +6,7 @@ import TodoSection from "./TodoSection";
 import { useAppSelector } from "@/lib/hooks";
 
 export default function Todos() {
-  const toDos = useAppSelector((state) => state.toDos);
+  const toDos = useAppSelector((state) => state.toDos.currDate);
 
   return (
     <div className={style["column"]}>
