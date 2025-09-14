@@ -7,42 +7,18 @@ const initialState = {
   currDate: [] as ITodo[],
 };
 
-// const initialState: ITodo[] = [];
-
 const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // .addCase(addTodoThunk.fulfilled, (state, action: PayloadAction<ITodo>) => {
-      //   state.unshift(action.payload);
-      // })
-      // .addCase(fetchTodos.fulfilled, (state, action) => {
-      //   return action.payload;
-      // })
-      // .addCase(fetchDateTodos.fulfilled, (state, action: PayloadAction<ITodo[]>) => {
-      //   return action.payload;
-      // })
-      // .addCase(checkDoneThunk.fulfilled, (state, action) => {
-      //   const updated = action.payload;
-      //   if (!updated) return;
-
-      //   const idx = state.findIndex((t) => t.id === updated.id);
-      //   if (idx >= 0) state[idx] = updated;
-      // })
-      // .addCase(editTodoThunk.fulfilled, (state, action) => {
-      //   const updated = action.payload;
-      //   if (!updated) return;
-      //   const idx = state.findIndex((t) => t.id === updated.id);
-      //   if (idx >= 0) state[idx] = updated;
-      // })
-      // .addCase(deleteTodoThunk.fulfilled, (state, action) => {
-      //   const idx = state.findIndex((todo) => todo.id === action.payload);
-      //   if (idx >= 0) state.splice(idx, 1);
-      // });
       .addCase(addTodoThunk.fulfilled, (state, action: PayloadAction<ITodo>) => {
         state.all.unshift(action.payload);
+
+        // If the new todo belongs to current date, add it to currDate as well
+
+        state.currDate.unshift(action.payload);
       })
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.all = action.payload ?? [];
@@ -54,18 +30,28 @@ const todoSlice = createSlice({
         const updated = action.payload;
         if (!updated) return;
 
-        const idx = state.all.findIndex((t) => t.id === updated.id);
-        if (idx >= 0) state.all[idx] = updated;
+        const allIdx = state.all.findIndex((t) => t.id === updated.id);
+        if (allIdx >= 0) state.all[allIdx] = updated;
+
+        const currDateIdx = state.currDate.findIndex((t) => t.id === updated.id);
+        if (currDateIdx >= 0) state.currDate[currDateIdx] = updated;
       })
       .addCase(editTodoThunk.fulfilled, (state, action) => {
         const updated = action.payload;
         if (!updated) return;
-        const idx = state.all.findIndex((t) => t.id === updated.id);
-        if (idx >= 0) state.all[idx] = updated;
+
+        const allIdx = state.all.findIndex((t) => t.id === updated.id);
+        if (allIdx >= 0) state.all[allIdx] = updated;
+
+        const currDateIdx = state.currDate.findIndex((t) => t.id === updated.id);
+        if (currDateIdx >= 0) state.currDate[currDateIdx] = updated;
       })
       .addCase(deleteTodoThunk.fulfilled, (state, action) => {
-        const idx = state.all.findIndex((todo) => todo.id === action.payload);
-        if (idx >= 0) state.all.splice(idx, 1);
+        const allIdx = state.all.findIndex((todo) => todo.id === action.payload);
+        if (allIdx >= 0) state.all.splice(allIdx, 1);
+
+        const currDateIdx = state.currDate.findIndex((todo) => todo.id === action.payload);
+        if (currDateIdx >= 0) state.currDate.splice(currDateIdx, 1);
       });
   },
 });
