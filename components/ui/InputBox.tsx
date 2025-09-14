@@ -22,9 +22,9 @@ function InputBox(
       ) : null}
       <input
         {...rest}
+        value={value}
         ref={ref}
         onChange={onChange}
-        value={value}
         className={`${variant} ${classNameKey ? classNameKey : ""}`.trim()}
       />
       {children}

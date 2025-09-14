@@ -1,6 +1,6 @@
 import style from "./login.module.scss";
 import Button from "../../../../components/ui/Button";
-import { signInGoogle } from "@/utils/supabase/auth";
+import { signInGoogle } from "@/utils/supabase/sql/auth";
 
 export default async function Login() {
   return (

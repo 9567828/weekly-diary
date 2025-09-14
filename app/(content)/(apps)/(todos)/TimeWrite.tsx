@@ -1,30 +1,36 @@
-import { ChangeEvent, useEffect, useState } from "react";
+"use client";
+
+import { ChangeEvent } from "react";
 import style from "./time.module.scss";
-import RadioBtn from "../../../../components/ui/radioBtn/RadioBtn";
-import InputBox from "../../../../components/ui/InputBox";
+import InputBox from "@/components/ui/InputBox";
 
-export default function TimeWrite() {
-  const [hour, setHour] = useState<number[]>([]);
-  const [min, setMin] = useState<number[]>([]);
-  const [value, setValue] = useState("");
+interface ITime {
+  onChangeHour: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChangeMin: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSelectChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  checked: boolean;
+  hourValue: string;
+  minutesValue: string;
+  isAmpm: string | undefined;
+  isOpen?: boolean;
+}
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
+export default function TimeWrite({ isOpen, hourValue, minutesValue, isAmpm, onChangeHour, onChangeMin, onSelectChange }: ITime) {
   return (
-    <div className={style["time-container"]}>
-      <div className={style["radio-wrap"]}>
-        <RadioBtn id="am" radioName="time-notation" label="오전" />
-        <RadioBtn id="pm" radioName="time-notation" label="오후" />
-      </div>
+    <div className={`${style["time-container"]} ${isOpen ? style["open"] : ""}`.trim()}>
       <div className={style["time-text"]}>
-        <div className={style.width}>
-          <InputBox variant="input-time" onChange={onChange} value="09" />
-        </div>
-        <p>:</p>
-        <div className={style.width}>
-          <InputBox variant="input-time" onChange={onChange} value="25" />
+        <select name="ampm" id="ampm" onChange={onSelectChange} defaultValue={isAmpm}>
+          <option value="오전">오전</option>
+          <option value="오후">오후</option>
+        </select>
+        <div className={style["input-time"]}>
+          <div className={style.width}>
+            <InputBox type="number" variant="input-time" onChange={onChangeHour} value={hourValue} />
+          </div>
+          <p>:</p>
+          <div className={style.width}>
+            <InputBox type="number" variant="input-time" onChange={onChangeMin} value={minutesValue} />
+          </div>
         </div>
       </div>
     </div>

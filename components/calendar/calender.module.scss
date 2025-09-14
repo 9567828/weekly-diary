@@ -1,0 +1,55 @@
+.week-wrap {
+  padding: 8px 0;
+  @include flex(null, space-between, center, null);
+}
+
+.week-text {
+  width: 44px;
+  text-align: center;
+  @include font-style($bodySm-size, 1.4, $ext-weight, -0.06em);
+  color: $gray-700;
+  text-transform: uppercase;
+  &:first-child,
+  &:last-child {
+    opacity: 0.6;
+  }
+}
+
+.date-wrap {
+  @include flex(null, space-between, center, null);
+}
+
+.date-box {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  @include font-theme($captionSm-b);
+  line-height: 24px;
+  color: $gray-700;
+  text-align: center;
+  &.today {
+    color: $main-color;
+    font-weight: $ext-weight;
+  }
+  &.active {
+    font-weight: $ext-weight;
+    color: $bg-black;
+  }
+}
+
+.weekend {
+  opacity: 0.6;
+}
+
+.dot {
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  transform: translateX(-50%);
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  background-color: $main-color;
+}

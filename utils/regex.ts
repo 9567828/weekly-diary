@@ -2,6 +2,9 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 
 export const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 export const emailRegex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+export const hour12Regex = /^(0[1-9]|1[0-2])$/;
+export const hour24Regex = /^(?:[01][0-9]|2[0-3])$/;
+export const minRegex = /^([0-5][0-9])$/;
 
 export const onChangePhone = (e: ChangeEvent<HTMLInputElement>, setPhone: Dispatch<SetStateAction<string>>) => {
   const onlyNumber = e.target.value.replace(/[^0-9]/g, "");

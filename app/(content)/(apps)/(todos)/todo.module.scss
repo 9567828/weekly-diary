@@ -6,7 +6,7 @@
   padding: 15px;
   border-radius: 10px;
   @include flex(null, center, center, 10px);
-  &.isComplete {
+  &.isDone {
     background-color: $gray-200;
   }
 }
@@ -25,7 +25,7 @@
   color: $gray-800;
 }
 
-.position.isComplete .label {
+.position.isDone .label {
   width: 100%;
   color: $gray-400;
   text-decoration: line-through;

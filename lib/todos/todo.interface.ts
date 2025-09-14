@@ -5,6 +5,7 @@ export interface ITodo {
   isDone: boolean;
   isTime: boolean;
   time?: string;
+  isAmpm?: string;
   isImport: boolean;
-  todoDate: Date;
+  todoDate: string;
 }

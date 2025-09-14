@@ -1,30 +1,32 @@
 import style from "./todo.module.scss";
-import CheckBtn from "../../../../components/ui/checkBtn/CheckBtn";
-import Button from "../../../../components/ui/Button";
+import CheckBtn from "@/components/ui/checkBtn/CheckBtn";
+import Button from "@/components/ui/Button";
 import EditTodo from "./EditTodo";
-import { ChangeEvent, useEffect } from "react";
-import { checkDone } from "@/utils/supabase/sql/todo";
+import { ChangeEvent, MouseEvent } from "react";
+import { useAppDispatch } from "@/lib/hooks";
+import { checkDoneThunk, deleteTodoThunk } from "@/lib/todos/todo.thunk";
 
 interface IHandler {
   onClick: () => void;
   isOpen: boolean;
-  // editTodo: (todo: ITodo) => void;
-  onDeleteTodo: () => void;
 }
 
 interface IBaseTodo {
   id: string;
-  label: string;
+  text: string;
   isImport: boolean;
   isDone: boolean;
   isTime: boolean;
   time?: string;
+  isAmpm?: string;
+  todoDate?: string;
 }
 
 type FullProps = IBaseTodo & IHandler;
 
 export default function Todo(props: FullProps) {
-  const { id, label, isImport, isTime, isDone, isOpen, onClick, onDeleteTodo } = props;
+  const { id, text, isImport, isTime, isDone, isOpen, onClick } = props;
+  const dispatch = useAppDispatch();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checkedId = e.target.id;
@@ -33,24 +35,8 @@ export default function Todo(props: FullProps) {
     const targetTodo = id === checkedId;
     if (!targetTodo) return;
 
-    const updatedTodo = {
-      id,
-      text: label,
-      isImport: isImport,
-      isTime,
-      time: isTime ? props.time : "",
-      isDone: checkedState,
-    };
-
-    // editTodo(updatedTodo);
+    dispatch(checkDoneThunk({ id: checkedId, isDone: checkedState }));
   };
-
-  useEffect(() => {
-    const getList = async () => {
-      return await checkDone(id, isDone);
-    };
-    getList();
-  });
 
   return (
     <>
@@ -59,7 +45,7 @@ export default function Todo(props: FullProps) {
           <CheckBtn id={id} onChange={onChange} checked={isDone}>
             <div className={style.title}>
               {isImport ? <img src="/imgs/icons/ic_important-3x.svg" alt="중요" /> : null}
-              <p className={style["label"]}>{label}</p>
+              <p className={style["label"]}>{text}</p>
             </div>
             {isTime ? (
               <div className={style["time-line"]}>
@@ -73,40 +59,27 @@ export default function Todo(props: FullProps) {
           {!isDone ? (
             <Button existImg={true} src="/imgs/icons/ic_edit-pencel.svg" alt="투두수정" className="btn-18" onClick={onClick} />
           ) : null}
-          <Button existImg={true} src="/imgs/icons/ic_delete.svg" alt="투두삭제" className="btn-18" onClick={onDeleteTodo} />
+          <Button
+            existImg={true}
+            src="/imgs/icons/ic_delete.svg"
+            alt="투두삭제"
+            className="btn-18"
+            onClick={() => dispatch(deleteTodoThunk(id))}
+          />
         </div>
       </div>
       {isOpen ? (
         <EditTodo
           id={id}
-          label={label}
+          text={text}
           isImport={isImport}
           isTime={isTime}
           time={props.time}
-          isDone={isDone}
+          isAmpm={props.isAmpm}
+          todoDate={props.todoDate}
           onClick={onClick}
-          onDeleteTodo={onClick}
         />
       ) : null}
     </>
   );
 }
-
-// function mapDispatchToProps(dispatch: Dispatch, ownProps: IBaseTodo) {
-//   return {
-//     editTodo: (todo: ITodo) => {
-//       const updateTodo = getLocalItem().map((t) =>
-//         t.id === todo.id ? { ...t, ...todo, time: todo.isTime ? todo.time : "" } : t
-//       );
-//       setLocalItem(updateTodo);
-//       dispatch(edit(todo));
-//     },
-//     onDeleteTodo: () => {
-//       const deleteTodo = getLocalItem().filter((todo) => todo.id !== ownProps.id);
-//       setLocalItem(deleteTodo);
-//       dispatch(remove(ownProps.id));
-//     },
-//   };
-// }
-
-// export default connect(null, mapDispatchToProps)(Todo);

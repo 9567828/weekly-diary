@@ -35,8 +35,14 @@
   width: 100%;
   padding: 0 5px;
   @include flex(null, null, center, 10px);
+}
+
+.select-wrap {
   &:first-child {
-    margin: 10px 0 5px;
+    margin-top: 15px;
+  }
+  &.col {
+    flex-direction: column;
   }
 }
 
@@ -47,10 +53,10 @@
   @include flex(null, space-between, center, null);
   .title {
     color: $gray-700;
-  }
+  }  
 }
 
-.time-txt {
+.attr-txt {
   padding-top: 3px;
   @include font-theme($captionXs-b);
   color: $blue-color;

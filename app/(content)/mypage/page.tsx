@@ -2,7 +2,7 @@
 
 import { useAppDispatch } from "@/lib/hooks";
 import { logout } from "@/lib/slices/userSlice";
-import { signOut } from "@/utils/supabase/auth";
+import { signOut } from "@/utils/supabase/sql/auth";
 
 export default function Page() {
   const dispath = useAppDispatch();

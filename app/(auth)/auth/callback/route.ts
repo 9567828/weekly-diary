@@ -34,7 +34,9 @@ export async function GET(request: Request) {
       if (user) {
         // ✅ 로그인 성공 → 홈으로 리다이렉트
         // profile 테이블에 insert
-        await supabase.from("profiles").upsert(profile as any);
+        await supabase.from("profiles").upsert(profile);
+        // setting 테이블에 insert
+        await supabase.from("setting").upsert({ id: user.id });
         console.log("data? ", data, "error? ", error);
         return NextResponse.redirect(`${origin}${next}`);
       } else {
