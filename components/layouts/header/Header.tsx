@@ -12,9 +12,9 @@ export default function Header() {
   useEffect(() => {
     if (path === "/" || path === `/${String(date)}`) {
       setName("TODO-LIST");
-    } else if (path === "/diary") {
+    } else if (path.startsWith("/diary")) {
       setName("주간 일기");
-    } else if (path === "/calendar") {
+    } else if (path.startsWith("/calendar")) {
       setName("달력");
     } else if (path === "/mypage") {
       setName("내페이지");

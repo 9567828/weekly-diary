@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
-import { useEffect } from "react";
 
 const menuList = [
   {
@@ -37,20 +36,11 @@ export default function MenuList() {
 
   const homePath = path === "/" || path === `/${String(date)}`;
 
-  console.log("true?", homePath);
-
-  useEffect(() => {
-    console.log("DEBUG path:", path);
-    console.log("DEBUG params:", date);
-    console.log("DEBUG compare:", `/${date}`);
-    console.log("DEBUG homePath:", path === "/" || path === `/${date}`);
-  }, [path, date]);
-
   const isActive = (menuHref: string) => {
     if (menuHref === "/") {
       return homePath;
     }
-    return path === menuHref;
+    return path.startsWith(menuHref);
   };
 
   return (
@@ -58,8 +48,8 @@ export default function MenuList() {
       {menuList.map((menu, i) => (
         <li key={i}>
           <Link href={menu.href}>
-            <img src={isActive(menu.href) ? menu.srcTabActive : menu.srcTab} alt={menu.alt} />
-            {/* <img src={path === menu.href ? menu.srcTabActive : menu.srcTab} alt={menu.alt} /> */}
+            {/* <img src={isActive(menu.href) ? menu.srcTabActive : menu.srcTab} alt={menu.alt} /> */}
+            <img src={path === menu.href || path.startsWith(menu.href) ? menu.srcTabActive : menu.srcTab} alt={menu.alt} />
             {/* <p className="menu-name">{menu.menu}</p> */}
           </Link>
         </li>

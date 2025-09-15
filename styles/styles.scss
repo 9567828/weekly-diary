@@ -40,13 +40,16 @@ body {
   @include font-theme($titleXl-b);
 }
 
-.hidden {
+.scroll-wrap {
   width: 100%;
   height: calc(100dvh - 278px);
   overflow: hidden;
   &.mypage {
     padding: 20px;
     height: calc(100dvh - 122px);
+  }
+  &.diary {
+    height: calc(100dvh - 226px);
   }
   background-color: $bg-gray;
 }
@@ -127,4 +130,20 @@ select {
 
 select:focus {
   outline: none;
+}
+
+// textara
+textarea {
+  resize: none;
+  border: none;
+  outline: none;
+}
+
+textarea {
+  -ms-overflow-style: none;  /* Internet Explorer 및 Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+textarea::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
 }

@@ -1,3 +1,5 @@
+import DatePanel from "@/components/layouts/datepanel/DatePanel";
+
 export default function calendar() {
   return (
     <div>

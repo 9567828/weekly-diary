@@ -1,0 +1,48 @@
+.diary-container {
+  width: 100%;
+  min-height: 85px;
+  border-radius: 15px;
+  background-color: $bg-white;
+  @include grid-col(82px 1fr, null, center, center, null);
+}
+
+.diary-list {
+  @include flex(column, center, null, 20px);
+}
+
+.date-box {
+  text-align: center;
+}
+
+.date {
+  color: $gray-800;
+  @include font-theme($bodyLg-b);
+  &.weekend {
+    color: $main-color;
+  }
+}
+
+.day {
+  color: $gray-500;
+  @include font-theme($bodyMd-r);
+}
+
+.content-box {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  border-left: 1px solid $spot-color;
+}
+
+.content-head {
+  @include flex(null, space-between, center, null);
+}
+
+.title {
+  @include font-theme($bodyMd-b)
+}
+
+.content-diary {
+  margin-top: 10px;
+  @include font-theme($bodyMd-r);
+}

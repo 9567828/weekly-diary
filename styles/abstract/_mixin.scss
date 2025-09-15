@@ -25,13 +25,16 @@
   background-repeat: no-repeat;
 }
 
-@mixin grid-col($col, $justi, $align, $gap) {
+@mixin grid-col($col, $justify-content, $justify-item, $align, $gap) {
   display: grid;
   @if $col {
     grid-template-columns: $col;
   }
-  @if $justi {
+  @if $justify-content {
     justify-content: $justi
+  }
+  @if $justify-item {
+    justify-items: $justify-item;
   }
   @if $align {
     align-items: $align

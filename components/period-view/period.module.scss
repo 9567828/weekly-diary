@@ -1,0 +1,8 @@
+.period-wrap {
+  @include flex(null, null, center, 10px);
+}
+
+.txt {
+  @include font-theme($bodyMdPlus-b);
+  color: $gray-600;
+}
