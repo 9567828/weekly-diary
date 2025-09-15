@@ -15,9 +15,6 @@ const todoSlice = createSlice({
     builder
       .addCase(addTodoThunk.fulfilled, (state, action: PayloadAction<ITodo>) => {
         state.all.unshift(action.payload);
-
-        // If the new todo belongs to current date, add it to currDate as well
-
         state.currDate.unshift(action.payload);
       })
       .addCase(fetchTodos.fulfilled, (state, action) => {

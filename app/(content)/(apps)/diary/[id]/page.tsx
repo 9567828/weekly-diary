@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DiaryBox from "./(diary)/DiaryBox";
+import DiaryBox from "../(diary)/DiaryBox";
 import { useAppDispatch } from "@/lib/hooks";
 import { selectWeeklyDiary } from "@/lib/diary/diary.thunk";
 import { dateStr, drawWeeks } from "@/components/calendar/drawWeek";

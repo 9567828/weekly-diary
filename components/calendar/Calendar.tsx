@@ -43,8 +43,6 @@ export default function Calendar({ weekDates }: IWeekDate) {
 
           const existed = toDos.find((t) => t.todoDate === dateStr);
 
-          console.log(existed);
-
           return (
             <li
               key={i}

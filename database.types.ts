@@ -19,30 +19,24 @@ export type Database = {
           created_at: string
           diary_date: string
           id: string
-          is_delete: boolean | null
           text: string | null
           title: string | null
-          updated_at: string | null
           user_id: string
         }
         Insert: {
           created_at?: string
           diary_date?: string
           id?: string
-          is_delete?: boolean | null
           text?: string | null
           title?: string | null
-          updated_at?: string | null
           user_id?: string
         }
         Update: {
           created_at?: string
           diary_date?: string
           id?: string
-          is_delete?: boolean | null
           text?: string | null
           title?: string | null
-          updated_at?: string | null
           user_id?: string
         }
         Relationships: []

@@ -13,7 +13,7 @@ export default function Page() {
   };
 
   return (
-    <div className="hidden mypage">
+    <div className="scroll-wrap mypage">
       <h1>내 페이지</h1>
       <button onClick={handSignOut}>로그아웃</button>
     </div>

@@ -1,4 +1,3 @@
-import { FormEvent } from "react";
 import style from "./action.module.scss";
 
 interface IBtn {

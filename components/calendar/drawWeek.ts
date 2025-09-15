@@ -1,39 +1,63 @@
+import { format } from "date-fns";
+import { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/navigation";
+
+export const today = () => new Date();
+export const todayStr = () => format(today(), "yyyy-MM-dd");
+export const dateStr = (d: Date) => format(d, "yyyy-MM-dd");
+
 export const drawWeeks = () => {
-  const today = new Date();
-  const dayOfWeek = today.getDay();
+  const dayOfWeek = today().getDay();
 
-  const weekStart = new Date(today);
-  weekStart.setDate(today.getDate() - dayOfWeek);
-
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate() + 6);
-
-  const weekDates = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(weekStart);
-    d.setDate(weekStart.getDate() + i);
-    return d;
-  });
-
-  const getPrevWeek = (weekStart: Date) => {
-    const d = new Date(weekStart); // 복제
-    d.setDate(d.getDate() - 7);
-    return d;
+  const weekStart = () => {
+    const s = new Date(today());
+    s.setDate(today().getDate() - dayOfWeek);
+    return s;
   };
 
-  const getNextWeek = (weekStart: Date) => {
-    const d = new Date(weekStart); // 복제
-    d.setDate(d.getDate() + 7);
-    return d;
+  const weekEnd = (weekStart: Date): Date => {
+    const e = new Date(weekStart);
+    e.setDate(weekStart.getDate() + 6);
+    return e;
   };
 
-  const goToday = () => {
-    const today = new Date();
-    const sunday = new Date(today);
-    sunday.setDate(today.getDate() - today.getDay());
+  const getTodayWeek = () => {
+    const t = today();
+    const sunday = new Date(t);
+    sunday.setDate(t.getDate() - t.getDay());
     return sunday;
   };
 
-  return { weekDates, weekStart, weekEnd, getPrevWeek, getNextWeek, goToday };
+  const weekDates = (weekStart: Date) => {
+    const ws = weekStart;
+    let date = [];
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(ws);
+      d.setDate(ws.getDate() + i);
+      date.push(d);
+    }
+
+    return date;
+  };
+
+  const getNextWeek = (weekStart: Date, setState: Dispatch<SetStateAction<Date>>) => {
+    const d = new Date(weekStart);
+    d.setDate(d.getDate() + 7);
+    setState(d);
+  };
+  const getPrevWeek = (weekStart: Date, setState: Dispatch<SetStateAction<Date>>) => {
+    const d = new Date(weekStart);
+    d.setDate(d.getDate() - 7);
+    setState(d);
+  };
+
+  const goToday = (route: any, path: string, setState: Dispatch<SetStateAction<Date>>) => {
+    setState(getTodayWeek());
+    route.push(path);
+  };
+
+  return { weekStart, weekEnd, getTodayWeek, weekDates, getNextWeek, getPrevWeek, goToday };
 };
 
 export const drowMonth = () => {
