@@ -11,8 +11,12 @@ import { parse } from "date-fns";
 export default function Page() {
   const { getTodayWeek, weekEnd } = drawWeeks();
   const dispatch = useAppDispatch();
-  const [weekStart, setWeekStart] = useState<Date>(getTodayWeek());
+  // const [weekStart, setWeekStart] = useState<Date>(getTodayWeek());
   const { id } = useParams();
+
+  const raw = Array.isArray(id) ? id[0] : id;
+  const s = raw?.slice(0, 10) ?? dateStr(getTodayWeek());
+  const weekStart = parse(s, "yyyy-MM-dd", new Date());
 
   useEffect(() => {
     dispatch(
@@ -23,12 +27,12 @@ export default function Page() {
     );
   }, [dispatch, weekStart]);
 
-  useEffect(() => {
-    const raw = Array.isArray(id) ? id[0] : id;
-    if (!raw) return;
-    const s = raw.slice(0, 10);
-    setWeekStart(parse(s, "yyyy-MM-dd", new Date()));
-  }, [id]);
+  // useEffect(() => {
+  //   const raw = Array.isArray(id) ? id[0] : id;
+  //   if (!raw) return;
+  //   const s = raw.slice(0, 10);
+  //   setWeekStart(parse(s, "yyyy-MM-dd", new Date()));
+  // }, [id]);
 
   return (
     <>

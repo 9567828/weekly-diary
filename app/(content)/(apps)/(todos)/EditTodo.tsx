@@ -37,6 +37,7 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
   const [value, setValue] = useState(text);
   const [dateValue, setDateValue] = useState(todoDate);
   const [modalOpen, setModalOpen] = useState(false);
+  const [confirmOn, setConfirmOn] = useState(false);
   const [toggleChecked, setToggleChecked] = useState({
     isImport,
     isTime,
@@ -148,7 +149,7 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value.trim() === "") {
-      alert("내용을 입력하세요");
+      setConfirmOn(true);
       return;
     }
 
@@ -175,7 +176,9 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
 
   return createPortal(
     <>
-      {modalOpen ? <ConfirmModal onCancel={handleOpenModal} onConfirm={onClick} /> : null}
+      {modalOpen ? (
+        <ConfirmModal confirmOnly={false} message="변경사항 폐기" onCancel={handleOpenModal} onConfirm={onClick} />
+      ) : null}
       <div className={style.bg}>
         <form className={style["edit-todo-wrap"]} onSubmit={onSubmit}>
           <ConfirmActionBtn onCancelClick={closeEdit} />
@@ -238,6 +241,7 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
           />
         </form>
       </div>
+      {confirmOn ? <ConfirmModal confirmOnly={true} message="공란" onConfirm={() => setConfirmOn(false)} /> : null}
     </>,
     document.body
   );

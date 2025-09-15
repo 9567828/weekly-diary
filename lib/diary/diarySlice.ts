@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IDiary } from "./diary.interface";
-import { addDiaryThunk, editDiary, selectAllDiary, selectOneDiary, selectWeeklyDiary } from "./diary.thunk";
+import { addDiaryThunk, editDiaryThunk, selectAllDiary, selectOneDiary, selectWeeklyDiary } from "./diary.thunk";
 
 const initialState = {
   all: [] as IDiary[],
@@ -17,20 +17,9 @@ const diarySlice = createSlice({
     builder
       .addCase(addDiaryThunk.fulfilled, (state, action: PayloadAction<IDiary>) => {
         const diary = action.payload;
-
         state.all.push(diary);
-
-        if (state.currDate.length > 0 && state.currDate[0].diaryDate === diary.diaryDate) {
-          state.currDate.push(diary);
-        }
-
-        if (state.range.length > 0) {
-          const start = state.range[0].diaryDate;
-          const end = state.range[state.range.length - 1].diaryDate;
-          if (diary.diaryDate >= start && diary.diaryDate <= end) {
-            state.range.push(diary);
-          }
-        }
+        state.currDate.push(diary);
+        state.range.push(diary);
       })
       .addCase(selectAllDiary.fulfilled, (state, action) => {
         state.all = action.payload ?? [];
@@ -41,7 +30,7 @@ const diarySlice = createSlice({
       .addCase(selectWeeklyDiary.fulfilled, (state, action) => {
         state.range = action.payload ?? [];
       })
-      .addCase(editDiary.fulfilled, (state, action) => {
+      .addCase(editDiaryThunk.fulfilled, (state, action) => {
         const updated = action.payload;
         if (!updated) return;
 

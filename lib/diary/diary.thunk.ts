@@ -70,7 +70,7 @@ export const selectOneDiary = createAsyncThunk<IDiary[], string>("diary/selectOn
   return (data ?? []).map(convertDiary);
 });
 
-export const editDiary = createAsyncThunk(
+export const editDiaryThunk = createAsyncThunk(
   "diary/editDairy",
   async ({ id, title, text }: { id: string; title: string; text: string }) => {
     const supabase = createClient();

@@ -3,7 +3,7 @@
 import style from "./addDiary.module.scss";
 import ConfirmActionBtn from "@/components/ui/confirmActionBtn/ConfirmActionBtn";
 import InputBox from "@/components/ui/InputBox";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useAppDispatch } from "@/lib/hooks";
 import { addDiaryThunk } from "@/lib/diary/diary.thunk";
@@ -11,6 +11,7 @@ import { addDiaryThunk } from "@/lib/diary/diary.thunk";
 export default function AddDiary({ date }: { date: string }) {
   const [textMode, setTextMode] = useState(false);
   const [modalOn, setModalOn] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
   const [titleValue, setTitleValue] = useState("");
   const [text, setText] = useState("");
 
@@ -34,13 +35,14 @@ export default function AddDiary({ date }: { date: string }) {
 
   const onSubmint = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (titleValue.trim() === "" && text.trim() === "") {
+    if (text.trim() === "") {
+      setConfirmModal(true);
       return;
     }
 
     const paylaod = {
-      title: titleValue,
-      text,
+      title: titleValue === "" ? "제목없음" : titleValue,
+      text: text,
       diaryDate: date,
     };
 
@@ -77,6 +79,7 @@ export default function AddDiary({ date }: { date: string }) {
                   name="diaryContent"
                   id="diaryContent"
                   placeholder="내용을 입력하세요"
+                  value={text}
                   maxLength={300}
                   onChange={(e) => setText(e.target.value)}
                 />
@@ -86,7 +89,15 @@ export default function AddDiary({ date }: { date: string }) {
           </div>
         </form>
       )}
-      {modalOn ? <ConfirmModal onCancel={() => setModalOn((prev) => !prev)} onConfirm={modalClose} /> : null}
+      {modalOn ? (
+        <ConfirmModal
+          message="변경사항 폐기"
+          confirmOnly={false}
+          onCancel={() => setModalOn((prev) => !prev)}
+          onConfirm={modalClose}
+        />
+      ) : null}
+      {confirmModal ? <ConfirmModal confirmOnly={true} message="공란" onConfirm={() => setConfirmModal(false)} /> : null}
     </>
   );
 }

@@ -16,7 +16,7 @@
 
 .date {
   color: $gray-800;
-  @include font-theme($bodyLg-b);
+  @include font-theme($bodyMd-b);
   &.weekend {
     color: $main-color;
   }
@@ -45,4 +45,8 @@
 .content-diary {
   margin-top: 10px;
   @include font-theme($bodyMd-r);
+}
+
+.text {
+  @include font-theme($bodySm-r)
 }
