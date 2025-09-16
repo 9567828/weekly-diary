@@ -1,7 +1,7 @@
 "use client";
 
 import DateControl from "@/components/layouts/datepanel/DateControl";
-import Calendar from "@/components/calendar/Calendar";
+import WeeklyCal from "@/components/calendar/weekly/WeeklyCal";
 import { drawWeeks } from "@/components/calendar/drawWeek";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,7 @@ export default function TodoPanel() {
         prevBtn={() => getPrevWeek(weekStart, setWeekStart)}
         today={() => goToday(route, "/", setWeekStart)}
       />
-      <Calendar weekDates={weekDates(weekStart)} />
+      <WeeklyCal weekDates={weekDates(weekStart)} />
     </>
   );
 }

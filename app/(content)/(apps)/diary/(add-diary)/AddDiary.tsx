@@ -7,8 +7,9 @@ import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useAppDispatch } from "@/lib/hooks";
 import { addDiaryThunk } from "@/lib/diary/diary.thunk";
+import { makeWeekNum } from "@/components/calendar/drawWeek";
 
-export default function AddDiary({ date }: { date: string }) {
+export default function AddDiary({ date, weekNum }: { date: string; weekNum: number }) {
   const [textMode, setTextMode] = useState(false);
   const [modalOn, setModalOn] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
@@ -44,6 +45,7 @@ export default function AddDiary({ date }: { date: string }) {
       title: titleValue === "" ? "제목없음" : titleValue,
       text: text,
       diaryDate: date,
+      weekNum,
     };
 
     dispatch(addDiaryThunk(paylaod));

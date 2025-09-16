@@ -25,6 +25,7 @@ export default function Page() {
         weekEnd: dateStr(weekEnd(weekStart)),
       })
     );
+    // dispatch(selectWeeklyDiary(weekNum));
   }, [dispatch, weekStart]);
 
   // useEffect(() => {

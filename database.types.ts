@@ -22,6 +22,7 @@ export type Database = {
           text: string | null
           title: string | null
           user_id: string
+          week_num: number
         }
         Insert: {
           created_at?: string
@@ -30,6 +31,7 @@ export type Database = {
           text?: string | null
           title?: string | null
           user_id?: string
+          week_num: number
         }
         Update: {
           created_at?: string
@@ -38,6 +40,7 @@ export type Database = {
           text?: string | null
           title?: string | null
           user_id?: string
+          week_num?: number
         }
         Relationships: []
       }

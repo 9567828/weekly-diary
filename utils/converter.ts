@@ -20,4 +20,5 @@ export const convertDiary = (row: any): IDiary => ({
   title: row.title,
   text: row.text,
   diaryDate: row.diary_date,
+  weekNum: row.week_num,
 });

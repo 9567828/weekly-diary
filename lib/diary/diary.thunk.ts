@@ -6,7 +6,7 @@ import { IDiary } from "./diary.interface";
 
 export const addDiaryThunk = createAsyncThunk(
   "diary/addDiary",
-  async ({ title, text, diaryDate }: { title: string; text: string; diaryDate: string }) => {
+  async ({ title, text, diaryDate, weekNum }: { title: string; text: string; diaryDate: string; weekNum: number }) => {
     const supabase = createClient();
 
     const {
@@ -19,6 +19,7 @@ export const addDiaryThunk = createAsyncThunk(
       title,
       text,
       diary_date: diaryDate,
+      week_num: weekNum,
     };
 
     const { data, error } = await supabase.from("diary").insert(payload).select().single();
@@ -42,6 +43,18 @@ export const selectAllDiary = createAsyncThunk("diary/selectAll", async () => {
 
   return data?.map(convertDiary);
 });
+
+// export const selectWeeklyDiary = createAsyncThunk("diary/selectWeekly", async (weekNum: number) => {
+//   const supabase = createClient();
+
+//   const { data, error } = await supabase.from("diary").select("*").eq("week_num", weekNum);
+
+//   if (error) {
+//     console.log("다이어리 범위로 불러오는데 오류: ", error);
+//   }
+
+//   return data?.map(convertDiary);
+// });
 
 export const selectWeeklyDiary = createAsyncThunk(
   "diary/selectWeekly",
@@ -71,7 +84,7 @@ export const selectOneDiary = createAsyncThunk<IDiary[], string>("diary/selectOn
 });
 
 export const editDiaryThunk = createAsyncThunk(
-  "diary/editDairy",
+  "diary/editDiary",
   async ({ id, title, text }: { id: string; title: string; text: string }) => {
     const supabase = createClient();
 
@@ -89,3 +102,15 @@ export const editDiaryThunk = createAsyncThunk(
     return convertDiary(data);
   }
 );
+
+export const deleteDiaryThunk = createAsyncThunk("diary/deleteDiary", async (id: string) => {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("diary").delete().eq("id", id);
+
+  if (error) {
+    console.log("diary delete error: ", error);
+  }
+
+  return id;
+});

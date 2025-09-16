@@ -51,6 +51,10 @@ body {
   &.diary {
     height: calc(100dvh - 226px);
   }
+  &.calendar {
+    height: calc(100vh - 518px);
+    min-height: calc(100vh - 462px);
+  }
   background-color: $bg-gray;
 }
 

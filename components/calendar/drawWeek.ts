@@ -1,10 +1,10 @@
-import { format } from "date-fns";
+import { format, getWeek } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
-import { useRouter } from "next/navigation";
 
 export const today = () => new Date();
 export const todayStr = () => format(today(), "yyyy-MM-dd");
 export const dateStr = (d: Date) => format(d, "yyyy-MM-dd");
+export const makeWeekNum = (d: Date) => getWeek(d, { weekStartsOn: 0 });
 
 export const drawWeeks = () => {
   const dayOfWeek = today().getDay();
@@ -60,24 +60,28 @@ export const drawWeeks = () => {
   return { weekStart, weekEnd, getTodayWeek, weekDates, getNextWeek, getPrevWeek, goToday };
 };
 
-export const drowMonth = () => {
-  const curYear = new Date().getFullYear();
-  const curMonth = new Date().getMonth();
-
-  const firstDate = new Date(curYear, curMonth, 1);
+export const drawMonth = (year: number, month: number) => {
+  const firstDate = new Date(year, month, 1);
   const startDay = new Date(firstDate);
-  const firstNum = firstDate.getDay();
   startDay.setDate(1 - firstDate.getDay());
 
-  const lastDate = new Date(curYear, curMonth + 1, 0); // 다음 달로 넘어가서 마지막 날 구하기
+  const lastDate = new Date(year, month + 1, 0);
   const lastDay = new Date(lastDate);
-  const lastNum = lastDate.getDate();
-
   lastDay.setDate(lastDate.getDate() + (6 - lastDate.getDay()));
 
-  let currWeeks = [];
-  let allWeeks = [];
+  let currWeeks: Date[] = [];
+  let allWeeks: Date[][] = [];
   const curDate = new Date(startDay);
 
-  return { firstDate };
+  while (curDate <= lastDay) {
+    const newDate = new Date(curDate);
+    currWeeks.push(newDate);
+    if (currWeeks.length === 7) {
+      allWeeks.push(currWeeks);
+      currWeeks = [];
+    }
+    curDate.setDate(curDate.getDate() + 1);
+  }
+
+  return { year, month, firstDate, lastDate, allWeeks };
 };
