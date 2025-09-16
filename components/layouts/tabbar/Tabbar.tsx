@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 const menuList = [
   {
@@ -33,6 +33,16 @@ const menuList = [
 
 export default function Tabbar() {
   const path = usePathname();
+  const { date } = useParams();
+
+  const homePath = path === "/" || path === `/${String(date)}`;
+
+  const isActive = (menuHref: string) => {
+    if (menuHref === "/") {
+      return homePath;
+    }
+    return path.startsWith(menuHref);
+  };
 
   return (
     <footer>
@@ -40,7 +50,7 @@ export default function Tabbar() {
         {menuList.map((menu, i) => (
           <li key={i}>
             <Link href={menu.href}>
-              <img src={path === menu.href ? menu.srcTabActive : menu.srcTab} alt={menu.alt} />
+              <img src={isActive(menu.href) ? menu.srcTabActive : menu.srcTab} alt={menu.alt} />
             </Link>
           </li>
         ))}

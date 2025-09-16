@@ -18,6 +18,10 @@
   color: $gray-800;
   @include font-theme($bodyMd-b);
   &.weekend {
+    color: $gray-500;
+  }
+  &.today {
+    font-weight: $ext-weight;
     color: $main-color;
   }
 }
@@ -40,6 +44,10 @@
 
 .title {
   @include font-theme($bodyMd-b)
+}
+
+.btn-wrap {
+  @include flex(null, center, center, 15px);
 }
 
 .content-diary {

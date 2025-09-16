@@ -20,8 +20,12 @@ const todoSlice = createSlice({
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.all = action.payload ?? [];
       })
+      // ✅ 다른 페이지로 이동할 때 currDate를 초기화
+      .addCase(fetchDateTodos.pending, (state) => {
+        state.currDate = [];
+      })
       .addCase(fetchDateTodos.fulfilled, (state, action: PayloadAction<ITodo[]>) => {
-        state.currDate = action.payload;
+        state.currDate = action.payload ?? [];
       })
       .addCase(checkDoneThunk.fulfilled, (state, action) => {
         const updated = action.payload;

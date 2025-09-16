@@ -31,21 +31,25 @@
   &.today {
     color: $main-color;
     font-weight: $ext-weight;
+    font-size: $bodyMd-size;
   }
-  &.active {
+  &.active:not(.today) {
     font-weight: $ext-weight;
     color: $bg-black;
+    font-size: $bodyMd-size;
   }
 }
 
-.weekend {
+.weekend,
+.other-date {
   opacity: 0.6;
 }
+
 
 .dot {
   position: absolute;
   left: 50%;
-  bottom: 5px;
+  bottom: 0;
   transform: translateX(-50%);
   display: block;
   width: 4px;

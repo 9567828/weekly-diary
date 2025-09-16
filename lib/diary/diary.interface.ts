@@ -4,4 +4,5 @@ export interface IDiary {
   title: string;
   text: string;
   diaryDate: string;
+  weekNum: number;
 }

@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <DatePanel childern={<CalendarPanel />} />
-      <div className="scroll-wrap">
+      <div className="scroll-wrap calendar">
         <article>{children}</article>
       </div>
     </>

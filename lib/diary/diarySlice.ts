@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IDiary } from "./diary.interface";
-import { addDiaryThunk, editDiaryThunk, selectAllDiary, selectOneDiary, selectWeeklyDiary } from "./diary.thunk";
+import {
+  addDiaryThunk,
+  deleteDiaryThunk,
+  editDiaryThunk,
+  selectAllDiary,
+  selectOneDiary,
+  selectWeeklyDiary,
+} from "./diary.thunk";
 
 const initialState = {
   all: [] as IDiary[],
@@ -42,6 +49,16 @@ const diarySlice = createSlice({
 
         const rangeIdx = state.range.findIndex((d) => d.id === updated.id);
         if (rangeIdx >= 0) state.range[rangeIdx] = updated;
+      })
+      .addCase(deleteDiaryThunk.fulfilled, (state, action) => {
+        const allIdx = state.all.findIndex((d) => d.id === action.payload);
+        if (allIdx >= 0) state.all.splice(allIdx, 1);
+
+        const currDateIdx = state.currDate.findIndex((d) => d.id === action.payload);
+        if (currDateIdx >= 0) state.currDate.splice(currDateIdx, 1);
+
+        const rangeIdx = state.range.findIndex((d) => d.id === action.payload);
+        if (rangeIdx >= 0) state.range.splice(rangeIdx, 1);
       });
   },
 });

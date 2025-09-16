@@ -106,3 +106,7 @@
     }
   }
 }
+
+.detail-btn {
+  @include font-theme($captionXs-r)
+}
