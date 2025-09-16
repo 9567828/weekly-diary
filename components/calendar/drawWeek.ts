@@ -15,6 +15,14 @@ export const drawWeeks = () => {
     return s;
   };
 
+  const getWeekStartFormatStr = (date: Date) => {
+    const s = new Date(date);
+    const dow = s.getDay();
+    s.setDate(s.getDate() - dow);
+    const str = dateStr(s);
+    return str;
+  };
+
   const weekEnd = (weekStart: Date): Date => {
     const e = new Date(weekStart);
     e.setDate(weekStart.getDate() + 6);
@@ -41,15 +49,15 @@ export const drawWeeks = () => {
     return date;
   };
 
-  const getNextWeek = (weekStart: Date, setState: Dispatch<SetStateAction<Date>>) => {
+  const getNextWeek = (weekStart: Date) => {
     const d = new Date(weekStart);
     d.setDate(d.getDate() + 7);
-    setState(d);
+    return d;
   };
-  const getPrevWeek = (weekStart: Date, setState: Dispatch<SetStateAction<Date>>) => {
+  const getPrevWeek = (weekStart: Date) => {
     const d = new Date(weekStart);
     d.setDate(d.getDate() - 7);
-    setState(d);
+    return d;
   };
 
   const goToday = (route: any, path: string, setState: Dispatch<SetStateAction<Date>>) => {
@@ -57,7 +65,7 @@ export const drawWeeks = () => {
     route.push(path);
   };
 
-  return { weekStart, weekEnd, getTodayWeek, weekDates, getNextWeek, getPrevWeek, goToday };
+  return { weekStart, weekEnd, getTodayWeek, weekDates, getNextWeek, getPrevWeek, goToday, getWeekStartFormatStr };
 };
 
 export const drawMonth = (year: number, month: number) => {

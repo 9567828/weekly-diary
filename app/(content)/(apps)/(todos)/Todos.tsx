@@ -3,10 +3,27 @@
 import style from "./todos.module.scss";
 import AddTodo from "./AddTodo";
 import TodoSection from "./TodoSection";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useParams, useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { useEffect } from "react";
+import { fetchDateTodos } from "@/lib/todos/todo.thunk";
 
 export default function Todos() {
+  const route = useRouter();
+  const dispatch = useAppDispatch();
+  const { date } = useParams();
+  const today = format(new Date(), "yyyy-MM-dd");
+
+  const dateStr = date ? (Array.isArray(date) ? date[0] : date) : today;
+
   const toDos = useAppSelector((state) => state.toDos.currDate);
+
+  useEffect(() => {
+    if (dateStr) {
+      dispatch(fetchDateTodos(dateStr));
+    }
+  }, [dispatch]);
 
   return (
     <div className={style["column"]}>

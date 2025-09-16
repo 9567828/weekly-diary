@@ -7,7 +7,6 @@ import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useAppDispatch } from "@/lib/hooks";
 import { addDiaryThunk } from "@/lib/diary/diary.thunk";
-import { makeWeekNum } from "@/components/calendar/drawWeek";
 
 export default function AddDiary({ date, weekNum }: { date: string; weekNum: number }) {
   const [textMode, setTextMode] = useState(false);

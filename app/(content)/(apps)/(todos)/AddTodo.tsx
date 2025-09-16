@@ -10,7 +10,8 @@ import { useParams, usePathname } from "next/navigation";
 import { format } from "date-fns";
 
 export default function AddTodo() {
-  const { date } = useParams();
+  const params = useParams<{ date?: string }>();
+  const date = params?.date;
   const path = usePathname();
 
   const [value, setValue] = useState("");
@@ -20,12 +21,10 @@ export default function AddTodo() {
 
   const addDate = () => {
     const todayStr = format(new Date(), "yyyy-MM-dd");
-
-    if (path === "/") {
+    if (!date) {
       return todayStr;
-    } else {
-      return String(date);
     }
+    return date;
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

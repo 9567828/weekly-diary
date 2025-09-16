@@ -44,10 +44,13 @@ export const selectAllDiary = createAsyncThunk("diary/selectAll", async () => {
   return data?.map(convertDiary);
 });
 
+// 주차로 호출
 // export const selectWeeklyDiary = createAsyncThunk("diary/selectWeekly", async (weekNum: number) => {
 //   const supabase = createClient();
 
 //   const { data, error } = await supabase.from("diary").select("*").eq("week_num", weekNum);
+
+//   console.log(data);
 
 //   if (error) {
 //     console.log("다이어리 범위로 불러오는데 오류: ", error);
