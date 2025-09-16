@@ -10,7 +10,7 @@ export const signIn = async (provider: Provider): Promise<void> => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: "http://localhost:3000/auth/callback",
+      redirectTo: "https://weekly-diary.vercel.app/auth/callback",
       queryParams: {
         prompt: "select_account",
       },
