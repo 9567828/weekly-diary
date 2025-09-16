@@ -56,5 +56,6 @@
 }
 
 .text {
-  @include font-theme($bodySm-r)
+  @include font-theme($bodySm-r);
+  white-space: pre-wrap;
 }

@@ -5,6 +5,7 @@
   "scripts": {
     "update-types": "supabase gen types typescript --project-id \"uweadyjpzagnrgbdskqo\" --schema public > database.types.ts",
     "dev": "next dev",
+    "prebuild": "node scripts/gen-version.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
