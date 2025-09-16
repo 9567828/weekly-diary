@@ -46,14 +46,22 @@ body {
   overflow: hidden;
   &.mypage {
     padding: 20px;
-    height: calc(100dvh - 122px);
+    height: calc(100dvh - 126px);
   }
   &.diary {
     height: calc(100dvh - 226px);
   }
   &.calendar {
     height: calc(100vh - 518px);
-    min-height: calc(100vh - 462px);
+  }
+  &.row4 {
+    height: calc(100vh - 422px);
+  }
+  &.row5 {
+    height: calc(100vh - 517px);
+  }
+  &.row6 {
+    height: calc(100vh - 574px);
   }
   background-color: $bg-gray;
 }

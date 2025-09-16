@@ -7,17 +7,24 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { parse } from "date-fns";
 
+const getSunday = (date: Date) => {
+  const d = new Date(date);
+  const day = d.getDay();
+  d.setDate(d.getDate() - day);
+  return d;
+};
+
 export default function TodoPanel() {
   const route = useRouter();
   const { weekDates, goToday, getTodayWeek, getNextWeek, getPrevWeek } = drawWeeks();
-  const [weekStart, setWeekStart] = useState<Date>(getTodayWeek());
+  const [weekStart, setWeekStart] = useState<Date>(getSunday(new Date()));
   const { date } = useParams();
-
-  const dateFormat = parse(String(date), "yyyy-MM-dd", new Date());
 
   useEffect(() => {
     if (date) {
-      setWeekStart(dateFormat);
+      const dateFormat = parse(String(date), "yyyy-MM-dd", new Date());
+      const sunday = getSunday(dateFormat);
+      setWeekStart(sunday);
     }
   }, [date]);
 

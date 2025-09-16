@@ -1,13 +1,14 @@
 import DatePanel from "@/components/layouts/datepanel/DatePanel";
 import DiaryPanel from "./(diaryPanel)/DiaryPanel";
+import WrapperLayout from "./../../WrapperLayout";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <DatePanel childern={<DiaryPanel />} />
-      <div className="scroll-wrap diary">
+      <WrapperLayout>
         <article>{children}</article>
-      </div>
+      </WrapperLayout>
     </>
   );
 }

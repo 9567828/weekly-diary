@@ -15,6 +15,13 @@ export const drawWeeks = () => {
     return s;
   };
 
+  const getWeekStart = () => {
+    const s = new Date(today());
+    const dow = s.getDay();
+    s.setDate(s.getDate() - dow);
+    return s;
+  };
+
   const getWeekStartFormatStr = (date: Date) => {
     const s = new Date(date);
     const dow = s.getDay();

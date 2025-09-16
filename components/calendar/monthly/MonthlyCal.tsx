@@ -2,8 +2,8 @@
 
 import DaysWrap from "../days-wrap/DaysWrap";
 import style from "../calender.module.scss";
-import { dateStr, drawMonth, makeWeekNum, today } from "../drawWeek";
-import { useEffect, useState } from "react";
+import { dateStr, makeWeekNum, today } from "../drawWeek";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -28,8 +28,8 @@ export default function MonthlyCal({ allWeeks, currMonth }: { currMonth: number;
     <div>
       <DaysWrap />
       <div>
-        {allWeeks.map((w, i) => (
-          <ul key={i} className={style["week-wrap"]}>
+        {allWeeks.map((w, wIndex) => (
+          <ul key={wIndex} className={style["week-wrap"]}>
             {w.map((d, i) => {
               const weekNum = makeWeekNum(d);
               const year = d.getFullYear();
@@ -37,8 +37,6 @@ export default function MonthlyCal({ allWeeks, currMonth }: { currMonth: number;
               const date = d.getDate();
               const days = d.getDay();
               const todayStr = dateStr(today());
-
-              console.log(currMonth, month);
 
               const findTodo = toDos.find((t) => t.todoDate === dateStr(d));
               const findDiary = diaries.find((diary) => diary.diaryDate === dateStr(d));

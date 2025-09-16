@@ -14,12 +14,17 @@ const initialState = {
   currDate: [] as IDiary[],
   range: [] as IDiary[], // 주간/월간 범위
   viewMode: "week" as "week" | "month", // 현재 뷰 모드
+  weekCount: 0,
 };
 
 const diarySlice = createSlice({
   name: "diary",
   initialState,
-  reducers: {},
+  reducers: {
+    setWeekCount: (state, action: PayloadAction<number>) => {
+      state.weekCount = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addDiaryThunk.fulfilled, (state, action: PayloadAction<IDiary>) => {
@@ -63,4 +68,5 @@ const diarySlice = createSlice({
   },
 });
 
+export const { setWeekCount } = diarySlice.actions;
 export default diarySlice.reducer;
