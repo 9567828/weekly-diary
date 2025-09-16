@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "update-types": "supabase gen types typescript --project-id \"uweadyjpzagnrgbdskqo\" --schema public > database.types.ts",
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
