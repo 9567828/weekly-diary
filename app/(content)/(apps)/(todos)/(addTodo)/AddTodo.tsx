@@ -1,8 +1,8 @@
 "use client";
 
 import style from "./addtodo.module.scss";
-import InputBox from "../../../../components/ui/InputBox";
-import Button from "../../../../components/ui/Button";
+import InputBox from "@/components/ui/InputBox";
+import Button from "@/components/ui/Button";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { addTodoThunk } from "@/lib/todos/todo.thunk";
 import { useAppDispatch } from "@/lib/hooks";

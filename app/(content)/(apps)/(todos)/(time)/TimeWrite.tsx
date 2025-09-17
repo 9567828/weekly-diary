@@ -25,11 +25,27 @@ export default function TimeWrite({ isOpen, hourValue, minutesValue, isAmpm, onC
         </select>
         <div className={style["input-time"]}>
           <div className={style.width}>
-            <InputBox type="number" variant="input-time" onChange={onChangeHour} value={hourValue} />
+            <InputBox
+              id="hour"
+              type="number"
+              variant="input-time"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              onChange={onChangeHour}
+              value={hourValue}
+            />
           </div>
           <p>:</p>
           <div className={style.width}>
-            <InputBox type="number" variant="input-time" onChange={onChangeMin} value={minutesValue} />
+            <InputBox
+              id="minute"
+              type="number"
+              variant="input-time"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              onChange={onChangeMin}
+              value={minutesValue}
+            />
           </div>
         </div>
       </div>

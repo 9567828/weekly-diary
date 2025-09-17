@@ -3,7 +3,7 @@ import style from "./edittodo.module.scss";
 import Button from "@/components/ui/Button";
 import InputBox from "@/components/ui/InputBox";
 import ToggleBtn from "@/components/ui/toggleBtn/ToggleBtn";
-import TimePicker from "./TimeWrite";
+import TimePicker from "../(time)/TimeWrite";
 import { createPortal } from "react-dom";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import ConfirmActionBtn from "@/components/ui/confirmActionBtn/ConfirmActionBtn";

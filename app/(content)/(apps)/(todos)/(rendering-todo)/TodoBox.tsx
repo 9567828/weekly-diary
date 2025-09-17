@@ -1,8 +1,8 @@
 import style from "./todo.module.scss";
 import CheckBtn from "@/components/ui/checkBtn/CheckBtn";
 import Button from "@/components/ui/Button";
-import EditTodo from "./EditTodo";
-import { ChangeEvent, MouseEvent } from "react";
+import EditTodo from "../(editTodo)/EditTodo";
+import { ChangeEvent } from "react";
 import { useAppDispatch } from "@/lib/hooks";
 import { checkDoneThunk, deleteTodoThunk } from "@/lib/todos/todo.thunk";
 
