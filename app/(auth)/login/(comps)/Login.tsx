@@ -7,9 +7,7 @@ export default async function Login() {
     <>
       <div className={style.head}>
         <img src="/imgs/pencil-second.svg" alt="아이콘" />
-        {/* <img src="/imgs/pencil.svg" alt="아이콘" /> */}
-        {/* <img src="/imgs/icons/ic_complete.svg" alt="아이콘" /> */}
-        <h1 className={style.headTitle}>weekly plan</h1>
+        <h1 className={style.headTitle}>weekly diary</h1>
       </div>
       <form style={{ width: "100%" }}>
         <Button

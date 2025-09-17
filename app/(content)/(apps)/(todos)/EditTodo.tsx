@@ -29,7 +29,7 @@ type props = IEditTodo & IHandler;
 const selectBox = [
   { src: "/imgs/icons/ic_important.svg", alt: "중요아이콘", title: "중요", toggleId: "important", picker: false },
   { src: "/imgs/icons/ic_time.svg", alt: "시간아이콘", title: "시간", toggleId: "time", picker: true },
-  { src: "/imgs/icons/ic_calendar.svg", alt: "달력아이콘", title: "달력", toggleId: "date", picker: true },
+  { src: "/imgs/icons/ic_calendar.svg", alt: "달력아이콘", title: "날짜", toggleId: "date", picker: true },
 ];
 
 export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, todoDate, onClick }: props) {
@@ -41,7 +41,6 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
   const [toggleChecked, setToggleChecked] = useState({
     isImport,
     isTime,
-    isDate: false,
   });
   const [ampm, setAmpm] = useState<string>(isAmpm!);
   const getTime = () => {
@@ -100,17 +99,6 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
       setToggleChecked((prev) => ({
         ...prev,
         isTime: checked,
-      }));
-    }
-
-    if (targetId === "date") {
-      setHasChanged((prev) => ({
-        ...prev,
-        isDate: toggleChecked.isDate !== checked,
-      }));
-      setToggleChecked((prev) => ({
-        ...prev,
-        isDate: checked,
       }));
     }
   };
@@ -194,23 +182,23 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
                         <p className={style.title}>{sel.title}</p>
                         {sel.toggleId === "time" && toggleChecked.isTime ? (
                           <p className={style["attr-txt"]}>{`${ampm} ${time}`}</p>
-                        ) : sel.toggleId === "date" && toggleChecked.isDate ? (
-                          <p className={style["attr-txt"]}>{`${ampm} ${time}`}</p>
                         ) : null}
                       </div>
-                      <ToggleBtn
-                        id={sel.toggleId}
-                        onChange={onChangeToggle}
-                        checked={
-                          sel.toggleId === "important"
-                            ? toggleChecked.isImport
-                            : sel.toggleId === "time"
-                            ? toggleChecked.isTime
-                            : sel.toggleId === "date"
-                            ? toggleChecked.isDate
-                            : false
-                        }
-                      />
+                      {sel.toggleId !== "date" ? (
+                        <ToggleBtn
+                          id={sel.toggleId}
+                          onChange={onChangeToggle}
+                          checked={
+                            sel.toggleId === "important"
+                              ? toggleChecked.isImport
+                              : sel.toggleId === "time"
+                              ? toggleChecked.isTime
+                              : false
+                          }
+                        />
+                      ) : (
+                        <input type="date" name="todoDate" id="todoDate" value={dateValue} onChange={onChangeDate} />
+                      )}
                     </div>
                   </div>
                   {sel.picker && sel.toggleId === "time" && toggleChecked.isTime ? (
@@ -224,9 +212,6 @@ export default function EditTodo({ id, text, isImport, isTime, time, isAmpm, tod
                       onChangeMin={onChangeMin}
                       onSelectChange={onSelectChange}
                     />
-                  ) : null}
-                  {sel.toggleId === "date" ? (
-                    <input type="date" name="todoDate" id="todoDate" value={dateValue} onChange={onChangeDate} />
                   ) : null}
                 </div>
               ))}
