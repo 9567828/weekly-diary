@@ -1,0 +1,9 @@
+.head {
+  @include flex(null, center, center, 10px);
+}
+
+.headTitle {
+  @include font-theme($headXl-ext);
+  text-transform: uppercase;
+  color: $main-color;
+}
