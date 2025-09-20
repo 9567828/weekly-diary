@@ -8,18 +8,18 @@ interface IButtn {
   confirmOnly: boolean;
 }
 
-export default function ConfirmModal({ ...props }: IButtn) {
+export default function ConfirmModal({ message, onCancel, onConfirm, confirmOnly }: IButtn) {
   return (
     <div className={style.bg}>
       <div className={style["modal-warp"]}>
-        <p className={style["modal-txt"]}>{props.message}</p>
+        <p className={style["modal-txt"]}>{message}</p>
         <div className={style["btn-wrap"]}>
-          {props.confirmOnly ? (
-            <Button onClick={props.onConfirm} label="확인" className="primary-btn modal-btn" />
+          {confirmOnly ? (
+            <Button onClick={onConfirm} label="확인" className="primary-btn modal-btn" />
           ) : (
             <>
-              <Button onClick={props.onCancel} label="취소" className={`primary-btn modal-btn cancel`} />
-              <Button onClick={props.onConfirm} label="확인" className={`primary-btn modal-btn`} />
+              <Button onClick={onCancel} label="취소" className={`primary-btn modal-btn cancel`} />
+              <Button onClick={onConfirm} label="확인" className={`primary-btn modal-btn`} />
             </>
           )}
         </div>
