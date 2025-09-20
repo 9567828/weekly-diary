@@ -3,7 +3,7 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
 
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
