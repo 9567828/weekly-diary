@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "../styles/global-style";
 import ReduxProvider from "./ReduxProvider";
-import VersionChecker from "./../components/VversionChecker";
+import VersionChecker from "../components/VersionChecker";
 
 export const metadata: Metadata = {
   title: "WEEKLY-DIARY",
