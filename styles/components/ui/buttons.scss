@@ -54,6 +54,7 @@
 }
 
 .today-btn {
+  width: fit-content;
   @extend .txt-btn;
   @include font-theme($bodyLg-b);
   color: $gray-600;
