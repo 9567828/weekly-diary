@@ -2,16 +2,6 @@
   width: 100%;
 }
 
-.head {
-  @include flex(null, center, center, 10px);
-}
-
-.headTitle {
-  @include font-theme($headXl-ext);
-  text-transform: uppercase;
-  color: $main-color;
-}
-
 .label {
   position: absolute;
   top: 50%;
