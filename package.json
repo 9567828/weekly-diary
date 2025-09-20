@@ -2,6 +2,7 @@
   "name": "weekly-diary",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "update-types": "supabase gen types typescript --project-id \"uweadyjpzagnrgbdskqo\" --schema public > database.types.ts",
     "dev": "next dev",
