@@ -7,6 +7,12 @@ import VersionChecker from "./../components/VersionChecker";
 export const metadata: Metadata = {
   title: "WEEKLY-DIARY",
   description: "주간 일기 / TODO 리스트 앱",
+  verification: {
+    google: "rgDUJx1dCP9beayoTn1ayjT42HPrKGV0Hk4ZsN18KNY",
+  },
+  other: {
+    "naver-site-verification": "d963822cab2587cfbddca3f64d87c50d5bf3d4ef",
+  },
   icons: {
     icon: "/imgs/favicon/favicon.ico",
     apple: "/imgs/favicon/apple-touch-icon.png",
