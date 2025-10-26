@@ -106,7 +106,7 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
-input {
+input, textarea {
   outline: none;
   box-shadow: none;
   border-radius: 0; /* 둥근 모서리 제거 */
