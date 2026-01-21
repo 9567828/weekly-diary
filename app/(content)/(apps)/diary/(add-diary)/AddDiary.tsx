@@ -7,8 +7,13 @@ import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useAppDispatch } from "@/lib/hooks";
 import { addDiaryThunk } from "@/lib/diary/diary.thunk";
+import { useAddDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
+import { useQueryClient } from "@tanstack/react-query";
+import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 
 export default function AddDiary({ date, weekNum }: { date: string; weekNum: number }) {
+  const queryClient = useQueryClient();
+  const { mutate } = useAddDiaryMutation();
   const [textMode, setTextMode] = useState(false);
   const [modalOn, setModalOn] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
@@ -43,15 +48,24 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
     const paylaod = {
       title: titleValue === "" ? "제목없음" : titleValue,
       text: text,
-      diaryDate: date,
-      weekNum,
+      diary_date: date,
+      week_num: weekNum,
     };
 
-    dispatch(addDiaryThunk(paylaod));
+    mutate(paylaod, {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: diaryQueryKey,
+        });
 
-    setTitleValue("");
-    setText("");
-    setTextMode(false);
+        setTitleValue("");
+        setText("");
+        setTextMode(false);
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   };
 
   return (

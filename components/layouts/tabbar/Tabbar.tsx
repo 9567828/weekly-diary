@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import "./tabbar.scss";
 import { useParams, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const menuList = [
   {
@@ -34,6 +36,7 @@ const menuList = [
 export default function Tabbar() {
   const path = usePathname();
   const { date } = useParams();
+  const [isMobile, setIsMobile] = useState(false);
 
   const homePath = path === "/" || path === `/${String(date)}`;
 
@@ -44,8 +47,27 @@ export default function Tabbar() {
     return path.startsWith(menuHref);
   };
 
+  console.log(isMobile);
+
+  useEffect(() => {
+    let x;
+    const onScroll = () => {
+      x = window.innerWidth;
+      if (x < 798) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
-    <footer>
+    <footer className={isMobile ? "none" : ""}>
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>

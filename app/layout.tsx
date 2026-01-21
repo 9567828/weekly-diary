@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
-import "../styles/global-style";
+import "@/styles/styles.scss";
 import ReduxProvider from "./ReduxProvider";
 import VersionChecker from "./../components/VersionChecker";
+import Providers from "./QueryProviders";
 
 export const metadata: Metadata = {
   title: "WEEKLY-DIARY",
@@ -52,10 +53,12 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <ReduxProvider>
-          <VersionChecker />
-          <div className="container">{children}</div>
-        </ReduxProvider>
+        <Providers>
+          <ReduxProvider>
+            <VersionChecker />
+            <div className="container">{children}</div>
+          </ReduxProvider>
+        </Providers>
       </body>
     </html>
   );

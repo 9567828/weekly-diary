@@ -29,7 +29,7 @@ export const addDiaryThunk = createAsyncThunk(
     }
 
     return convertDiary(data);
-  }
+  },
 );
 
 export const selectAllDiary = createAsyncThunk("diary/selectAll", async () => {
@@ -71,7 +71,7 @@ export const selectWeeklyDiary = createAsyncThunk(
     }
 
     return data?.map(convertDiary);
-  }
+  },
 );
 
 export const selectOneDiary = createAsyncThunk<IDiary[], string>("diary/selectOne", async (diaryDate): Promise<IDiary[]> => {
@@ -103,7 +103,7 @@ export const editDiaryThunk = createAsyncThunk(
     }
 
     return convertDiary(data);
-  }
+  },
 );
 
 export const deleteDiaryThunk = createAsyncThunk("diary/deleteDiary", async (id: string) => {

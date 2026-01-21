@@ -4,20 +4,20 @@ import style from "./addtodo.module.scss";
 import InputBox from "@/components/ui/InputBox";
 import Button from "@/components/ui/Button";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
-import { addTodoThunk } from "@/lib/todos/todo.thunk";
-import { useAppDispatch } from "@/lib/hooks";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { format } from "date-fns";
+import { useAddTodoMutation } from "@/hooks/useMutation/useTodoMutation";
+import { useQueryClient } from "@tanstack/react-query";
+import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
 
 export default function AddTodo() {
   const params = useParams<{ date?: string }>();
+  const queryClient = useQueryClient();
+  const { mutate } = useAddTodoMutation();
   const date = params?.date;
-  const path = usePathname();
 
   const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const dispatch = useAppDispatch();
 
   const addDate = () => {
     const todayStr = format(new Date(), "yyyy-MM-dd");
@@ -38,10 +38,21 @@ export default function AddTodo() {
       return;
     }
 
-    dispatch(addTodoThunk({ text: value, todoDate: addDate() }));
-
-    setValue("");
-    inputRef.current?.blur();
+    mutate(
+      { text: value, todoDate: addDate() },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: todoDateKey,
+          });
+          setValue("");
+          inputRef.current?.blur();
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      },
+    );
   };
 
   return (

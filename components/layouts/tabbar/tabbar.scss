@@ -1,7 +1,6 @@
 footer {
   width: 100%;
   max-width: 768px;
-  // height: 100%;
   padding: 15px 30px 35px;
   border-top: 1px solid $gray-300;
   background-color: $bg-white;
@@ -24,4 +23,8 @@ footer {
       }
     }
   }
+}
+
+input:focus-within footer {
+  display: none;
 }

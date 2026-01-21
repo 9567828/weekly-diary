@@ -7,9 +7,10 @@ import { ITodo } from "@/lib/todos/todo.interface";
 import { useRouter } from "next/navigation";
 import { drawWeeks } from "@/components/calendar/drawWeek";
 import { parse } from "date-fns";
+import { TodoRow } from "@/utils/supabase";
 
 interface IHasList {
-  toDos: ITodo[];
+  toDos: TodoRow[];
   diaries: IDiary[];
   currDate: string;
 }
@@ -20,8 +21,8 @@ export default function HasList({ toDos, diaries, currDate }: IHasList) {
 
   const weekStart = getWeekStartFormatStr(parse(currDate, "yyyy-MM-dd", new Date()));
 
-  const doneLength = toDos.filter((t) => t.isDone);
-  const notLength = toDos.filter((t) => !t.isDone);
+  const doneLength = toDos.filter((t) => t.is_done);
+  const notLength = toDos.filter((t) => !t.is_done);
 
   const todoList = [
     { title: "할일목록", length: notLength.length },

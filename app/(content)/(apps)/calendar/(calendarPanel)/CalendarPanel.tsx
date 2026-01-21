@@ -4,7 +4,7 @@ import DateControl from "@/components/layouts/datepanel/DateControl";
 import MonthlyCal from "@/components/calendar/monthly/MonthlyCal";
 import { useEffect, useState } from "react";
 import { drawMonth } from "@/components/calendar/drawWeek";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/hooks";
 import { setWeekCount } from "@/lib/diary/diarySlice";
 
@@ -51,7 +51,7 @@ export default function CalendarPanel() {
   return (
     <>
       <DateControl date={`${year}년 ${month + 1}월`} nextBtn={handleNextMonth} prevBtn={handlePrevMonth} today={goToday} />
-      <MonthlyCal allWeeks={allWeeks} currMonth={month + 1} />
+      <MonthlyCal allWeeks={allWeeks} currYear={year} currMonth={month + 1} />
     </>
   );
 }

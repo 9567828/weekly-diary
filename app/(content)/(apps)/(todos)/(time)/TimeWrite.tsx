@@ -3,6 +3,7 @@
 import { ChangeEvent } from "react";
 import style from "./time.module.scss";
 import InputBox from "@/components/ui/InputBox";
+import { AmPmType } from "@/utils/supabase";
 
 interface ITime {
   onChangeHour: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -11,7 +12,7 @@ interface ITime {
   checked: boolean;
   hourValue: string;
   minutesValue: string;
-  isAmpm: string | undefined;
+  isAmpm: AmPmType;
   isOpen?: boolean;
 }
 
@@ -19,7 +20,7 @@ export default function TimeWrite({ isOpen, hourValue, minutesValue, isAmpm, onC
   return (
     <div className={`${style["time-container"]} ${isOpen ? style["open"] : ""}`.trim()}>
       <div className={style["time-text"]}>
-        <select name="ampm" id="ampm" onChange={onSelectChange} defaultValue={isAmpm}>
+        <select name="ampm" id="ampm" className={style.select} onChange={onSelectChange} defaultValue={isAmpm}>
           <option value="오전">오전</option>
           <option value="오후">오후</option>
         </select>

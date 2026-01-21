@@ -4,7 +4,6 @@ import style from "./toggle.module.scss";
 interface IToggle {
   id: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-
   checked: boolean;
 }
 

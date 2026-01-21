@@ -2,6 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addTodoThunk, checkDoneThunk, deleteTodoThunk, editTodoThunk, fetchDateTodos, fetchTodos } from "./todo.thunk";
 import { ITodo } from "./todo.interface";
 
+const todoSort = (a: ITodo, b: ITodo) => {
+  if (a.isImport !== b.isImport) {
+    return a.isImport ? -1 : 1;
+  }
+};
+
 const initialState = {
   all: [] as ITodo[],
   currDate: [] as ITodo[],

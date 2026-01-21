@@ -2,8 +2,10 @@ import style from "../diary.module.scss";
 import Button from "@/components/ui/Button";
 import EditDiary from "../(edit)/EditDiary";
 import { useState } from "react";
-import { deleteDiaryThunk } from "@/lib/diary/diary.thunk";
 import { useAppDispatch } from "@/lib/hooks";
+import { useDeleteDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
+import { useQueryClient } from "@tanstack/react-query";
+import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 
 interface IDiary {
   id: string;
@@ -12,6 +14,8 @@ interface IDiary {
 }
 
 export default function DiaryContent({ id, title, text }: IDiary) {
+  const queryClient = useQueryClient();
+  const { mutate } = useDeleteDiaryMutation();
   const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useState(false);
   const [onSetting, setOnSetting] = useState(false);
@@ -26,6 +30,20 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   const handleOnEditMode = () => {
     setEditMode((prev) => !prev);
     setOnSetting(false);
+  };
+
+  const handleDelete = (id: string) => {
+    mutate(id, {
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.invalidateQueries({
+          queryKey: diaryQueryKey,
+        });
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   };
 
   return (
@@ -44,7 +62,7 @@ export default function DiaryContent({ id, title, text }: IDiary) {
                     src="/imgs/icons/ic_delete.svg"
                     alt="삭제"
                     className="btn-18"
-                    onClick={() => dispatch(deleteDiaryThunk(id))}
+                    onClick={() => handleDelete(id)}
                   />
                   <Button
                     existImg={true}

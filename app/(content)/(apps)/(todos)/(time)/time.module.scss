@@ -1,3 +1,11 @@
+.select {
+  border: none;
+  width: fit-content;
+  height: 100%;
+  padding: 3px 8px;
+  @include font-theme($bodyMd-b);
+}
+
 .time-container {
   width: 100%;
   padding: 10px 0;
