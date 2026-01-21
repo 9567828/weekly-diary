@@ -12,7 +12,8 @@ body {
   position: relative;
   width: 100%;
   max-width: 768px;
-  height: 100dvh;
+  // height: 100dvh;
+  height: 100%;
   margin: 0 auto;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);

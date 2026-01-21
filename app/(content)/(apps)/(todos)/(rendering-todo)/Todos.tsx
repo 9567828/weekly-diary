@@ -17,10 +17,13 @@ export default function Todos() {
   const toDos = data ?? [];
 
   return (
-    <div className={style["column"]}>
-      <AddTodo />
-      <TodoSection title="할일 목록" toDos={toDos} filter={(t) => !t.is_done} />
-      <TodoSection title="완료 목록" toDos={toDos} filter={(t) => t.is_done} />
-    </div>
+    <>
+      <div className={style["column"]}>
+        <AddTodo />
+        <TodoSection title="할일 목록" toDos={toDos} filter={(t) => !t.is_done} />
+        <TodoSection title="완료 목록" toDos={toDos} filter={(t) => t.is_done} />
+      </div>
+      <div className={style["empty-space"]}></div>
+    </>
   );
 }
