@@ -16,7 +16,7 @@
 
 .date {
   color: $gray-800;
-  @include font-theme($bodyMd-b);
+  @include font-theme($bodySm-b);
   &.weekend {
     color: $gray-500;
   }
@@ -28,7 +28,7 @@
 
 .day {
   color: $gray-500;
-  @include font-theme($bodyMd-r);
+  @include font-theme($bodySm-r);
 }
 
 .content-box {
@@ -43,7 +43,7 @@
 }
 
 .title {
-  @include font-theme($bodyMd-b)
+  @include font-theme($bodySm-b)
 }
 
 .btn-wrap {

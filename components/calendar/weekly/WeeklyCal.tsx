@@ -3,11 +3,9 @@
 import Link from "next/link";
 import style from "../calender.module.scss";
 import { format } from "date-fns";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-import { fetchTodos } from "@/lib/todos/todo.thunk";
 import DaysWrap from "../days-wrap/DaysWrap";
+import { useFetchTodoAll } from "@/hooks/useQuerys/useTodoQuery";
 
 interface IWeekDate {
   weekDates: Date[];
@@ -15,12 +13,11 @@ interface IWeekDate {
 
 export default function WeeklyCal({ weekDates }: IWeekDate) {
   const path = usePathname();
-  const toDos = useAppSelector((state) => state.toDos.all);
+  const { data, isError, error } = useFetchTodoAll();
 
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchTodos());
-  }, [dispatch]);
+  if (isError) {
+    console.log(error.message);
+  }
 
   return (
     <div>
@@ -34,7 +31,7 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
 
           const dateStr = format(w, "yyyy-MM-dd");
 
-          const existed = toDos.find((t) => t.todoDate === dateStr);
+          const existed = data?.find((t) => t.todo_date === dateStr);
 
           return (
             <li

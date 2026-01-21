@@ -1,9 +1,6 @@
 "use client";
 
-import { v4 as uuidv4 } from "uuid";
 import { createClient } from "../client";
-import { ITodo } from "@/lib/todos/todo.interface";
-import { convertTodo } from "@/utils/converter";
 import { AddTodoType, AmPmType, EditTodoType, TodoRow } from "..";
 
 export const insertTodo = async (text: string, todoDate: string) => {
@@ -26,7 +23,7 @@ export const insertTodo = async (text: string, todoDate: string) => {
   return data;
 };
 
-export const selectTodo = async () => {
+export const selectTodoAll = async () => {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -69,19 +66,6 @@ export const selectTodoByDate = async (todoDate: string): Promise<TodoRow[]> => 
   if (error) throw error;
 
   return data ?? [];
-};
-
-export const selectTodoAsDate = async (todoDate: string): Promise<ITodo[]> => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from("todo")
-    .select("*")
-    .eq("todo_date", todoDate!)
-    .order("created_at", { ascending: false });
-
-  if (error) throw error;
-  return (data ?? []).map(convertTodo);
 };
 
 export const checkDone = async (id: string, isDone: boolean) => {

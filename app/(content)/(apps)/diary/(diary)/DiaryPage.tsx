@@ -1,7 +1,6 @@
 "use client";
 
 import style from "../diary.module.scss";
-import { useAppDispatch } from "@/lib/hooks";
 import { dateStr, drawWeeks, makeWeekNum, today } from "@/components/calendar/drawWeek";
 import { useParams } from "next/navigation";
 import { parse } from "date-fns";

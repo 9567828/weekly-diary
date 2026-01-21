@@ -2,16 +2,14 @@
 
 import Button from "@/components/ui/Button";
 import style from "./list.module.scss";
-import { IDiary } from "@/lib/diary/diary.interface";
-import { ITodo } from "@/lib/todos/todo.interface";
 import { useRouter } from "next/navigation";
 import { drawWeeks } from "@/components/calendar/drawWeek";
 import { parse } from "date-fns";
-import { TodoRow } from "@/utils/supabase";
+import { DiaryRow, TodoRow } from "@/utils/supabase";
 
 interface IHasList {
   toDos: TodoRow[];
-  diaries: IDiary[];
+  diaries: DiaryRow[];
   currDate: string;
 }
 

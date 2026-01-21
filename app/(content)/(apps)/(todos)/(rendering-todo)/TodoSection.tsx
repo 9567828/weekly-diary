@@ -2,7 +2,6 @@ import style from "./todos.module.scss";
 import Todo from "./TodoBox";
 import { useState } from "react";
 import TodoListTitle from "@/components/ui/todoListTitle/TodoListTitle";
-import { ITodo } from "@/lib/todos/todo.interface";
 import { TodoRow } from "@/utils/supabase";
 
 interface ITodoSectionProps {

@@ -5,8 +5,6 @@ import ConfirmActionBtn from "@/components/ui/confirmActionBtn/ConfirmActionBtn"
 import InputBox from "@/components/ui/InputBox";
 import { ChangeEvent, FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
-import { useAppDispatch } from "@/lib/hooks";
-import { editDiaryThunk } from "@/lib/diary/diary.thunk";
 import { useEditDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { EditDiaryType } from "@/utils/supabase";
 import { useQueryClient } from "@tanstack/react-query";

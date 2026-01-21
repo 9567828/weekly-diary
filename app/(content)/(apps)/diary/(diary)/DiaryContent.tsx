@@ -2,7 +2,6 @@ import style from "../diary.module.scss";
 import Button from "@/components/ui/Button";
 import EditDiary from "../(edit)/EditDiary";
 import { useState } from "react";
-import { useAppDispatch } from "@/lib/hooks";
 import { useDeleteDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
@@ -16,7 +15,6 @@ interface IDiary {
 export default function DiaryContent({ id, title, text }: IDiary) {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteDiaryMutation();
-  const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useState(false);
   const [onSetting, setOnSetting] = useState(false);
 

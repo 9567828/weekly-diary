@@ -3,15 +3,11 @@
 import style from "./todos.module.scss";
 import AddTodo from "../(addTodo)/AddTodo";
 import TodoSection from "./TodoSection";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
-import { useEffect } from "react";
-import { fetchDateTodos } from "@/lib/todos/todo.thunk";
-import { useFetchTodoByDate, useFetchTodos } from "@/hooks/useQuerys/useTodoQuery";
+import { useFetchTodoByDate } from "@/hooks/useQuerys/useTodoQuery";
 
 export default function Todos() {
-  const dispatch = useAppDispatch();
   const { date } = useParams();
   const today = format(new Date(), "yyyy-MM-dd");
   const dateStr = date ? (Array.isArray(date) ? date[0] : date) : today;

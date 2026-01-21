@@ -5,8 +5,6 @@ import ConfirmActionBtn from "@/components/ui/confirmActionBtn/ConfirmActionBtn"
 import InputBox from "@/components/ui/InputBox";
 import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
-import { useAppDispatch } from "@/lib/hooks";
-import { addDiaryThunk } from "@/lib/diary/diary.thunk";
 import { useAddDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
@@ -19,8 +17,6 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
   const [confirmModal, setConfirmModal] = useState(false);
   const [titleValue, setTitleValue] = useState("");
   const [text, setText] = useState("");
-
-  const dispatch = useAppDispatch();
 
   const modalClose = () => {
     setModalOn(false);

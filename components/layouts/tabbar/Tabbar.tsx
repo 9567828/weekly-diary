@@ -37,6 +37,7 @@ export default function Tabbar() {
   const path = usePathname();
   const { date } = useParams();
   const [isMobile, setIsMobile] = useState(false);
+  const [hideTabbar, setHideTabbar] = useState(false);
 
   const homePath = path === "/" || path === `/${String(date)}`;
 
@@ -46,8 +47,6 @@ export default function Tabbar() {
     }
     return path.startsWith(menuHref);
   };
-
-  console.log(isMobile);
 
   useEffect(() => {
     let x;
@@ -66,8 +65,31 @@ export default function Tabbar() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleFocus = (e: FocusEvent) => {
+      const el = e.target as HTMLElement;
+      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable) {
+        setHideTabbar(true);
+      }
+    };
+
+    const handleFocusOut = () => {
+      setHideTabbar(false);
+    };
+
+    window.addEventListener("focusin", handleFocus);
+    window.addEventListener("focusout", handleFocusOut);
+
+    return () => {
+      window.removeEventListener("focusin", handleFocus);
+      window.removeEventListener("focusout", handleFocusOut);
+    };
+  }, []);
+
+  console.log(hideTabbar);
+
   return (
-    <footer className={isMobile ? "none" : ""}>
+    <footer className={isMobile && hideTabbar ? "none" : ""}>
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>

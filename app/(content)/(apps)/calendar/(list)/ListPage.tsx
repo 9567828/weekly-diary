@@ -1,26 +1,26 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import HasList from "./HasList";
 import style from "./list.module.scss";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useEffect } from "react";
-import { fetchDateTodos } from "@/lib/todos/todo.thunk";
-import { selectOneDiary } from "@/lib/diary/diary.thunk";
 import { drawWeeks, today } from "@/components/calendar/drawWeek";
 import { format, parse } from "date-fns";
 import { useFetchTodoByDate } from "@/hooks/useQuerys/useTodoQuery";
 import Button from "@/components/ui/Button";
+import { useFetchDiaryByDate } from "@/hooks/useQuerys/useDiaryQuery";
 
 export default function ListPage() {
   const { id } = useParams();
 
   const { getWeekStartFormatStr } = drawWeeks();
   const route = useRouter();
-  const dispatch = useAppDispatch();
   const currDate = id ? String(id) : format(today(), "yyyy-MM-dd");
   const weekStart = getWeekStartFormatStr(parse(currDate, "yyyy-MM-dd", new Date()));
-  const { data: toDos, error } = useFetchTodoByDate(currDate);
+  const { data: toDos, error: todoErr, isError: isTodoErr } = useFetchTodoByDate(currDate);
+  const { data: diary, error: diaryErr, isError: isDiaryErr } = useFetchDiaryByDate(currDate);
+
+  if (isDiaryErr) {
+    console.log("diary? ", diaryErr.message);
+  }
 
   const doneLength = toDos?.filter((t) => t.is_done);
   const notLength = toDos?.filter((t) => !t.is_done);
@@ -34,12 +34,6 @@ export default function ListPage() {
     route.push(path);
   };
 
-  const diaries = useAppSelector((state) => state.diaries.currDate);
-
-  useEffect(() => {
-    dispatch(selectOneDiary(currDate));
-  }, [dispatch]);
-
   return (
     <div>
       <div className={style["diary-list"]}>
@@ -48,12 +42,12 @@ export default function ListPage() {
           <Button label="상세보기" className="detail-btn" onClick={() => movePage(`/diary/${weekStart}`)} />
         </div>
         <div className={style["list-wrap"]}>
-          {diaries.length !== 0 ? (
+          {diary?.diary_date === currDate ? (
             <img src="/imgs/icons/ic_complete.svg" alt="완료" />
           ) : (
             <img src="/imgs/icons/ic_incomplete.svg" alt="미완료" />
           )}
-          {diaries.length !== 0 ? <p>일기썼다</p> : <p>일기 없음</p>}
+          {diary?.diary_date === currDate ? <p>일기썼다</p> : <p>일기 없음</p>}
         </div>
       </div>
       <div>

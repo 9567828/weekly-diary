@@ -1,3 +1,4 @@
+import { PostgrestError } from "@supabase/supabase-js";
 import { AddDiaryType, DiaryRow, EditDiaryType } from "..";
 import { createClient } from "../client";
 
@@ -34,11 +35,12 @@ export const deleteDiary = async (id: string) => {
   return id;
 };
 
-export const selectDiaryByDate = async (date: string): Promise<{ diary_date: string }> => {
-  const { data, error } = await supabase.from("diary").select("diary_date").single();
+export const selectDiaryByDate = async (date: string): Promise<{ diary_date: string | null }> => {
+  const { data, error } = await supabase.from("diary").select("diary_date").eq("diary_date", date).maybeSingle();
+
   if (error) throw error;
 
-  return data ?? null;
+  return { diary_date: data?.diary_date || null };
 };
 
 export const selectDiaryByRange = async (startDate: string, endDate: string): Promise<DiaryRow[]> => {

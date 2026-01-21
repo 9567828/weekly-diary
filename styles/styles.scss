@@ -68,6 +68,7 @@ body {
   background-color: $bg-gray;
 }
 
+
 .input-wrap {
   width: 100%;
   @include flex(true, center, null, 5px);
@@ -97,6 +98,12 @@ button:disabled {
 input:focus {
   outline: none;
   box-shadow: none;
+}
+
+input:focus-within {
+  footer.none {
+    display: none;
+  }
 }
 
 input:-webkit-autofill,

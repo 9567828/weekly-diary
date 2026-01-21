@@ -3,13 +3,11 @@
 import DaysWrap from "../days-wrap/DaysWrap";
 import style from "../calender.module.scss";
 import { dateStr, makeWeekNum, today } from "../drawWeek";
-import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { selectAllDiary } from "@/lib/diary/diary.thunk";
-import { useFetchTodos } from "@/hooks/useQuerys/useTodoQuery";
+import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import { format } from "date-fns";
+import { useFetchDiaryByRange } from "@/hooks/useQuerys/useDiaryQuery";
 
 export default function MonthlyCal({
   allWeeks,
@@ -21,20 +19,19 @@ export default function MonthlyCal({
   allWeeks: Date[][];
 }) {
   const path = usePathname();
-  const dispatch = useAppDispatch();
-
-  const diaries = useAppSelector((state) => state.diaries.all);
 
   const firstDate = new Date(currYear, currMonth - 1, 1);
   const endDate = new Date(currYear, currMonth, 0);
   const firstDateStr = format(firstDate, "yyyy-MM-dd");
   const endDateStr = format(endDate, "yyyy-MM-dd");
 
-  const { data: monthTodo, error } = useFetchTodos(firstDateStr, endDateStr);
+  const { data: todo, error: todoErr, isError: isTodoErr } = useFetchTodosByRange(firstDateStr, endDateStr);
+  const { data: diary, error: diaryErr, isError: isDiaryErr } = useFetchDiaryByRange(firstDateStr, endDateStr);
 
-  useEffect(() => {
-    dispatch(selectAllDiary());
-  }, [dispatch]);
+  if (isTodoErr && isDiaryErr) {
+    console.log("todo? ", todoErr.message);
+    console.log("diary? ", diaryErr.message);
+  }
 
   return (
     <div>
@@ -50,8 +47,8 @@ export default function MonthlyCal({
               const days = d.getDay();
               const todayStr = dateStr(today());
 
-              const findTodo = monthTodo?.find((t) => t.todo_date === dateStr(d));
-              const findDiary = diaries.find((diary) => diary.diaryDate === dateStr(d));
+              const findTodo = todo?.find((t) => t.todo_date === dateStr(d));
+              const findDiary = diary?.find((diary) => diary.diary_date === dateStr(d));
 
               return (
                 <li

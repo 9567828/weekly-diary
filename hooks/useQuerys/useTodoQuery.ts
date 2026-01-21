@@ -1,9 +1,9 @@
-import { selectTodoByDate, selectTodoByRange } from "@/utils/supabase/sql/todo";
+import { selectTodoAll, selectTodoByDate, selectTodoByRange } from "@/utils/supabase/sql/todo";
 import { useQuery } from "@tanstack/react-query";
 
 export const todoDateKey = ["todos"];
 
-export const useFetchTodos = (startDate: string, endDate: string) => {
+export const useFetchTodosByRange = (startDate: string, endDate: string) => {
   return useQuery({
     queryKey: ["todos", startDate, endDate],
     queryFn: async () => {
@@ -17,6 +17,15 @@ export const useFetchTodoByDate = (todoDate: string) => {
     queryKey: ["todos", "date", todoDate],
     queryFn: async () => {
       return await selectTodoByDate(todoDate);
+    },
+  });
+};
+
+export const useFetchTodoAll = () => {
+  return useQuery({
+    queryKey: ["todos"],
+    queryFn: async () => {
+      return await selectTodoAll();
     },
   });
 };

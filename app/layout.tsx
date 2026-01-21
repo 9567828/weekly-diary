@@ -6,6 +6,7 @@ import VersionChecker from "./../components/VersionChecker";
 import Providers from "./QueryProviders";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "WEEKLY-DIARY",
   description: "주간 일기 / TODO 리스트 앱",
   verification: {
@@ -43,6 +44,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: "cover",
+  interactiveWidget: "resizes-content",
 };
 
 export default async function RootLayout({
