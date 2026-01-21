@@ -45,14 +45,16 @@ body {
 
 .scroll-wrap {
   width: 100%;
-  height: calc(100dvh - 278px);
+  // height: calc(100dvh - 278px);
+  height: calc(100dvh - 199px);
   overflow: hidden;
   &.mypage {
     padding: 20px;
     height: calc(100dvh - 126px);
   }
   &.diary {
-    height: calc(100dvh - 226px);
+    // height: calc(100dvh - 226px);
+    height: calc(100dvh - 147px);
   }
   &.calendar {
     height: calc(100dvh - 518px);
