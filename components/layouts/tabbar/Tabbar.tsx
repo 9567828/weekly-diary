@@ -5,6 +5,7 @@ import "./tabbar.scss";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/hooks";
+import { isChrome, isMobileSafari, isSafari, MobileView } from "react-device-detect";
 
 const menuList = [
   {
@@ -42,6 +43,8 @@ export default function Tabbar() {
 
   const [isMobile, setIsMobile] = useState(false);
 
+  console.log(isSafari, isChrome, MobileView, isMobileSafari);
+
   console.log({
     isMobile,
     todoOpen,
@@ -76,7 +79,13 @@ export default function Tabbar() {
   }, []);
 
   return (
-    <footer className={isMobile && (todoOpen != null || diaryOpen != null) ? "none" : ""}>
+    <footer
+      className={
+        isSafari || isChrome || MobileView || isMobileSafari || (isMobile && (todoOpen != null || diaryOpen != null))
+          ? "none"
+          : ""
+      }
+    >
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>
