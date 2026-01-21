@@ -41,16 +41,9 @@ export default function Tabbar() {
   const todoOpen = useAppSelector((state) => state.tabbar.isTodoTexing);
   const diaryOpen = useAppSelector((state) => state.tabbar.isDiaryTexting);
 
-  const [isMobile, setIsMobile] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
 
   console.log(isSafari, isChrome, MobileView, isMobileSafari);
-
-  console.log({
-    isMobile,
-    todoOpen,
-    diaryOpen,
-    result: isMobile && (todoOpen != null || diaryOpen != null),
-  });
 
   const homePath = path === "/" || path === `/${String(date)}`;
 
@@ -61,30 +54,26 @@ export default function Tabbar() {
     return path.startsWith(menuHref);
   };
 
-  useEffect(() => {
-    let x;
-    const onScroll = () => {
-      x = window.innerWidth;
-      if (x < 798) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    };
-    window.addEventListener("resize", onScroll);
+  // useEffect(() => {
+  //   let x;
+  //   const onScroll = () => {
+  //     x = window.innerWidth;
+  //     if (x < 798) {
+  //       setIsMobile(true);
+  //     } else {
+  //       setIsMobile(false);
+  //     }
+  //   };
+  //   window.addEventListener("resize", onScroll);
 
-    return () => {
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", onScroll);
+  //   };
+  // }, []);
 
   return (
     <footer
-      className={
-        isSafari || isChrome || MobileView || isMobileSafari || (isMobile && (todoOpen != null || diaryOpen != null))
-          ? "none"
-          : ""
-      }
+      className={(isSafari || isChrome || MobileView || isMobileSafari) && (todoOpen != null || diaryOpen != null) ? "none" : ""}
     >
       <ul>
         {menuList.map((menu, i) => (
