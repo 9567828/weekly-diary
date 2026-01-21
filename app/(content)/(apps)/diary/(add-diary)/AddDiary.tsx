@@ -26,7 +26,6 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
     setTextMode(false);
     setText("");
     setTitleValue("");
-    dispatch(handleDiary(null));
   };
 
   const handleCloseMode = () => {
@@ -34,7 +33,6 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
       setTextMode(false);
       dispatch(handleDiary(null));
     } else {
-      dispatch(handleDiary("add"));
       setTextMode(true);
       setModalOn(true);
     }
@@ -61,10 +59,10 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
           queryKey: diaryQueryKey,
         });
 
+        dispatch(handleDiary(null));
         setTitleValue("");
         setText("");
         setTextMode(false);
-        dispatch(handleDiary(null));
       },
       onError: (error) => {
         console.error(error);
@@ -79,7 +77,6 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
           className={style.flex}
           onClick={() => {
             setTextMode((prev) => !prev);
-            dispatch(handleDiary("add"));
           }}
         >
           <img src="/imgs/icons/ic_plus.svg" alt="추가" />
@@ -88,7 +85,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
       ) : (
         <form onSubmit={onSubmint}>
           <ConfirmActionBtn onCancelClick={handleCloseMode} />
-          <div className={style["text-container"]}>
+          <div className={style["text-container"]} onClick={() => dispatch(handleDiary("add"))}>
             <InputBox
               id="diaryTitle"
               variant="input-underline"

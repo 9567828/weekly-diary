@@ -21,11 +21,11 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
 
   const onClickEdit = (id: string) => {
     setOpenEditId((prev) => (prev === id ? null : id));
-    if (isEdit === "edit") {
-      dispatch(handleTodo(null));
-    } else {
-      dispatch(handleTodo("edit"));
-    }
+    // if (isEdit === "edit") {
+    //   dispatch(handleTodo(null));
+    // } else {
+    //   dispatch(handleTodo("edit"));
+    // }
   };
 
   return (

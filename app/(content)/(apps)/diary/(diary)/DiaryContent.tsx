@@ -31,7 +31,6 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   const handleOnEditMode = () => {
     setEditMode((prev) => !prev);
     setOnSetting(false);
-    dispatch(handleDiary("edit"));
   };
 
   const handleDelete = (id: string) => {

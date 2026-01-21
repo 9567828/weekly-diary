@@ -9,6 +9,8 @@ import { useEditDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { EditDiaryType } from "@/utils/supabase";
 import { useQueryClient } from "@tanstack/react-query";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
+import { useAppDispatch } from "@/lib/hooks";
+import { handleDiary } from "@/lib/slices/tabbarSlice";
 
 interface IEditDiary {
   id: string;
@@ -19,6 +21,7 @@ interface IEditDiary {
 
 export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
   const queryClient = useQueryClient();
+  const dispath = useAppDispatch();
   const { mutate } = useEditDiaryMutation();
   const [modalOn, setModalOn] = useState(false);
   const [titleValue, setTitleValue] = useState(title);
@@ -91,7 +94,7 @@ export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
     <>
       <form onSubmit={onSubmint}>
         <ConfirmActionBtn onCancelClick={handleCloseEdit} />
-        <div className={style["text-container"]}>
+        <div className={style["text-container"]} onClick={() => dispath(handleDiary("edit"))}>
           <InputBox id="diaryTitle" variant="input-underline" onChange={onChangeTitle} value={titleValue} maxLength={30} />
           <div className={style["text-wrap"]}>
             <div className={style["txt-padding"]}>

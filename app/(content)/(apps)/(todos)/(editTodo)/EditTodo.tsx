@@ -165,7 +165,14 @@ export default function EditTodo({ id, text, is_import, is_time, time, is_ampm, 
         <form className={style["edit-todo-wrap"]} onSubmit={onSubmit}>
           <ConfirmActionBtn onCancelClick={closeEdit} />
           <div className={style["edit-box"]}>
-            <InputBox id="text" variant="input-underline" onChange={onChange} value={value!} />
+            <InputBox
+              id="text"
+              variant="input-underline"
+              onChange={onChange}
+              value={value!}
+              onFocus={() => dispatch(handleTodo("edit"))}
+              onBlur={() => dispatch(handleTodo(null))}
+            />
             <div>
               {selectBox.map((sel, i) => (
                 <div key={i} className={`${sel.picker ? style.col : ""} ${style["select-wrap"]}`.trim()}>
