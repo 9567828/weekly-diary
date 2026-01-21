@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./tabbar.scss";
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAppSelector } from "@/lib/hooks";
 
 const menuList = [
   {
@@ -36,8 +37,17 @@ const menuList = [
 export default function Tabbar() {
   const path = usePathname();
   const { date } = useParams();
+  const todoOpen = useAppSelector((state) => state.tabbar.isTodoTexing);
+  const diaryOpen = useAppSelector((state) => state.tabbar.isDiaryTexting);
+
   const [isMobile, setIsMobile] = useState(false);
-  const [hideTabbar, setHideTabbar] = useState(false);
+
+  console.log({
+    isMobile,
+    todoOpen,
+    diaryOpen,
+    result: isMobile && (todoOpen != null || diaryOpen != null),
+  });
 
   const homePath = path === "/" || path === `/${String(date)}`;
 
@@ -65,31 +75,8 @@ export default function Tabbar() {
     };
   }, []);
 
-  useEffect(() => {
-    const handleFocus = (e: FocusEvent) => {
-      const el = e.target as HTMLElement;
-      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable) {
-        setHideTabbar(true);
-      }
-    };
-
-    const handleFocusOut = () => {
-      setHideTabbar(false);
-    };
-
-    window.addEventListener("focusin", handleFocus);
-    window.addEventListener("focusout", handleFocusOut);
-
-    return () => {
-      window.removeEventListener("focusin", handleFocus);
-      window.removeEventListener("focusout", handleFocusOut);
-    };
-  }, []);
-
-  console.log(hideTabbar);
-
   return (
-    <footer className={isMobile && hideTabbar ? "none" : ""}>
+    <footer className={isMobile && (todoOpen != null || diaryOpen != null) ? "none" : ""}>
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>

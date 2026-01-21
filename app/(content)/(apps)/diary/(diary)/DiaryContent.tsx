@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useDeleteDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
+import { useAppDispatch } from "@/lib/hooks";
+import { handleDiary } from "@/lib/slices/tabbarSlice";
 
 interface IDiary {
   id: string;
@@ -15,6 +17,7 @@ interface IDiary {
 export default function DiaryContent({ id, title, text }: IDiary) {
   const queryClient = useQueryClient();
   const { mutate } = useDeleteDiaryMutation();
+  const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useState(false);
   const [onSetting, setOnSetting] = useState(false);
 
@@ -28,6 +31,7 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   const handleOnEditMode = () => {
     setEditMode((prev) => !prev);
     setOnSetting(false);
+    dispatch(handleDiary("edit"));
   };
 
   const handleDelete = (id: string) => {
@@ -47,7 +51,15 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   return (
     <>
       {editMode ? (
-        <EditDiary id={id} title={title} text={text} closeEdit={() => setEditMode((prev) => !prev)} />
+        <EditDiary
+          id={id}
+          title={title}
+          text={text}
+          closeEdit={() => {
+            setEditMode((prev) => !prev);
+            dispatch(handleDiary(null));
+          }}
+        />
       ) : (
         <>
           <div className={style["content-head"]}>

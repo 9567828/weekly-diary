@@ -21,7 +21,8 @@ export default function MonthlyCal({
   const path = usePathname();
 
   const firstDate = new Date(currYear, currMonth - 1, 1);
-  const endDate = new Date(currYear, currMonth, 0);
+  const endDate = new Date(currYear, currMonth, 1);
+
   const firstDateStr = format(firstDate, "yyyy-MM-dd");
   const endDateStr = format(endDate, "yyyy-MM-dd");
 

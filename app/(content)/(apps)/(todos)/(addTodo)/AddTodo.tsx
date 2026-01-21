@@ -9,11 +9,14 @@ import { format } from "date-fns";
 import { useAddTodoMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
+import { useAppDispatch } from "@/lib/hooks";
+import { handleTodo } from "@/lib/slices/tabbarSlice";
 
 export default function AddTodo() {
   const params = useParams<{ date?: string }>();
   const queryClient = useQueryClient();
   const { mutate } = useAddTodoMutation();
+  const dispatch = useAppDispatch();
   const date = params?.date;
 
   const [value, setValue] = useState("");
@@ -64,6 +67,8 @@ export default function AddTodo() {
         onChange={onChange}
         maxLength={15}
         placeholder="할일을 입력하세요"
+        onFocus={() => dispatch(handleTodo("add"))}
+        onBlur={() => dispatch(handleTodo(null))}
       />
       <Button type="submit" variant="txt-btn" existImg={false} label="완료" />
     </form>

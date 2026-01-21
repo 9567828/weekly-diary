@@ -10,6 +10,8 @@ import { AmPmType, EditTodoType, TodoRow } from "@/utils/supabase";
 import { useDeleteTodoMutation, useEditTodoMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
+import { useAppDispatch } from "@/lib/hooks";
+import { handleTodo } from "@/lib/slices/tabbarSlice";
 
 interface IEditTodo {
   id: string;
@@ -35,6 +37,7 @@ const selectBox = [
 
 export default function EditTodo({ id, text, is_import, is_time, time, is_ampm, todo_date, onClick }: props) {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   const { mutate: edit } = useEditTodoMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
   const [value, setValue] = useState(text);
@@ -145,7 +148,6 @@ export default function EditTodo({ id, text, is_import, is_time, time, is_ampm, 
 
     edit(editObj, {
       onSuccess: (data) => {
-        console.log(data);
         queryClient.invalidateQueries({
           queryKey: todoDateKey,
         });
@@ -232,7 +234,9 @@ export default function EditTodo({ id, text, is_import, is_time, time, is_ampm, 
         <ConfirmModal
           confirmOnly={false}
           message="변경사항 폐기"
-          onCancel={() => setModalOpen((prev) => !prev)}
+          onCancel={() => {
+            setModalOpen((prev) => !prev);
+          }}
           onConfirm={onClick}
         />
       ) : null}

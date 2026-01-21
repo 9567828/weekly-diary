@@ -3,6 +3,8 @@ import Todo from "./TodoBox";
 import { useState } from "react";
 import TodoListTitle from "@/components/ui/todoListTitle/TodoListTitle";
 import { TodoRow } from "@/utils/supabase";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { handleTodo } from "@/lib/slices/tabbarSlice";
 
 interface ITodoSectionProps {
   title: string;
@@ -12,11 +14,18 @@ interface ITodoSectionProps {
 
 export default function TodoSection({ title, toDos, filter }: ITodoSectionProps) {
   const filteredTodos = toDos.filter(filter);
+  const dispatch = useAppDispatch();
+  const isEdit = useAppSelector((state) => state.tabbar.isTodoTexing);
 
   const [openEditId, setOpenEditId] = useState<string | null>(null);
 
   const onClickEdit = (id: string) => {
     setOpenEditId((prev) => (prev === id ? null : id));
+    if (isEdit === "edit") {
+      dispatch(handleTodo(null));
+    } else {
+      dispatch(handleTodo("edit"));
+    }
   };
 
   return (

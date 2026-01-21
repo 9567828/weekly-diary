@@ -8,9 +8,12 @@ import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useAddDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
+import { useAppDispatch } from "@/lib/hooks";
+import { handleDiary } from "@/lib/slices/tabbarSlice";
 
 export default function AddDiary({ date, weekNum }: { date: string; weekNum: number }) {
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   const { mutate } = useAddDiaryMutation();
   const [textMode, setTextMode] = useState(false);
   const [modalOn, setModalOn] = useState(false);
@@ -23,12 +26,15 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
     setTextMode(false);
     setText("");
     setTitleValue("");
+    dispatch(handleDiary(null));
   };
 
   const handleCloseMode = () => {
     if (text.trim() === "" && titleValue.trim() === "") {
       setTextMode(false);
+      dispatch(handleDiary(null));
     } else {
+      dispatch(handleDiary("add"));
       setTextMode(true);
       setModalOn(true);
     }
@@ -50,6 +56,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
 
     mutate(paylaod, {
       onSuccess: (data) => {
+        console.log(data);
         queryClient.invalidateQueries({
           queryKey: diaryQueryKey,
         });
@@ -57,6 +64,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
         setTitleValue("");
         setText("");
         setTextMode(false);
+        dispatch(handleDiary(null));
       },
       onError: (error) => {
         console.error(error);
@@ -67,12 +75,18 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
   return (
     <>
       {!textMode ? (
-        <button className={style.flex} onClick={() => setTextMode((prev) => !prev)}>
+        <button
+          className={style.flex}
+          onClick={() => {
+            setTextMode((prev) => !prev);
+            dispatch(handleDiary("add"));
+          }}
+        >
           <img src="/imgs/icons/ic_plus.svg" alt="추가" />
           <h1>새로운 일기 추가</h1>
         </button>
       ) : (
-        <form action="" onSubmit={onSubmint}>
+        <form onSubmit={onSubmint}>
           <ConfirmActionBtn onCancelClick={handleCloseMode} />
           <div className={style["text-container"]}>
             <InputBox
