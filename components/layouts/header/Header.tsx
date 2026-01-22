@@ -16,7 +16,7 @@ export default function Header() {
     } else if (path.startsWith("/diary")) {
       setName("주간 일기");
     } else if (path.startsWith("/calendar")) {
-      setName("달력");
+      setName("달력 (주간일기)");
     } else if (path === "/mypage") {
       setName("내페이지");
     } else {

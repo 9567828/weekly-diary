@@ -17,9 +17,9 @@ export default function DateControl({ date, prevBtn, today, nextBtn }: IButtn) {
     <div className={style["date-wrap"]}>
       <p className={style["this-month"]}>{date}</p>
       <div className={style["btn-wrap"]}>
-        <Button existImg={true} src="/imgs/icons/ic_arrow-left.svg" alt="이전으로가기" variant="btn-24" onClick={prevBtn} />
+        <Button existImg={true} src="/imgs/icons/ic_arrow-left.svg" alt="이전으로가기" variant="btn-18" onClick={prevBtn} />
         <Button label={isDiary ? "이번주" : "오늘"} variant="txt-btn" className="today-btn" onClick={today} />
-        <Button existImg={true} src="/imgs/icons/ic_arrow-right.svg" alt="다음으로가기" variant="btn-24" onClick={nextBtn} />
+        <Button existImg={true} src="/imgs/icons/ic_arrow-right.svg" alt="다음으로가기" variant="btn-18" onClick={nextBtn} />
       </div>
     </div>
   );

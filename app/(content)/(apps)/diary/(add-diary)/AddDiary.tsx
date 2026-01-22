@@ -79,7 +79,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
             setTextMode((prev) => !prev);
           }}
         >
-          <img src="/imgs/icons/ic_plus.svg" alt="추가" />
+          <img src="/imgs/icons/ic_plus.svg" alt="추가" className={style.img} />
           <h1>새로운 일기 추가</h1>
         </button>
       ) : (
@@ -119,7 +119,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
           onConfirm={modalClose}
         />
       ) : null}
-      {confirmModal ? <ConfirmModal confirmOnly={true} message="공란" onConfirm={() => setConfirmModal(false)} /> : null}
+      {confirmModal ? <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmModal(false)} /> : null}
     </>
   );
 }

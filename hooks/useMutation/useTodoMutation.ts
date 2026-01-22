@@ -21,8 +21,8 @@ export const useEditTodoMutation = () => {
 
 export const useEditDoneMutation = () => {
   return useMutation({
-    mutationFn: async ({ id, isDone }: { id: string; isDone: boolean }) => {
-      return await checkDone(id, isDone);
+    mutationFn: async ({ id, isDone, updated_at }: { id: string; isDone: boolean; updated_at: string }) => {
+      return await checkDone(id, isDone, updated_at);
     },
   });
 };

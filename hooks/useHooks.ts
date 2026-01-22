@@ -1,35 +1,49 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { RefObject, useEffect, useLayoutEffect, useState } from "react";
 
-export const useScrollY = (state: Dispatch<SetStateAction<boolean>>) => {
-  let initialScrollY = 0;
+const ITEM_HEIGHT = 40;
+const DUMMY_COUNT_TOP = 1; // 00
 
-  const [isFocus, setIsFocus] = useState(false);
+export const useOnScroll = (ref: RefObject<HTMLDivElement | null>, itemArr: any[]) => {
+  const el = ref.current!;
 
+  const index = Math.round((el.scrollTop + el.clientHeight / 2) / ITEM_HEIGHT);
+  const valueIndex = index - DUMMY_COUNT_TOP;
+
+  const value = itemArr[valueIndex];
+
+  return value;
+};
+
+export const useSetInitialTime = (itemArr: any[], initial: string, ref: RefObject<HTMLDivElement | null>) => {
+  const ITEM_HEIGHT = 40;
+  const valueIndex = itemArr.indexOf(initial);
+  const renderIndex = valueIndex;
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const centerOffset = renderIndex * ITEM_HEIGHT - (el.clientHeight - ITEM_HEIGHT) / 2;
+
+    el.scrollTop = centerOffset;
+
+    // el.scrollTop = renderIndex * ITEM_HEIGHT - el.clientHeight / 2 + ITEM_HEIGHT / 2;
+  }, [initial, itemArr]);
+};
+
+export const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (isFocus) {
-        if (!initialScrollY) {
-          initialScrollY = currentScrollY;
-        }
-
-        if (currentScrollY > initialScrollY) {
-          window.scrollTo(0, initialScrollY);
-        }
-      } else {
-        initialScrollY = 0;
-      }
+    const checkIsMobile = () => {
+      const userAgent = typeof window.navigator === "undefined" ? "" : navigator.userAgent;
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+      setIsMobile(mobile || ("ontouchstart" in window && window.innerWidth <= 1024));
     };
-
-    window.visualViewport?.addEventListener("resize", handleScroll);
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.visualViewport?.removeEventListener("resize", handleScroll);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isFocus]);
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+  return isMobile;
 };

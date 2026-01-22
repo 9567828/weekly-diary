@@ -38,7 +38,7 @@ export default function DiaryPage() {
           const findDiary = data?.find((d) => d.diary_date === list);
 
           return (
-            <div key={i} className={style["diary-container"]} data-date={dateStr(w)}>
+            <div key={i} className={style["diary-container"]} id={dateStr(w)} data-date={dateStr(w)}>
               <div className={style["date-box"]}>
                 <p
                   className={`${style.date} ${day === 0 || day === 6 ? style.weekend : ""} ${

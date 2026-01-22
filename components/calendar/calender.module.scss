@@ -1,12 +1,19 @@
 .week-wrap {
   padding: 8px 0;
   @include flex(null, space-between, center, null);
+  &.monthly {
+    padding: 12px 0;
+    border-top: 1px solid $gray-300;
+    &:first-child {
+      border-top: unset;
+    }
+  }
 }
 
 .week-text {
   width: 44px;
   text-align: center;
-  @include font-style($bodySm-size, 1.4, $ext-weight, -0.06em);
+  @include font-style($captionXs-size, 1.3, $bold, -0.06em);
   color: $gray-700;
   text-transform: uppercase;
   &:first-child,
@@ -20,37 +27,71 @@
 }
 
 .date-box {
-  position: relative;
+  @include flex(column, space-between, center, 2px);
   width: 40px;
   height: 40px;
-  padding: 8px;
-  @include font-theme($captionSm-b);
-  line-height: 24px;
-  color: $gray-700;
-  text-align: center;
-  &.today {
-    color: $main-color;
-    font-weight: $ext-weight;
-    font-size: $bodyMd-size;
+  &.monthly {
+    width: 44px;
+    height: 100%;
+    .date {
+      width: 16px;
+      height: 16px;
+      align-self: flex-start;
+      margin-left: 4px;
+      @include font-theme($captionXs-b);
+      &.today {
+        @include font-theme($captionSmPluse-ext);
+      }
+    }
   }
-  &.active:not(.today) {
-    font-weight: $ext-weight;
-    color: $bg-black;
-    font-size: $bodyMd-size;
+
+  .date {
+    color: $gray-700;
+    text-align: center;
+    @include font-theme($captionSm-b);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 100%;
+    &.today {
+      color: $main-color;
+      font-weight: $ext-weight;
+      font-size: $bodySm-size;
+
+      &.active {
+        color: $bg-white;
+        background-color: $main-color;
+        border-color: $main-color;
+      }
+    }
+    &.active:not(.today) {
+      color: $bg-white;
+      // background-color: rgba(233, 33, 40, 0.7);
+      background-color: $bg-black;
+    }
+    &.weekend, &.other-date {
+      opacity: 0.6;
+      &.active {
+        opacity: 1;
+      }
+    }
   }
 }
 
-.weekend,
-.other-date {
-  opacity: 0.6;
+.icon {
+  width: 32px;
+  height: 32px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
-
 
 .dot {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
+  // position: absolute;
+  // left: 50%;
+  // bottom: 0;
+  // transform: translateX(-50%);
   display: block;
   width: 4px;
   height: 4px;

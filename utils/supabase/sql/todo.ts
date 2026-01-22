@@ -68,8 +68,8 @@ export const selectTodoByDate = async (todoDate: string): Promise<TodoRow[]> => 
   return data ?? [];
 };
 
-export const checkDone = async (id: string, isDone: boolean) => {
-  const payload = { is_done: isDone };
+export const checkDone = async (id: string, isDone: boolean, updated_at: string) => {
+  const payload = { is_done: isDone, updated_at };
   const supabase = createClient();
   const { data, error } = await supabase.from("todo").update(payload).eq("id", id).select().single();
 

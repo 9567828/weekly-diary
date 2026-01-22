@@ -6,9 +6,9 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.20);
+  background-color: rgba(0, 0, 0, 0.35);
   @include flex(null, center, center, null);
-  z-index: 40;
+  z-index: 100;
 }
 
 .modal-warp {

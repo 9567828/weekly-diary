@@ -5,7 +5,7 @@ import WrapperLayout from "./../../WrapperLayout";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <DatePanel childern={<DiaryPanel />} />
+      <DatePanel children={<DiaryPanel />} />
       <WrapperLayout>
         <article>{children}</article>
       </WrapperLayout>

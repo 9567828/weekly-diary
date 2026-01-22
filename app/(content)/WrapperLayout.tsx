@@ -7,7 +7,6 @@ export default function WrapperLayout({ children }: { children: React.ReactNode 
   const path = usePathname();
   const { date } = useParams();
 
-  const homePath = path === "/" || path.startsWith(`/${String(date)}`);
   const diary = path.startsWith("/diary");
   const calendar = path.startsWith("/calendar");
   const mypage = path.startsWith("/mypage");

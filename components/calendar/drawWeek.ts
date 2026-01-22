@@ -100,3 +100,14 @@ export const drawMonth = (year: number, month: number) => {
 
   return { year, month, firstDate, lastDate, allWeeks };
 };
+
+export const handlePrevMonth = (year: number, month: number) => {
+  const d = new Date(year, month - 1, 1);
+
+  return { year: d.getFullYear(), month: d.getMonth() };
+};
+
+export const handleNextMonth = (year: number, month: number) => {
+  const d = new Date(year, month + 1, 1);
+  return { year: d.getFullYear(), month: d.getMonth() };
+};

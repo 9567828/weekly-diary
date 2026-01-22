@@ -10,5 +10,5 @@
 }
 
 .this-month {
-  @include font-theme($bodyMd-ext)
+  @include font-theme($bodySm-ext);
 }

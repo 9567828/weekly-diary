@@ -3,7 +3,8 @@
   width: fit-content;
   height: 100%;
   padding: 3px 8px;
-  @include font-theme($bodyMd-b);
+  @include font-theme($bodySm-b);
+  color: $gray-700;
 }
 
 .time-container {

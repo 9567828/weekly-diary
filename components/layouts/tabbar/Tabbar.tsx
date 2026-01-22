@@ -3,9 +3,8 @@
 import Link from "next/link";
 import "./tabbar.scss";
 import { useParams, usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/hooks";
-import { isChrome, isMobileSafari, isSafari, MobileView } from "react-device-detect";
+import { isMobileDevice } from "@/utils/handlers";
 
 const menuList = [
   {
@@ -41,8 +40,6 @@ export default function Tabbar() {
   const todoOpen = useAppSelector((state) => state.tabbar.isTodoTexing);
   const diaryOpen = useAppSelector((state) => state.tabbar.isDiaryTexting);
 
-  console.log("todo? ", todoOpen, "diary? ", diaryOpen);
-
   const homePath = path === "/" || path === `/${String(date)}`;
 
   const isActive = (menuHref: string) => {
@@ -53,9 +50,7 @@ export default function Tabbar() {
   };
 
   return (
-    <footer
-      className={(isSafari || isChrome || MobileView || isMobileSafari) && (todoOpen != null || diaryOpen != null) ? "none" : ""}
-    >
+    <footer className={isMobileDevice && (todoOpen != null || diaryOpen != null) ? "none" : ""}>
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>

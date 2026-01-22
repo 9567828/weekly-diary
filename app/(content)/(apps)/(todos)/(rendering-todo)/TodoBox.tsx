@@ -40,7 +40,7 @@ export default function Todo(props: FullProps) {
     if (!targetTodo) return;
 
     editDone(
-      { id: checkedId, isDone: checkedState },
+      { updated_at: new Date().toISOString(), id: checkedId, isDone: checkedState },
       {
         onSuccess: (data) => {
           queryClient.invalidateQueries({
@@ -61,12 +61,12 @@ export default function Todo(props: FullProps) {
           <CheckBtn id={id} onChange={onChange} checked={is_done}>
             <div className={style.title}>
               {is_import ? <img src="/imgs/icons/ic_important-3x.svg" alt="중요" /> : null}
-              <p className={style["label"]}>{text}</p>
+              <p className={style.label}>{text}</p>
             </div>
             {is_time ? (
               <div className={style["time-line"]}>
                 <img src="/imgs/icons/ic_clock.svg" alt="시간" />
-                <p className={style.time}>{props.time}</p>
+                <p className={style.time}>{`${props.time} ${props.is_ampm}`}</p>
               </div>
             ) : null}
           </CheckBtn>

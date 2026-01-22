@@ -4,6 +4,7 @@ export type TodoRow = Tables<"todo">;
 export type DiaryRow = Tables<"diary">;
 
 export type AmPmType = Enums<"ampm_enum">;
+export type RepeatType = Enums<"repeat_enum">;
 
 export type AddTodoType = {
   text: string;
@@ -13,6 +14,7 @@ export type AddTodoType = {
 
 export type EditTodoType = {
   payload: {
+    updated_at: string;
     text: string;
     is_import: boolean;
     is_time: boolean;
@@ -34,6 +36,7 @@ export type EditDiaryType = {
   payload: {
     title: string;
     text: string;
+    updated_at: string;
   };
   id: string;
 };

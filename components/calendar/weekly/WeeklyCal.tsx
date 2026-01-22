@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import style from "../calender.module.scss";
 import { format } from "date-fns";
 import { usePathname } from "next/navigation";
-import DaysWrap from "../days-wrap/DaysWrap";
 import { useFetchTodoAll } from "@/hooks/useQuerys/useTodoQuery";
+import DaysOfWeekWrap from "../days-wrap/DaysWrap";
+import DatesWrap from "../days-wrap/DatesWrap";
 
 interface IWeekDate {
   weekDates: Date[];
@@ -21,7 +21,7 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
 
   return (
     <div>
-      <DaysWrap />
+      <DaysOfWeekWrap />
       <ul className={style["date-wrap"]}>
         {weekDates.map((w, i) => {
           const date = w.getDate();
@@ -34,17 +34,15 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
           const existed = data?.find((t) => t.todo_date === dateStr);
 
           return (
-            <li
+            <DatesWrap
               key={i}
-              className={`${style["date-box"]} ${todayStr === dateStr ? style.today : ""} ${
-                path === `/${dateStr}` ? style.active : ""
-              }`.trim()}
-            >
-              <Link href={`/${dateStr}`} className={`${days === 0 || days === 6 ? style.weekend : ""}`.trim()}>
-                {date}
-              </Link>
-              {existed ? <span className={style.dot}></span> : null}
-            </li>
+              date={date}
+              href={`/${dateStr}`}
+              isActive={path === `/${dateStr}`}
+              isExisted={existed}
+              isToday={todayStr === dateStr}
+              isWeekend={days === 0 || days === 6}
+            />
           );
         })}
       </ul>

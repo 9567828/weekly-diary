@@ -1,9 +1,12 @@
-import ListPage from "./(list)/ListPage";
+import DatePanel from "@/components/layouts/datepanel/DatePanel";
+import CalendarPanel from "./(calendarPanel)/CalendarPanel";
 
 export default function Page() {
   return (
     <>
-      <ListPage />
+      <DatePanel isMonthly>
+        <CalendarPanel />
+      </DatePanel>
     </>
   );
 }

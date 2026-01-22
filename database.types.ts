@@ -21,6 +21,7 @@ export type Database = {
           id: string
           text: string | null
           title: string | null
+          updated_at: string | null
           user_id: string
           week_num: number
         }
@@ -30,6 +31,7 @@ export type Database = {
           id?: string
           text?: string | null
           title?: string | null
+          updated_at?: string | null
           user_id?: string
           week_num: number
         }
@@ -39,6 +41,7 @@ export type Database = {
           id?: string
           text?: string | null
           title?: string | null
+          updated_at?: string | null
           user_id?: string
           week_num?: number
         }
@@ -119,6 +122,7 @@ export type Database = {
           is_import: boolean | null
           is_repeat: boolean | null
           is_time: boolean | null
+          repeat_type: Database["public"]["Enums"]["repeat_enum"] | null
           repeat_until: string | null
           text: string | null
           time: string | null
@@ -134,6 +138,7 @@ export type Database = {
           is_import?: boolean | null
           is_repeat?: boolean | null
           is_time?: boolean | null
+          repeat_type?: Database["public"]["Enums"]["repeat_enum"] | null
           repeat_until?: string | null
           text?: string | null
           time?: string | null
@@ -149,6 +154,7 @@ export type Database = {
           is_import?: boolean | null
           is_repeat?: boolean | null
           is_time?: boolean | null
+          repeat_type?: Database["public"]["Enums"]["repeat_enum"] | null
           repeat_until?: string | null
           text?: string | null
           time?: string | null
@@ -167,6 +173,15 @@ export type Database = {
     }
     Enums: {
       ampm_enum: "오전" | "오후"
+      repeat_enum:
+        | "hourly"
+        | "daily"
+        | "weekday"
+        | "weekend"
+        | "weekly"
+        | "biweekly"
+        | "monthly"
+        | "yearly"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -295,6 +310,16 @@ export const Constants = {
   public: {
     Enums: {
       ampm_enum: ["오전", "오후"],
+      repeat_enum: [
+        "hourly",
+        "daily",
+        "weekday",
+        "weekend",
+        "weekly",
+        "biweekly",
+        "monthly",
+        "yearly",
+      ],
     },
   },
 } as const

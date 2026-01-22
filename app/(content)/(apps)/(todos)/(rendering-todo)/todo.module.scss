@@ -23,6 +23,7 @@
 
 .label {
   color: $gray-800;
+  @include font-theme($bodySm-r);
 }
 
 .position.isDone .label {
@@ -51,6 +52,6 @@
     width: 200px;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
   }
 }

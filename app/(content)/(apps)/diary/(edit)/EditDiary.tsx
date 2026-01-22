@@ -69,6 +69,7 @@ export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
 
     const newObj: EditDiaryType = {
       payload: {
+        updated_at: new Date().toISOString(),
         title: titleValue === "" ? "제목없음" : titleValue,
         text: textValue === "" ? "내용없음" : textValue,
       },
