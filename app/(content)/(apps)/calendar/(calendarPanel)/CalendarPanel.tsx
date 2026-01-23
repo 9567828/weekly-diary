@@ -25,7 +25,7 @@ export default function CalendarPanel() {
 
   return (
     <>
-      <div style={{ width: "100%", height: isMobile ? "235px" : "580px" }}>
+      <div style={{ width: "100%", height: isMobile ? "260px" : "580px" }}>
         <img src="/imgs/9a0695874aa43634410880271871cf2a.jpg" alt="사진" style={{ width: "100%", height: "100%" }} />
       </div>
       <div style={{ padding: "20px" }}>

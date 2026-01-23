@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
     includePaths: [path.join(__dirname, "styles")],
     additionalData: `@use "abstract/index.scss" as *;`,
   },
+  allowedDevOrigins: ["*.ngrok-free.dev", "localhost", "127.0.0.1"],
 };
 
 export default withPwa(nextConfig);

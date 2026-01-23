@@ -36,6 +36,7 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
             is_done={menu.is_done}
             onClick={() => onClickEdit(menu.id)}
             isOpen={openEditId === menu.id}
+            is_repeat={menu.is_repeat!}
           />
         ))}
       </div>

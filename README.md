@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Name
+## Weekly-Diary
+주간 다이어리는 ‘이번 주를 점검하기 위한’ 주간 관리형 TODO 웹 기반 프로젝트 입니다. <br>
+프로그램에 기능이 너무 많으면 복잡해서 잘 사용하지 않는 습관을 생각하면서 최대한 간단하게 만들고자 하였습니다<br>
 
-## Getting Started
+이번 주에 무엇을 신경 써야 하는지를 빠르게 파악이 가능하도록 주간을 중점으로 할 수 있도록 제작 하였습니다.<br>
+반복 기능 또 한 주간 관리 흐름에 맞춰 요일 기반으로만 제공 하며 매월·매년과 같은 일정 관리 성격의 기능은 의도적으로 배제 하였습니다.<br>
+<br>
+웹 기반이지만 PWA를 적용하여 모바일에서도 앱처럼 사용할 수 있도록 구현 했습니다.<br>
+백엔드는 Supabase의 서버리스 환경을 활용해 별도의 서버 관리 없이 안정적인 데이터 처리가 가능하도록 구성하였습니다.<br>
+프론트엔드는 Next.js로 개발하고 Vercel을 통해 배포하여 전체 구조를 서버리스 기반으로 운영합니다. <br/>
+<br>
+👉 [주간일기 바로가기](weekly-diary.com)
 
-First, run the development server:
+### 주요기능
+* TODO
+* 다이어리
+* 구글로그인
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
+# 🧱 Tech Stack
+## 🎨 Frontend
+* Next.js (App Router)
+* React
+* TypeScript
+* SCSS Modules
+## 🔄 State & Data
+* TanStack Query
+* Redux
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🛡 Backend / BaaS
+* Supabase (Auth, PostgreSQL, Storage, RLS)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# ⚙️ Delvelopemnt
+* npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 🔀 Working Branch
+* dev
 
-## Learn More
+# 🚀 배포환경
+* vercel<br/>
+<br/>
+---
+# ✨ Features (v0.1.0)_2025.10월 완료
+### Login
+* supabase에서 제공하는 소셜 로그인 기능을 통하여 구글 로그인을 구현하였음
+* 로그인시 auth/callback을 통하여 사용자 인증
+  * 성공 후 user정보 저장 및 홈화면 진입가능
+  * auth를 통해 모든 사용자는 로그인 후 프로그램을 이용할 수 있도록 구현
+  * 미들웨어를 설정하여 supabase auth api를 통해 쿠키에 저장된 토큰으로 session을 확인하고 로그인 사용자는 홈으로, 로그인하지 않은 사용자는 로그인 페이지로 리다이렉트 되도록 설계
 
-To learn more about Next.js, take a look at the following resources:
+### TODO
+* 할일(TODO) 등록
+  * 내용만 입력하면 바로 등록
+* 수정시 세부 선택 가능
+  * 중요
+  * 시간
+  * 날짜 변경
+* 삭제
+* TODO리스트는 1주씩 렌더링 되어 날짜별로 볼 수 있음
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Diary
+* 한 페이지에 한 주차가 한 번에 렌더링
+* 원하는 요일에 선택하여 바로 일기 등록
+* 일기는 300자 이내로 간단하게 하루일과, 생각을 입력
+* 일기 상단 미트볼 메뉴 클릭시 수정 및 삭제 가능
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Calendar
+* 달력 페이지
+* TODO또는 주간일기 입력시 날짜 밑에 dot 표기
+* 날짜 클릭시 하단에 주간일기, 할일(TODO) 요약 렌더링
+* 주간일기 - 아이콘으로 작성여부 표기
+* TODO - 할일, 완료의 개수 표기
+  * 상세보기 버튼으로 해당 TODO 또는 주간일기로 이동
 
-## Deploy on Vercel
+### My Page
+* 로그아웃
+* 기타 기능 미구현 <br/><br/>
+---
+# ✨ Features (v0.2.0)_2026.01월
+### TODO  
+* 반복 (사용자 요청으로 추가)
+  * 매일/평일/주말/매주/격주
+  * 요일은 사용자가 선택하지 않으면 선택된 날짜를 기준으로 설정 됨
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Calendar
+* 기존 리스트 형태의 주간, TODO 요약 삭제
+* 날짜 아래 일기 작성 여부 아이콘 표시 및 날짜 클릭시 해당 일기로 이동
+* 캘린더 상단 매월 사용자가 커버 이미지를 추가할 수 있도록 함
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Fix 사항
+* 모바일에서 input 또는 textarea 터치시 화면이 밀려 하단 메뉴가 키보드 위에 올라가는 사항 수정
+  * 모바일 접속여부를 확인하여 input, textarea에 focus 되면 하단 메뉴가 사라지도록 하였음
+* Redux -> TanStack Query 마이그레이션
+  * 서버 데이터를 Redux에서 관리하던 구조에서 비동기 데이터의 특성에 맞게 React Query 기반의 데이터 패칭 구조로 마이그레이션<br>
+    캐싱, 재요청, 상태 동기화 로직을 단순화 하기 위하여 수정 진행
+  * Redux는 서버 데이터가 아닌 UI와 관련된 전역 상태 관리 용도로 설계를 수정
+* PWA 적용
+  * 기존 웹브라우져를 모바일 홈화면에 추가하면 수정 배포시에 바로 적용이 되지 않았음 이를 해결하기 위해 배포시 버전을 저장하는 json파일을 생성하고 앱에 접속 시 버전 확인후 렌더링 되도록 하였으나 초기 진입이 많이 느렸음.
+  * 이로인해 PWA를 알되되어 캐시제어, 업데이트 감지, 주소창 제거등 모바일 앱 처럼 사용할 수 있도록 설계 수정
+     
+---
+# 🚧 Road Map
+### Planned
+* TODO 전체 목록 페이지 추가
+* 마이페이지 추가
+* 탈퇴기능 추가
+* 푸시알림 추가

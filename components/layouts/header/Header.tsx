@@ -6,7 +6,6 @@ import "./header.scss";
 
 export default function Header() {
   const [name, setName] = useState("");
-  const [isSideOpne, setIsSideOpen] = useState(false);
   const path = usePathname();
   const { date } = useParams();
 
@@ -23,14 +22,6 @@ export default function Header() {
       setName("");
     }
   }, [[path]]);
-
-  const handleSideOpen = () => {
-    setIsSideOpen(true);
-  };
-
-  const handleSideClose = () => {
-    setIsSideOpen(false);
-  };
 
   return (
     <>

@@ -4,21 +4,19 @@
 
 // 전체설정
 body {
-  // background-color: #BFA6A2;
   background-color: #f2f1f5;
   overflow: hidden;
   overscroll-behavior: none;
 }
 .container {
-  position: relative;
   width: 100%;
   max-width: 768px;
   height: 100dvh;
-  // margin: 0 auto;
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+   margin: 0 auto;
+  //position: fixed;
+  //top: 0;
+  //left: 50%;
+  //transform: translateX(-50%);
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   background-color: $bg-white;
@@ -50,8 +48,7 @@ body {
 
 .scroll-wrap {
   width: 100%;
-  // height: calc(100dvh - 278px);
-  height: calc(100dvh - 175px);
+  height: calc(100dvh - 172px);
   overflow: hidden;
   &.mypage {
     padding: 20px;

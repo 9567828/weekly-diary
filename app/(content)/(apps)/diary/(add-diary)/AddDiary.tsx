@@ -7,9 +7,9 @@ import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useAddDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleDiary } from "@/lib/slices/tabbarSlice";
+import { handleDiaryInvalidateQueries } from "@/utils/handlers";
 
 export default function AddDiary({ date, weekNum }: { date: string; weekNum: number }) {
   const queryClient = useQueryClient();
@@ -55,9 +55,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
     mutate(paylaod, {
       onSuccess: (data) => {
         console.log(data);
-        queryClient.invalidateQueries({
-          queryKey: diaryQueryKey,
-        });
+        handleDiaryInvalidateQueries(queryClient);
 
         dispatch(handleDiary(null));
         setTitleValue("");
@@ -119,7 +117,9 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
           onConfirm={modalClose}
         />
       ) : null}
-      {confirmModal ? <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmModal(false)} /> : null}
+      {confirmModal ? (
+        <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmModal(false)} />
+      ) : null}
     </>
   );
 }

@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleTodo } from "@/lib/slices/tabbarSlice";
+import { handleTodoInvalidateQueries } from "@/utils/handlers";
 
 export default function AddTodo() {
   const params = useParams<{ date?: string }>();
@@ -45,9 +46,7 @@ export default function AddTodo() {
       { text: value, todoDate: addDate() },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: todoDateKey,
-          });
+          handleTodoInvalidateQueries(queryClient);
           setValue("");
           inputRef.current?.blur();
         },

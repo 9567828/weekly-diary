@@ -14,12 +14,28 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 90%;
+  height: 95%;
   padding: 30px 20px 10px;
   border-radius: 20px 20px 0 0;
   background-color: $bg-white;
   z-index: 60;
+}
+
+.inner {
+  width: 100%;
+  height: 690px;
+  margin-top: 30px;
+  overflow: hidden;
+}
+
+.scroll {
+  width: 100%;
+  height: 100%;
   @include flex(column, null, flex-end, 30px);
+  overflow-y: scroll;
+}
+.scroll::-webkit-scrollbar {
+  display: none;
 }
 
 .edit-box {

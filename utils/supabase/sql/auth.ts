@@ -11,6 +11,7 @@ export const signIn = async (provider: Provider): Promise<void> => {
     provider,
     options: {
       redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+
       queryParams: {
         prompt: "select_account",
       },

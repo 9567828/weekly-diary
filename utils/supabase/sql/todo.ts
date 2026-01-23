@@ -80,19 +80,9 @@ export const checkDone = async (id: string, isDone: boolean, updated_at: string)
 export const editTodo = async (props: EditTodoType) => {
   const supabase = createClient();
 
-  const { text, todo_date, is_import, is_time, time, is_ampm } = props.payload;
   const id = props.id;
 
-  const payload = {
-    text,
-    todo_date,
-    is_import,
-    is_time,
-    is_ampm,
-    time,
-  };
-
-  const { data, error } = await supabase.from("todo").update(payload).eq("id", id).select().single();
+  const { data, error } = await supabase.from("todo").update(props.payload).eq("id", id).select().single();
 
   if (error) throw error;
 

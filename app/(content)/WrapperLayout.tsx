@@ -2,6 +2,8 @@
 
 import { useParams, usePathname } from "next/navigation";
 import React from "react";
+import Header from "@/components/layouts/header/Header";
+import DatePanel from "@/components/layouts/datepanel/DatePanel";
 
 export default function WrapperLayout({ children }: { children: React.ReactNode }) {
   const path = usePathname();

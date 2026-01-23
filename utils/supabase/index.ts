@@ -21,6 +21,7 @@ export type EditTodoType = {
     time: string;
     is_ampm: AmPmType;
     todo_date: string;
+    is_repeat: boolean;
   };
   id: string;
 };

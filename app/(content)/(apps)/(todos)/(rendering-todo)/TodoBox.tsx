@@ -7,6 +7,7 @@ import { AmPmType } from "@/utils/supabase";
 import { useDeleteTodoMutation, useEditDoneMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
+import { handleTodoInvalidateQueries } from "@/utils/handlers";
 
 interface IHandler {
   onClick: () => void;
@@ -19,6 +20,7 @@ interface IBaseTodo {
   is_import: boolean;
   is_done: boolean;
   is_time: boolean;
+  is_repeat: boolean;
   time?: string;
   is_ampm?: AmPmType;
   todo_date?: string;
@@ -43,9 +45,7 @@ export default function Todo(props: FullProps) {
       { updated_at: new Date().toISOString(), id: checkedId, isDone: checkedState },
       {
         onSuccess: (data) => {
-          queryClient.invalidateQueries({
-            queryKey: todoDateKey,
-          });
+          handleTodoInvalidateQueries(queryClient);
         },
         onError: (error) => {
           console.log(error);
@@ -66,14 +66,20 @@ export default function Todo(props: FullProps) {
             {is_time ? (
               <div className={style["time-line"]}>
                 <img src="/imgs/icons/ic_clock.svg" alt="시간" />
-                <p className={style.time}>{`${props.time} ${props.is_ampm}`}</p>
+                <p className={style.time}>{`${props.is_ampm} ${props.time}`}</p>
               </div>
             ) : null}
           </CheckBtn>
         </div>
         <div className={style["btn-wrap"]}>
           {!is_done ? (
-            <Button existImg={true} src="/imgs/icons/ic_edit-pencel.svg" alt="투두수정" className="btn-18" onClick={onClick} />
+            <Button
+              existImg={true}
+              src="/imgs/icons/ic_edit-pencel.svg"
+              alt="투두수정"
+              className="btn-18"
+              onClick={onClick}
+            />
           ) : null}
           <Button
             existImg={true}
@@ -92,6 +98,7 @@ export default function Todo(props: FullProps) {
           is_time={is_time!}
           time={props.time!}
           is_ampm={props.is_ampm!}
+          is_repeat={props.is_repeat!}
           todo_date={props.todo_date}
           onClick={onClick}
         />

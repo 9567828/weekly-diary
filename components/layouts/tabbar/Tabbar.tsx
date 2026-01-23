@@ -4,7 +4,7 @@ import Link from "next/link";
 import "./tabbar.scss";
 import { useParams, usePathname } from "next/navigation";
 import { useAppSelector } from "@/lib/hooks";
-import { isMobileDevice } from "@/utils/handlers";
+import { useIsMobile } from "@/hooks/useHooks";
 
 const menuList = [
   {
@@ -39,6 +39,7 @@ export default function Tabbar() {
   const { date } = useParams();
   const todoOpen = useAppSelector((state) => state.tabbar.isTodoTexing);
   const diaryOpen = useAppSelector((state) => state.tabbar.isDiaryTexting);
+  const isMobile = useIsMobile();
 
   const homePath = path === "/" || path === `/${String(date)}`;
 
@@ -50,7 +51,7 @@ export default function Tabbar() {
   };
 
   return (
-    <footer className={isMobileDevice && (todoOpen != null || diaryOpen != null) ? "none" : ""}>
+    <footer className={isMobile && (todoOpen != null || diaryOpen != null) ? "none" : ""}>
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>

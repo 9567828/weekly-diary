@@ -6,12 +6,14 @@ import { signOut } from "@/utils/supabase/sql/auth";
 import WrapperLayout from "./../WrapperLayout";
 
 export default function Page() {
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handSignOut = async () => {
     await signOut();
-    dispath(logout);
+    dispatch(logout);
   };
+
+  const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION;
 
   return (
     <WrapperLayout>
