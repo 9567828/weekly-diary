@@ -1,4 +1,5 @@
 import { ChangeEvent, forwardRef, InputHTMLAttributes } from "react";
+import "@/styles/components/ui/inputbox.scss";
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   classNameKey?: string;
@@ -11,7 +12,7 @@ interface IInput extends InputHTMLAttributes<HTMLInputElement> {
 
 function InputBox(
   { classNameKey, label, variant, children, onChange, value, ...rest }: IInput,
-  ref: React.Ref<HTMLInputElement>
+  ref: React.Ref<HTMLInputElement>,
 ) {
   return (
     <div className={`input-box ${label ? "input-label-flex" : ""}`.trim()}>

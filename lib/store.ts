@@ -1,13 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todoReducer from "./todos/todoSlice";
-import diaryReducer from "./diary/diarySlice";
 import userReducer from "./slices/userSlice";
+import tabbarReducer from "./slices/tabbarSlice";
 
 export const store = configureStore({
   reducer: {
-    toDos: todoReducer,
-    diaries: diaryReducer,
     user: userReducer,
+    tabbar: tabbarReducer,
   },
 });
 

@@ -2,6 +2,7 @@
 
 import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import "./header.scss";
 
 export default function Header() {
   const [name, setName] = useState("");

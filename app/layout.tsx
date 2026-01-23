@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
-import "../styles/global-style";
+import "@/styles/styles.scss";
 import ReduxProvider from "./ReduxProvider";
 import VersionChecker from "./../components/VersionChecker";
+import Providers from "./QueryProviders";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "WEEKLY-DIARY",
   description: "주간 일기 / TODO 리스트 앱",
   verification: {
@@ -42,6 +44,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: "cover",
+  interactiveWidget: "resizes-content",
 };
 
 export default async function RootLayout({
@@ -50,12 +53,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body>
-        <ReduxProvider>
-          <VersionChecker />
-          <div className="container">{children}</div>
-        </ReduxProvider>
+        <Providers>
+          <ReduxProvider>
+            <VersionChecker />
+            <div className="container">{children}</div>
+          </ReduxProvider>
+        </Providers>
       </body>
     </html>
   );

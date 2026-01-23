@@ -1,3 +1,4 @@
+import "@/styles/components/ui/buttons.scss";
 import { ButtonHTMLAttributes } from "react";
 
 interface IbaseBtn extends ButtonHTMLAttributes<HTMLButtonElement> {

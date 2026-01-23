@@ -1,16 +1,7 @@
 "use client";
 
-import { v4 as uuidv4 } from "uuid";
 import { createClient } from "../client";
-import { ITodo } from "@/lib/todos/todo.interface";
-import { convertTodo } from "@/utils/converter";
-
-const getErrorMsg = (err: any) => {
-  if (err) {
-    console.log("todo테이블 에러: ", err);
-    throw err;
-  }
-};
+import { AddTodoType, AmPmType, EditTodoType, TodoRow } from "..";
 
 export const insertTodo = async (text: string, todoDate: string) => {
   const supabase = createClient();
@@ -19,8 +10,7 @@ export const insertTodo = async (text: string, todoDate: string) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const payload = {
-    id: uuidv4(),
+  const payload: AddTodoType = {
     text,
     user_id: user?.id!,
     todo_date: todoDate,
@@ -28,35 +18,54 @@ export const insertTodo = async (text: string, todoDate: string) => {
 
   const { data, error } = await supabase.from("todo").insert(payload).select().single();
 
-  getErrorMsg(error);
-
-  if (error || !data) throw error;
+  if (error) throw error;
 
   return data;
 };
 
-export const selectTodo = async () => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase.from("todo").select("*").order("created_at", { ascending: false });
-
-  getErrorMsg(error);
-
-  return data;
-};
-
-export const selectTodoAsDate = async (todoDate: string): Promise<ITodo[]> => {
+export const selectTodoAll = async () => {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("todo")
     .select("*")
-    .eq("todo_date", todoDate!)
+    .order("is_import", { ascending: false })
     .order("created_at", { ascending: false });
 
-  getErrorMsg(error);
+  if (error) throw error;
 
-  return (data ?? []).map(convertTodo);
+  return data;
+};
+
+export const selectTodoByRange = async (startDate: string, endDate: string) => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("todo")
+    .select("todo_date")
+    .order("is_import", { ascending: false })
+    .order("created_at", { ascending: false })
+    .gte("todo_date", startDate)
+    .lt("todo_date", endDate);
+
+  if (error) throw error;
+
+  return data;
+};
+
+export const selectTodoByDate = async (todoDate: string): Promise<TodoRow[]> => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("todo")
+    .select("*")
+    .eq("todo_date", todoDate)
+    .order("is_import", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  return data ?? [];
 };
 
 export const checkDone = async (id: string, isDone: boolean) => {
@@ -64,33 +73,28 @@ export const checkDone = async (id: string, isDone: boolean) => {
   const supabase = createClient();
   const { data, error } = await supabase.from("todo").update(payload).eq("id", id).select().single();
 
-  getErrorMsg(error);
+  if (error) throw error;
   return data;
 };
 
-export const editTodo = async (
-  id: string,
-  text: string,
-  isImport: boolean,
-  isTime: boolean,
-  time: string,
-  isAmpm: string,
-  todoDate: string
-) => {
+export const editTodo = async (props: EditTodoType) => {
   const supabase = createClient();
+
+  const { text, todo_date, is_import, is_time, time, is_ampm } = props.payload;
+  const id = props.id;
 
   const payload = {
     text,
-    is_import: isImport,
-    is_time: isTime,
+    todo_date,
+    is_import,
+    is_time,
+    is_ampm,
     time,
-    is_ampm: isAmpm,
-    todo_date: todoDate,
   };
 
   const { data, error } = await supabase.from("todo").update(payload).eq("id", id).select().single();
 
-  getErrorMsg(error);
+  if (error) throw error;
 
   return data;
 };
@@ -100,7 +104,6 @@ export const deleteTodo = async (id: string) => {
 
   const { error } = await supabase.from("todo").delete().eq("id", id);
 
-  getErrorMsg(error);
-
+  if (error) throw error;
   return id;
 };

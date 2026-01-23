@@ -1,8 +1,15 @@
-import type { NextConfig } from "next";
+import { NextConfig } from "next";
 import path from "path";
+import nextPWA from "next-pwa";
+
+const withPwa = nextPWA({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+});
 
 const nextConfig: NextConfig = {
-  /* config options here */
   productionBrowserSourceMaps: false,
 
   sassOptions: {
@@ -11,4 +18,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPwa(nextConfig);

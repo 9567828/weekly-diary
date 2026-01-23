@@ -44,6 +44,36 @@ export type Database = {
         }
         Relationships: []
       }
+      month_cover: {
+        Row: {
+          created_at: string
+          id: string
+          month: number | null
+          path: string | null
+          updated_at: string | null
+          user_id: string
+          year: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          month?: number | null
+          path?: string | null
+          updated_at?: string | null
+          user_id?: string
+          year?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          month?: number | null
+          path?: string | null
+          updated_at?: string | null
+          user_id?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           admin: boolean
@@ -84,37 +114,46 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          is_ampm: string
+          is_ampm: Database["public"]["Enums"]["ampm_enum"]
           is_done: boolean
           is_import: boolean | null
+          is_repeat: boolean | null
           is_time: boolean | null
+          repeat_until: string | null
           text: string | null
           time: string | null
           todo_date: string
+          updated_at: string | null
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          is_ampm?: string
+          is_ampm?: Database["public"]["Enums"]["ampm_enum"]
           is_done?: boolean
           is_import?: boolean | null
+          is_repeat?: boolean | null
           is_time?: boolean | null
+          repeat_until?: string | null
           text?: string | null
           time?: string | null
           todo_date?: string
+          updated_at?: string | null
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
-          is_ampm?: string
+          is_ampm?: Database["public"]["Enums"]["ampm_enum"]
           is_done?: boolean
           is_import?: boolean | null
+          is_repeat?: boolean | null
           is_time?: boolean | null
+          repeat_until?: string | null
           text?: string | null
           time?: string | null
           todo_date?: string
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
@@ -127,7 +166,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      ampm_enum: "오전" | "오후"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -254,6 +293,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      ampm_enum: ["오전", "오후"],
+    },
   },
 } as const

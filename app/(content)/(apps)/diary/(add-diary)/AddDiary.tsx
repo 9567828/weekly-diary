@@ -5,17 +5,21 @@ import ConfirmActionBtn from "@/components/ui/confirmActionBtn/ConfirmActionBtn"
 import InputBox from "@/components/ui/InputBox";
 import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
+import { useAddDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
+import { useQueryClient } from "@tanstack/react-query";
+import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { useAppDispatch } from "@/lib/hooks";
-import { addDiaryThunk } from "@/lib/diary/diary.thunk";
+import { handleDiary } from "@/lib/slices/tabbarSlice";
 
 export default function AddDiary({ date, weekNum }: { date: string; weekNum: number }) {
+  const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
+  const { mutate } = useAddDiaryMutation();
   const [textMode, setTextMode] = useState(false);
   const [modalOn, setModalOn] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [titleValue, setTitleValue] = useState("");
   const [text, setText] = useState("");
-
-  const dispatch = useAppDispatch();
 
   const modalClose = () => {
     setModalOn(false);
@@ -27,6 +31,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
   const handleCloseMode = () => {
     if (text.trim() === "" && titleValue.trim() === "") {
       setTextMode(false);
+      dispatch(handleDiary(null));
     } else {
       setTextMode(true);
       setModalOn(true);
@@ -43,28 +48,44 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
     const paylaod = {
       title: titleValue === "" ? "제목없음" : titleValue,
       text: text,
-      diaryDate: date,
-      weekNum,
+      diary_date: date,
+      week_num: weekNum,
     };
 
-    dispatch(addDiaryThunk(paylaod));
+    mutate(paylaod, {
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.invalidateQueries({
+          queryKey: diaryQueryKey,
+        });
 
-    setTitleValue("");
-    setText("");
-    setTextMode(false);
+        dispatch(handleDiary(null));
+        setTitleValue("");
+        setText("");
+        setTextMode(false);
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   };
 
   return (
     <>
       {!textMode ? (
-        <button className={style.flex} onClick={() => setTextMode((prev) => !prev)}>
+        <button
+          className={style.flex}
+          onClick={() => {
+            setTextMode((prev) => !prev);
+          }}
+        >
           <img src="/imgs/icons/ic_plus.svg" alt="추가" />
           <h1>새로운 일기 추가</h1>
         </button>
       ) : (
-        <form action="" onSubmit={onSubmint}>
+        <form onSubmit={onSubmint}>
           <ConfirmActionBtn onCancelClick={handleCloseMode} />
-          <div className={style["text-container"]}>
+          <div className={style["text-container"]} onClick={() => dispatch(handleDiary("add"))}>
             <InputBox
               id="diaryTitle"
               variant="input-underline"

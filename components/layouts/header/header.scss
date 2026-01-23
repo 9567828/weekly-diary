@@ -1,7 +1,6 @@
 header {
-  position: sticky;
-  top: 0;
-  left: 0;
+  width: 100%;
+  max-width: 768px;
   background-color: $bg-white;
   padding: 20px 30px 10px;
   z-index: 20;

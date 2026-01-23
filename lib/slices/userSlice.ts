@@ -24,12 +24,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state, action) => {
-      (state.isLoggedIn = !!action.payload), (state.userId = null);
+      ((state.isLoggedIn = !!action.payload), (state.userId = null));
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserThunk.fulfilled, (state, action) => {
-      (state.isLoggedIn = true), (state.userId = action.payload);
+      ((state.isLoggedIn = true), (state.userId = action.payload));
     });
   },
 });

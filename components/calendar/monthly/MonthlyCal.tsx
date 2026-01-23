@@ -3,26 +3,36 @@
 import DaysWrap from "../days-wrap/DaysWrap";
 import style from "../calender.module.scss";
 import { dateStr, makeWeekNum, today } from "../drawWeek";
-import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { selectAllDiary } from "@/lib/diary/diary.thunk";
-import { fetchTodos } from "@/lib/todos/todo.thunk";
+import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
+import { format } from "date-fns";
+import { useFetchDiaryByRange } from "@/hooks/useQuerys/useDiaryQuery";
 
-export default function MonthlyCal({ allWeeks, currMonth }: { currMonth: number; allWeeks: Date[][] }) {
+export default function MonthlyCal({
+  allWeeks,
+  currYear,
+  currMonth,
+}: {
+  currYear: number;
+  currMonth: number;
+  allWeeks: Date[][];
+}) {
   const path = usePathname();
-  const dispatch = useAppDispatch();
-  const toDos = useAppSelector((state) => state.toDos.all);
-  const diaries = useAppSelector((state) => state.diaries.all);
 
-  useEffect(() => {
-    dispatch(fetchTodos());
-  }, [dispatch]);
+  const firstDate = new Date(currYear, currMonth - 1, 1);
+  const endDate = new Date(currYear, currMonth, 1);
 
-  useEffect(() => {
-    dispatch(selectAllDiary());
-  }, [dispatch]);
+  const firstDateStr = format(firstDate, "yyyy-MM-dd");
+  const endDateStr = format(endDate, "yyyy-MM-dd");
+
+  const { data: todo, error: todoErr, isError: isTodoErr } = useFetchTodosByRange(firstDateStr, endDateStr);
+  const { data: diary, error: diaryErr, isError: isDiaryErr } = useFetchDiaryByRange(firstDateStr, endDateStr);
+
+  if (isTodoErr && isDiaryErr) {
+    console.log("todo? ", todoErr.message);
+    console.log("diary? ", diaryErr.message);
+  }
 
   return (
     <div>
@@ -38,8 +48,8 @@ export default function MonthlyCal({ allWeeks, currMonth }: { currMonth: number;
               const days = d.getDay();
               const todayStr = dateStr(today());
 
-              const findTodo = toDos.find((t) => t.todoDate === dateStr(d));
-              const findDiary = diaries.find((diary) => diary.diaryDate === dateStr(d));
+              const findTodo = todo?.find((t) => t.todo_date === dateStr(d));
+              const findDiary = diary?.find((diary) => diary.diary_date === dateStr(d));
 
               return (
                 <li

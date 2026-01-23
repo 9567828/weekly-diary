@@ -1,18 +1,22 @@
 @use "./base/reset" as *;
+@use "./abstract/index.scss" as *;
 @use "./abstract/font" as *;
 
 // 전체설정
 body {
   background-color: #BFA6A2;
   overflow: hidden;
-  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
 }
 .container {
   position: relative;
   width: 100%;
   max-width: 768px;
+  // height: 100dvh;
   height: 100%;
   margin: 0 auto;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
   background-color: $bg-white;
 }
 
@@ -42,33 +46,35 @@ body {
 
 .scroll-wrap {
   width: 100%;
-  height: calc(100dvh - 278px);
+  // height: calc(100dvh - 278px);
+  height: calc(100dvh - 199px);
   overflow: hidden;
   &.mypage {
     padding: 20px;
     height: calc(100dvh - 126px);
   }
   &.diary {
-    height: calc(100dvh - 226px);
+    // height: calc(100dvh - 226px);
+    height: calc(100dvh - 147px);
   }
   &.calendar {
-    height: calc(100vh - 518px);
+    height: calc(100dvh - 518px);
   }
   &.row4 {
-    height: calc(100vh - 422px);
+    height: calc(100dvh - 422px);
   }
   &.row5 {
-    height: calc(100vh - 517px);
+    height: calc(100dvh - 517px);
   }
   &.row6 {
-    height: calc(100vh - 574px);
+    height: calc(100dvh - 574px);
   }
   background-color: $bg-gray;
 }
 
+
 .input-wrap {
   width: 100%;
-  // height: 100%;
   @include flex(true, center, null, 5px);
 }
 
@@ -85,7 +91,8 @@ button {
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  -webkit-tap-highlight-color: transparent;
+  /* 터치 하이라이트 제거 */
 }
 
 button:disabled {
@@ -94,7 +101,13 @@ button:disabled {
 
 input:focus {
   outline: none;
-  box-shadow: none;  
+  box-shadow: none;
+}
+
+input:focus-within {
+  footer.none {
+    display: none;
+  }
 }
 
 input:-webkit-autofill,
@@ -106,12 +119,14 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
-input {
+input, textarea {
   outline: none;
   box-shadow: none;
-  border-radius: 0; /* 둥근 모서리 제거 */
+  border-radius: 0;
+  /* 둥근 모서리 제거 */
   -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  -webkit-tap-highlight-color: transparent;
+  /* 터치 하이라이트 제거 */
 }
 
 input[type="search"] {
@@ -134,9 +149,12 @@ input[type='number'] {
 
 // select 화살표 삭제
 select {
-  -webkit-appearance: none;  /* 크롬 화살표 없애기 */
-  -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
-  appearance: none;  /* 화살표 없애기 */
+  -webkit-appearance: none;
+  /* 크롬 화살표 없애기 */
+  -moz-appearance: none;
+  /* 파이어폭스 화살표 없애기 */
+  appearance: none;
+  /* 화살표 없애기 */
   background-color: transparent;
 }
 
@@ -152,10 +170,13 @@ textarea {
 }
 
 textarea {
-  -ms-overflow-style: none;  /* Internet Explorer 및 Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 및 Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 textarea::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari, Opera */
+  display: none;
+  /* Chrome, Safari, Opera */
 }

@@ -1,16 +1,16 @@
+.select {
+  border: none;
+  width: fit-content;
+  height: 100%;
+  padding: 3px 8px;
+  @include font-theme($bodyMd-b);
+}
+
 .time-container {
   width: 100%;
   padding: 10px 0;
-  // opacity: 0;
-  // transform: translateY(-65px);
-  // pointer-events: none;
   @include flex(column, center, null, 10px);
 }
-
-// .open {
-//   pointer-events: all;
-//   animation: show .3s ease-in-out forwards
-// }
 
 .radio-warp {
   @include flex(null, null, center, 5px);
@@ -40,12 +40,10 @@
 
 @keyframes show {
   0% {
-    // display: none;
     opacity: 0;
     transform: translateY(-65px);
   }
   100% {
-    // display: block;
     opacity: 1;
     transform: translateY(0);
   }
