@@ -116,18 +116,11 @@
   height: 54px;
   padding: 8px 0;
   @include flex(null, space-between, center, null);
+  input[type="date"] {
+    flex-shrink: 0;
+    width: 125px;
+  }
 }
 .check-wrap {
   @include flex(null, null, center, 8px);
-}
-
-.hidden {
-  visibility: hidden;
-  pointer-events: none;
-  height: 0;
-  overflow: hidden;
-}
-
-.show {
-  visibility: visible;
 }

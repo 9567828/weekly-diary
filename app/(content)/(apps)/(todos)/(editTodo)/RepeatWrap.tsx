@@ -68,9 +68,7 @@ export default function RepeatWrap({ repeatType, selectDays, onSelectDays, until
               종료날짜
             </CheckBtn>
           </div>
-          <div className={`${checkedEnd ? style.show : style.hidden}`.trim()}>
-            <InputDate id="untilDate" value={untilValue} onChange={onChangeUntil} />
-          </div>
+          {checkedEnd && <InputDate id="untilDate" value={untilValue} onChange={onChangeUntil} />}
         </div>
       )}
     </div>
