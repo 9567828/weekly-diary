@@ -4,7 +4,7 @@ import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { RefObject } from "react";
 import { RepeatKrType, TodoWithRepeatType } from "./supabase";
 import { parseDate } from "@/components/calendar/drawWeek";
-import { differenceInMonths, getWeek } from "date-fns";
+import { differenceInMonths, getWeek, isLastDayOfMonth } from "date-fns";
 
 type timeType = "hour" | "minute";
 
@@ -75,23 +75,37 @@ export const isTodoVisibleOnDate = (t: TodoWithRepeatType, dateStr: string) => {
     return t.todo_date === dateStr;
   }
 
-  if (t.is_repeat) {
-    if (t.repeat_until !== null && dateParse > parseDate(t.repeat_until)) return false;
+  if (dateParse < todoParse) return false;
 
-    if (t.repeat_map?.value === "daily") return true;
+  if (t.repeat_until !== null && dateParse > parseDate(t.repeat_until)) return false;
 
-    if (t.repeat_map?.value === "monthly") {
-      const anchorDate = todoParse.getDate();
-      return dateParse.getDate() === anchorDate && differenceInMonths(dateParse.getDate(), anchorDate) >= 0;
-    } else {
-      if (t.day_of_week?.length) {
-        if (t.repeat_map?.value === "biweekly") {
-          const startWeek = getWeek(todoParse);
-          const currentWeek = getWeek(dateParse);
-          if ((currentWeek - startWeek) % 2 !== 0) return false;
-        }
-        return t.day_of_week.includes(dateParse.getDay());
-      }
+  if (t.repeat_map?.value === "daily") return true;
+
+  if (t.repeat_map?.value === "monthly") {
+    if (t.is_month_end) {
+      return isLastDayOfMonth(dateParse);
     }
+    return dateParse >= todoParse && dateParse.getDate() === todoParse.getDate();
+  } else {
+    if (t.day_of_week?.length) {
+      if (t.repeat_map?.value === "biweekly") {
+        const startWeek = getWeek(todoParse);
+        const currentWeek = getWeek(dateParse);
+        if ((currentWeek - startWeek) % 2 !== 0) return false;
+      }
+      return t.day_of_week.includes(dateParse.getDay());
+    }
+    return false;
   }
+};
+
+export const getExtFromMime = (file: File) => {
+  const map: Record<string, string> = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp",
+    "image/svg+xml": "svg",
+  };
+
+  return map[file.type] ?? "png";
 };

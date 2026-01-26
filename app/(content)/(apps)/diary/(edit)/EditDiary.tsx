@@ -94,37 +94,17 @@ export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
       <form onSubmit={onSubmint}>
         <ConfirmActionBtn onCancelClick={handleCloseEdit} />
         <div className={style["text-container"]} onClick={() => dispath(handleDiary("edit"))}>
-          <InputBox
-            id="diaryTitle"
-            variant="input-underline"
-            onChange={onChangeTitle}
-            value={titleValue}
-            maxLength={30}
-          />
+          <InputBox id="diaryTitle" variant="input-underline" onChange={onChangeTitle} value={titleValue} maxLength={30} />
           <div className={style["text-wrap"]}>
             <div className={style["txt-padding"]}>
-              <textarea
-                className={style.textarea}
-                name="diaryContent"
-                id="diaryContent"
-                maxLength={300}
-                value={textValue}
-                onChange={onChangeText}
-              />
+              <textarea className="text-area" name="diaryContent" id="diaryContent" maxLength={300} value={textValue} onChange={onChangeText} />
             </div>
             <div className={style["text-length"]}>{textValue.length}/300</div>
           </div>
         </div>
       </form>
 
-      {modalOn ? (
-        <ConfirmModal
-          message="변경사항 폐기"
-          confirmOnly={false}
-          onCancel={() => setModalOn(false)}
-          onConfirm={modalClose}
-        />
-      ) : null}
+      {modalOn ? <ConfirmModal message="변경사항 폐기" confirmOnly={false} onCancel={() => setModalOn(false)} onConfirm={modalClose} /> : null}
     </>
   );
 }

@@ -35,10 +35,15 @@
     color: $spot-color;
   }
   .cover-btn {
+    display: block;
     width: fit-content;
     @include flex(null, center, center, 8px);
     padding: 8px;
     border-radius: 8px;
+    cursor: pointer;
+  }
+  input[type="file"] {
+    display: none;
   }
 }
 

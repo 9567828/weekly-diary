@@ -1,12 +1,13 @@
 import style from "../diary.module.scss";
 import Button from "@/components/ui/Button";
 import EditDiary from "../(edit)/EditDiary";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDeleteDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleDiary } from "@/lib/slices/tabbarSlice";
 import { handleDiaryInvalidateQueries } from "@/utils/handlers";
+import { useOnClickOutSide } from "@/hooks/useHooks";
 
 interface IDiary {
   id: string;
@@ -20,6 +21,11 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useState(false);
   const [onSetting, setOnSetting] = useState(false);
+
+  const delRef = useRef<HTMLDivElement>(null);
+  const setRef = useRef<HTMLButtonElement>(null);
+
+  useOnClickOutSide(delRef, () => setOnSetting(false), setRef);
 
   const handleOnSetting = () => {
     setOnSetting((prev) => !prev);
@@ -62,31 +68,16 @@ export default function DiaryContent({ id, title, text }: IDiary) {
           <div className={style["content-head"]}>
             <p className={style.title}>{title ? title : "제목없음"}</p>
             <div className={style["btn-wrap"]}>
-              {onSetting ? (
-                <div className={style["btn-wrap"]}>
-                  <Button
-                    existImg={true}
-                    src="/imgs/icons/ic_delete.svg"
-                    alt="삭제"
-                    className="btn-18"
-                    onClick={() => handleDelete(id)}
-                  />
-                  <Button
-                    existImg={true}
-                    src="/imgs/icons/ic_edit-note.svg"
-                    alt="수정"
-                    className="btn-18"
-                    onClick={handleOnEditMode}
-                  />
+              {onSetting && (
+                <div ref={delRef} className={style["del-wrapper"]}>
+                  <button type="button" onClick={() => handleDelete(id)} className={style["del-btn"]}>
+                    <img src="/imgs/icons/ic_delete.svg" alt="삭제" />
+                    <span>삭제</span>
+                  </button>
                 </div>
-              ) : null}
-              <Button
-                existImg={true}
-                src="/imgs/icons/ic_menu.svg"
-                alt="일기설정"
-                className="btn-24"
-                onClick={handleOnSetting}
-              />
+              )}
+              <Button type="button" existImg={true} src="/imgs/icons/ic_edit-note.svg" alt="수정" className="btn-18" onClick={handleOnEditMode} />
+              <Button type="button" btnRef={setRef} existImg={true} src="/imgs/icons/ic_menu.svg" alt="일기설정" className="btn-24" onClick={handleOnSetting} />
             </div>
           </div>
           <div className={style["content-diary"]}>

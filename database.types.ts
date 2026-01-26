@@ -53,6 +53,7 @@ export type Database = {
           id: string
           month: number | null
           path: string | null
+          storage_id: string | null
           updated_at: string | null
           user_id: string
           year: number | null
@@ -62,6 +63,7 @@ export type Database = {
           id?: string
           month?: number | null
           path?: string | null
+          storage_id?: string | null
           updated_at?: string | null
           user_id?: string
           year?: number | null
@@ -71,6 +73,7 @@ export type Database = {
           id?: string
           month?: number | null
           path?: string | null
+          storage_id?: string | null
           updated_at?: string | null
           user_id?: string
           year?: number | null
@@ -121,6 +124,7 @@ export type Database = {
           is_ampm: Database["public"]["Enums"]["ampm_enum"]
           is_done: boolean
           is_import: boolean | null
+          is_month_end: boolean | null
           is_repeat: boolean | null
           is_time: boolean | null
           repeat_map: Json | null
@@ -138,6 +142,7 @@ export type Database = {
           is_ampm?: Database["public"]["Enums"]["ampm_enum"]
           is_done?: boolean
           is_import?: boolean | null
+          is_month_end?: boolean | null
           is_repeat?: boolean | null
           is_time?: boolean | null
           repeat_map?: Json | null
@@ -155,6 +160,7 @@ export type Database = {
           is_ampm?: Database["public"]["Enums"]["ampm_enum"]
           is_done?: boolean
           is_import?: boolean | null
+          is_month_end?: boolean | null
           is_repeat?: boolean | null
           is_time?: boolean | null
           repeat_map?: Json | null

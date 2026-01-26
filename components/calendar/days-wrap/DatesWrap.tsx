@@ -15,9 +15,7 @@ export default function DatesWrap({ date, isActive, isExisted, isToday, href, is
   return (
     <li className={style["date-box"]}>
       <div
-        className={`${style.date} ${isToday ? style.today : ""} ${
-          isActive ? style.active : ""
-        } ${isWeekend ? style.weekend : ""} ${otherDate ? style["other-date"] : ""}`.trim()}
+        className={`${style.date} ${isToday ? style.today : ""} ${isActive ? style.active : ""} ${isWeekend ? style.weekend : ""} ${otherDate ? style["other-date"] : ""}`.trim()}
       >
         <Link href={href}>{date}</Link>
       </div>

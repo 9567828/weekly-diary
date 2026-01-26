@@ -2,6 +2,7 @@ import { Enums, Json, Tables } from "@/database.types";
 
 export type TodoRow = Tables<"todo">;
 export type DiaryRow = Tables<"diary">;
+export type CoverRow = Tables<"month_cover">;
 
 export type AmPmType = Enums<"ampm_enum">;
 export type RepeatType = Enums<"repeat_enum">;
@@ -21,6 +22,7 @@ export type TodoWithRepeatType = {
   is_import: boolean | null;
   is_time: boolean | null;
   is_repeat: boolean | null;
+  is_month_end: boolean | null;
   repeat_map: RepeatMapType | null;
   repeat_until: string | null;
   text: string | null;
@@ -47,6 +49,7 @@ export type EditTodoType = {
     is_ampm: AmPmType;
     todo_date: string;
     is_repeat: boolean;
+    is_month_end: boolean;
     day_of_week: number[] | null;
     repeat_until: string | null;
     repeat_map: RepeatMapType;
@@ -68,4 +71,12 @@ export type EditDiaryType = {
     updated_at: string;
   };
   id: string;
+};
+
+export type AddCoverType = {
+  user_id: string;
+  path: string;
+  year: number;
+  month: number;
+  storage_id: string;
 };

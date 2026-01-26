@@ -1,13 +1,12 @@
 import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import style from "./edittodo.module.scss";
 import Button from "@/components/ui/Button";
-import InputBox from "@/components/ui/InputBox";
 import ToggleBtn from "@/components/ui/toggleBtn/ToggleBtn";
 import TimePicker from "../(time)/TimePicker";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import ConfirmActionBtn from "@/components/ui/confirmActionBtn/ConfirmActionBtn";
-import { AmPmType, EditTodoType, RepeatMapType, RepeatType } from "@/utils/supabase";
-import { useDeleteTodoMutation, useEditTodoMutation } from "@/hooks/useMutation/useTodoMutation";
+import { AmPmType, EditTodoType, RepeatMapType } from "@/utils/supabase";
+import { useEditTodoMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleTodo } from "@/lib/slices/tabbarSlice";
@@ -18,10 +17,12 @@ import { isMobile } from "react-device-detect";
 import SelectRepeat from "@/components/ui/select-box/SelectRepeat";
 import InputDate from "@/components/ui/InputDate";
 import RepeatWrap from "@/app/(content)/(apps)/(todos)/(editTodo)/RepeatWrap";
-import { parse, parseISO, setDay } from "date-fns";
-import { parseDate } from "@/components/calendar/drawWeek";
+import { endOfMonth, lastDayOfMonth, parse } from "date-fns";
+import { dateStr, parseDate, today } from "@/components/calendar/drawWeek";
+import EmptySpace from "@/components/ui/EmptySpace";
+import CheckWrap from "./CheckWrap";
 
-type toggleIdType = "is_import" | "is_time";
+type toggleIdType = "is_import" | "is_time" | "is_month" | "is_until";
 type toggleMap = Record<toggleIdType, boolean>;
 
 type selectType = {
@@ -38,6 +39,7 @@ interface IEditTodo {
   time?: string;
   is_ampm?: AmPmType;
   todo_date?: string;
+  is_month_end: boolean;
   day_of_week: number[];
   repeat_until: string | null;
   repeat_map: RepeatMapType;
@@ -56,7 +58,7 @@ const hours = makeTimes("hour");
 const minutes = makeTimes("minute");
 
 export default function EditTodo({ ...props }: IEditTodo) {
-  const { id, text, is_import, is_time, time, is_ampm, todo_date, repeat_map, repeat_until, day_of_week, onClose } = props;
+  const { id, text, is_import, is_time, time, is_ampm, todo_date, repeat_map, repeat_until, day_of_week, is_month_end, onClose } = props;
   let initRepeat: RepeatMapType;
 
   if (!repeat_map) {
@@ -68,7 +70,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const { mutate: edit } = useEditTodoMutation();
-  const { mutate: deleteTodo } = useDeleteTodoMutation();
   const [mount, setMount] = useState(false);
   const [value, setValue] = useState(text);
   const [dateValue, setDateValue] = useState(todo_date);
@@ -81,6 +82,8 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const [toggleChecked, setToggleChecked] = useState<toggleMap>({
     is_import,
     is_time,
+    is_month: is_month_end,
+    is_until: repeat_until !== null,
   });
   const [ampm, setAmpm] = useState<AmPmType | null>(is_ampm ?? null);
   const getTime = () => {
@@ -89,9 +92,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     return { h, m };
   };
 
-  console.log(day_of_week, days);
-
-  type HasChangedKey = "text" | "is_import" | "is_time" | "is_ampm" | "hour" | "min" | "is_repeat" | "date" | "untilDate";
+  type HasChangedKey = "text" | "is_import" | "is_time" | "is_ampm" | "hour" | "min" | "is_repeat" | "date" | "untilDate" | "is_month";
   type HasChangedType = Record<HasChangedKey, boolean>;
 
   const [hour, setHour] = useState<string>(getTime().h ?? "");
@@ -106,6 +107,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     is_repeat: false,
     date: false,
     untilDate: false,
+    is_month: false,
   });
 
   const handleHasChanged = (changedKey: HasChangedKey, compare: boolean) => {
@@ -140,9 +142,19 @@ export default function EditTodo({ ...props }: IEditTodo) {
       [targetId]: checked,
     }));
 
+    if (targetId === "is_month" && checked) {
+      const lastDay = lastDayOfMonth(today());
+      console.log(lastDay);
+      setDateValue(dateStr(lastDay));
+    } else {
+      setDateValue(todo_date);
+    }
+
     const initialMap: Record<string, boolean> = {
       is_import,
       is_time,
+      is_month: is_month_end,
+      is_until: repeat_until !== null,
     };
 
     const keyMap: Record<string, HasChangedKey> = {
@@ -154,6 +166,8 @@ export default function EditTodo({ ...props }: IEditTodo) {
       min: "min",
       is_repeat: "is_repeat",
       date: "date",
+      is_month: "is_month",
+      is_until: "untilDate",
     };
 
     const key = keyMap[targetId];
@@ -199,12 +213,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
   };
 
   const handleSelectDays = (days: number) => {
-    setDays(
-      (prev) =>
-        prev.includes(days)
-          ? prev.filter((d) => d !== days) // 이미 있으면 제거
-          : [...prev, days], // 없으면 추가
-    );
+    setDays((prev) => (prev.includes(days) ? prev.filter((d) => d !== days) : [...prev, days]));
   };
 
   const handleSelectRepeat = (opt: RepeatMapType) => {
@@ -320,6 +329,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
         is_ampm: newAmpm!,
         time: newTime,
         is_repeat: selectRepeat.label !== "안함",
+        is_month_end: toggleChecked.is_month,
         day_of_week: days.length <= 0 ? null : days,
         repeat_until: untilDate === "" || !checkedUntil ? null : untilDate,
         repeat_map: selectRepeat,
@@ -418,33 +428,35 @@ export default function EditTodo({ ...props }: IEditTodo) {
                             </div>
                           </div>
                           {s.title === "반복" && (
-                            <RepeatWrap
-                              repeatType={selectRepeat!}
-                              selectDays={days}
-                              onSelectDays={handleSelectDays}
-                              untilValue={untilDate!}
-                              checkedEnd={checkedUntil}
-                              onChangeCheckd={(e) => {
-                                const checked = e.target.checked;
+                            <RepeatWrap repeatType={selectRepeat!} selectDays={days} onSelectDays={handleSelectDays}>
+                              {selectRepeat.label === "매월" && (
+                                <CheckWrap id="is_month" mode="nomal" text="말일" checked={toggleChecked.is_month} onChangeChecked={onChangeToggle} />
+                              )}
+                              {selectRepeat.value !== "none" && (
+                                <CheckWrap
+                                  id="is_until"
+                                  mode="date"
+                                  text="종료날짜"
+                                  checked={toggleChecked.is_until}
+                                  onChangeChecked={onChangeToggle}
+                                  value={untilDate}
+                                  onChangeDate={(e) => {
+                                    const value = e.target.value;
+                                    const todoDate = parse(dateValue!, "yyyy-MM-dd", new Date());
+                                    const untilDate = parse(value, "yyyy-MM-dd", new Date());
 
-                                setCheckedUntil((prev) => !prev);
-                                handleHasChanged("date", checkedUntil !== checked);
-                              }}
-                              onChangeUntil={(e) => {
-                                const value = e.target.value;
-                                const todoDate = parse(dateValue!, "yyyy-MM-dd", new Date());
-                                const untilDate = parse(value, "yyyy-MM-dd", new Date());
+                                    if (todoDate > untilDate) {
+                                      alert("todo 날짜보다 이전일 수 없습니다.");
+                                      setUntilDate("");
+                                      return;
+                                    }
 
-                                if (todoDate > untilDate) {
-                                  alert("todo 날짜보다 이전일 수 없습니다.");
-                                  setUntilDate("");
-                                  return;
-                                }
-
-                                setUntilDate(value);
-                                handleHasChanged("untilDate", value !== "");
-                              }}
-                            />
+                                    setUntilDate(value);
+                                    handleHasChanged("untilDate", value !== "");
+                                  }}
+                                />
+                              )}
+                            </RepeatWrap>
                           )}
                           {s.toggleId === "is_time" && toggleChecked.is_time && (
                             <>
@@ -503,9 +515,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
                     })}
                   </div>
                 </div>
-                <div>
-                  <Button type="button" label="할일 삭제하기" variant="txt-btn" className="delete-txt-btn" onClick={() => deleteTodo(id)} />
-                </div>
+                <EmptySpace addMargin />
               </div>
             </div>
           </div>

@@ -95,12 +95,13 @@
 
   .days-wrapper {
     @include font-theme($bodySm-r);
-    @include flex(null, null, center, 4px);
+    @include flex(null, null, center, 8px);
     margin-top: 8px;
     button {
       width: 32px;
       height: 32px;
       border-radius: 50%;
+      color: $gray-800;
       &.active {
         font-weight: $bold;
         background-color: $main-color;
@@ -118,10 +119,13 @@
   @include flex(null, space-between, center, null);
   input[type="date"] {
     flex-shrink: 0;
-    // width: 125px;
     height: 100%
   }
 }
+.nomal {
+  padding-top: 8px;
+}
 .check-wrap {
   @include flex(null, null, center, 8px);
+  @include font-theme($bodySm-b);
 }

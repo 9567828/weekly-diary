@@ -1,12 +1,12 @@
 "use client";
 
 import style from "../calender.module.scss";
-import { differenceInMonths, format, getWeek, parse } from "date-fns";
+import { format } from "date-fns";
 import { usePathname } from "next/navigation";
-import { useFetchTodoAll, useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
+import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import DaysOfWeekWrap from "../days-wrap/DaysWrap";
 import DatesWrap from "../days-wrap/DatesWrap";
-import { dateStr, parseDate } from "../drawWeek";
+import { dateStr } from "../drawWeek";
 import { isTodoVisibleOnDate } from "@/utils/handlers";
 
 interface IWeekDate {

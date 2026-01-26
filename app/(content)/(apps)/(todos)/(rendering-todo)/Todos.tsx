@@ -21,7 +21,6 @@ export default function Todos() {
   // }
 
   const toDos = data?.filter((t) => isTodoVisibleOnDate(t, dateStr)) ?? [];
-  // const toDos = data ?? [];
 
   return (
     <>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { drawMonth, handleNextMonth, handlePrevMonth } from "@/components/calendar/drawWeek";
 import { useRouter } from "next/navigation";
 import EmptySpace from "@/components/ui/EmptySpace";
+import CalendarCover from "./CalendarCover";
 
 export default function CalendarPanel() {
   const route = useRouter();
@@ -23,6 +24,7 @@ export default function CalendarPanel() {
 
   return (
     <>
+      <CalendarCover year={year} month={month} />
       <div className={style.month}>
         <DateControl
           isMargin

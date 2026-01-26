@@ -37,6 +37,7 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
             is_ampm={menu.is_ampm}
             todo_date={menu.todo_date}
             is_done={menu.is_done}
+            is_month_end={menu.is_month_end!}
             repeat_map={menu.repeat_map!}
             day_of_week={menu.day_of_week}
             repeat_until={menu.repeat_until}

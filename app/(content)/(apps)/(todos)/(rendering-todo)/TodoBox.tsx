@@ -23,6 +23,7 @@ interface IBaseTodo {
   time?: string;
   is_ampm?: AmPmType;
   todo_date?: string;
+  is_month_end: boolean;
   day_of_week: number[] | null;
   repeat_until: string | null;
   repeat_map: RepeatMapType;
@@ -31,7 +32,11 @@ interface IBaseTodo {
 type FullProps = IBaseTodo & IHandler;
 
 export default function Todo(props: FullProps) {
-  const { id, text, is_import, is_time, is_done, isOpen, onClick, repeat_map, repeat_until, day_of_week } = props;
+  const { id, text, is_import, is_time, is_done, isOpen, onClick, repeat_map, repeat_until, day_of_week, is_month_end } = props;
+  let repeatLable;
+  if (repeat_map) {
+    repeatLable = `${repeat_map.value === "biweekly" ? "격주 · " : repeat_map.value === "weekly" ? `${repeat_map.label} · ` : repeat_map.label} ${repeat_until !== null ? `· ${repeat_until} 까지` : ""} ${is_month_end ? "· 말일" : ""}`;
+  }
   const queryClient = useQueryClient();
   const { mutate: editDone } = useEditDoneMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
@@ -68,7 +73,7 @@ export default function Todo(props: FullProps) {
             {is_time && <MetaText icon="ic_clock" alt="시간" text={`${props.is_ampm} ${props.time}`} />}
             {repeat_map !== null && repeat_map.label !== "안함" && (
               <div className={style["repeat-wrap"]}>
-                <MetaText icon="ic_repeat-small" alt="반복" text={`${repeat_map.label} ${repeat_until !== null ? `· ${repeat_until} 까지` : ""}`} />
+                <MetaText icon="ic_repeat-small" alt="반복" text={repeatLable!} />
                 {(repeat_map.value === "biweekly" || repeat_map.value === "weekly") &&
                   day_of_week?.map((d) => {
                     return (
@@ -95,6 +100,7 @@ export default function Todo(props: FullProps) {
           time={props.time!}
           is_ampm={props.is_ampm!}
           todo_date={props.todo_date}
+          is_month_end={props.is_month_end}
           repeat_map={props.repeat_map}
           day_of_week={props.day_of_week!}
           repeat_until={props.repeat_until}

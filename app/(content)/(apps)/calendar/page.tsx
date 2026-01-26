@@ -5,7 +5,6 @@ import CalendarCover from "@/app/(content)/(apps)/calendar/(calendarPanel)/Calen
 export default function Page() {
   return (
     <WrapperLayout>
-      <CalendarCover />
       <CalendarPanel />
     </WrapperLayout>
   );

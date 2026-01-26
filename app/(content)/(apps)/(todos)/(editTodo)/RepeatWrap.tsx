@@ -25,13 +25,10 @@ interface InputDateProps {
   repeatType: RepeatMapType;
   selectDays: number[];
   onSelectDays: (days: number) => void;
-  untilValue: string;
-  onChangeUntil: (e: ChangeEvent<HTMLInputElement>) => void;
-  checkedEnd: boolean;
-  onChangeCheckd: (e: ChangeEvent<HTMLInputElement>) => void;
+  children: React.ReactNode;
 }
 
-export default function RepeatWrap({ repeatType, selectDays, onSelectDays, untilValue, onChangeUntil, checkedEnd, onChangeCheckd }: InputDateProps) {
+export default function RepeatWrap({ repeatType, selectDays, onSelectDays, children }: InputDateProps) {
   const handleSelectDays = (days: number) => {
     onSelectDays(days);
   };
@@ -51,8 +48,6 @@ export default function RepeatWrap({ repeatType, selectDays, onSelectDays, until
             {daysList.map((d) => {
               const isActive = selectDays.includes(d.dayIndex);
 
-              console.log(selectDays);
-
               return (
                 <button key={d.dayIndex} type="button" className={`${isActive ? style.active : ""}`.trim()} onClick={() => handleSelectDays(d.dayIndex)}>
                   {d.day}
@@ -62,16 +57,7 @@ export default function RepeatWrap({ repeatType, selectDays, onSelectDays, until
           </div>
         </div>
       )}
-      {repeatType.value !== "none" && (
-        <div className={style["until-container"]}>
-          <div className={style["check-wrap"]}>
-            <CheckBtn id="repeatEnd" onChange={onChangeCheckd} checked={checkedEnd}>
-              종료날짜
-            </CheckBtn>
-          </div>
-          {checkedEnd && <InputDate id="untilDate" value={untilValue || todayStr()} onChange={onChangeUntil} />}
-        </div>
-      )}
+      <>{children}</>
     </div>
   );
 }

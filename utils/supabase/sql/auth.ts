@@ -41,6 +41,10 @@ export async function getUserId(): Promise<string | null> {
   const supabase = await createClient();
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
+
+  if (error) throw error;
+
   return user?.id ?? null;
 }
