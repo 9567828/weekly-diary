@@ -19,6 +19,7 @@ import SelectRepeat from "@/components/ui/select-box/SelectRepeat";
 import InputDate from "@/components/ui/InputDate";
 import RepeatWrap from "@/app/(content)/(apps)/(todos)/(editTodo)/RepeatWrap";
 import { parse, parseISO, setDay } from "date-fns";
+import { parseDate } from "@/components/calendar/drawWeek";
 
 type toggleIdType = "is_import" | "is_time";
 type toggleMap = Record<toggleIdType, boolean>;
@@ -88,6 +89,8 @@ export default function EditTodo({ ...props }: IEditTodo) {
     return { h, m };
   };
 
+  console.log(day_of_week, days);
+
   type HasChangedKey = "text" | "is_import" | "is_time" | "is_ampm" | "hour" | "min" | "is_repeat" | "date" | "untilDate";
   type HasChangedType = Record<HasChangedKey, boolean>;
 
@@ -119,11 +122,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const minRef = useRef<HTMLDivElement | null>(null);
 
   const isValidDate = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v));
-
-  // const onTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setValue(e.target.value);
-  //   handleHasChanged("text", text !== e.target.value);
-  // };
 
   const closeEdit = () => {
     if (anyChanged) {
@@ -232,11 +230,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
     const isChanged = selectRepeat.label !== opt.label || selectRepeat.value !== opt.value;
     handleHasChanged("is_repeat", isChanged);
   };
-
-  useEffect(() => {
-    const newDays = parse(dateValue!, "yyyy-MM-dd", new Date()).getDay();
-    setDays([newDays]);
-  }, [dateValue]);
 
   useEffect(() => {
     const newDays = parse(dateValue!, "yyyy-MM-dd", new Date()).getDay();
@@ -413,6 +406,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
                                   onChange={(e) => {
                                     const value = e.target.value;
                                     setDateValue(value);
+                                    setDays([parseDate(value).getDay()]);
                                     handleHasChanged("date", value !== "");
                                   }}
                                 />

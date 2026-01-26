@@ -82,13 +82,6 @@ article {
   @include font-theme($bodySm-b);
   color: $gray-700;
   padding: 8px 0;
-  input[type="date"]::-webkit-clear-button,
-  input[type="date"]::-webkit-inner-spin-button {
-    display: none;
-  }
-  input[type="date"]::-webkit-calendar-picker-indicator {
-    font-size: 32px;
-  }
 }
 
 .text-area {
