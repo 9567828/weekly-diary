@@ -6,7 +6,7 @@
 }
 
 .select-box {
-  width: 80px;
+  width: 100px;
   position: relative;
   @include font-theme($bodySm-b);
 }
@@ -36,8 +36,8 @@
 
 .opt-item {
   border-bottom: 1px solid $gray-300;
-  justify-content: flex-start;
-  gap: 8px;
+  // justify-content: flex-start;
+  // gap: 8px;
   &:last-child {
     border-bottom: none;
   }

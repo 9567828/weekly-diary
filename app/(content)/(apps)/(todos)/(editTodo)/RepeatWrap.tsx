@@ -50,6 +50,8 @@ export default function RepeatWrap({ repeatType, selectDays, onSelectDays, until
             {daysList.map((d) => {
               const isActive = selectDays.includes(d.dayIndex);
 
+              console.log(selectDays);
+
               return (
                 <button key={d.dayIndex} type="button" className={`${isActive ? style.active : ""}`.trim()} onClick={() => handleSelectDays(d.dayIndex)}>
                   {d.day}
