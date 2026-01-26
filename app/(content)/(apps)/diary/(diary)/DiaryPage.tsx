@@ -7,6 +7,8 @@ import { addDays, parse } from "date-fns";
 import { useFetchDiaryByRange } from "@/hooks/useQuerys/useDiaryQuery";
 import AddDiary from "../(add-diary)/AddDiary";
 import DiaryContent from "./DiaryContent";
+import EmptySpace from "@/components/ui/EmptySpace";
+import { DAY_LABEL } from "@/utils/handlers";
 
 export default function DiaryPage() {
   const { getTodayWeek, weekEnd } = drawWeeks();
@@ -34,31 +36,22 @@ export default function DiaryPage() {
           const dateNum = w.getDate();
           const weekNum = makeWeekNum(w);
           const day = w.getDay();
-          const days = ["일", "월", "화", "수", "목", "금", "토"];
           const findDiary = data?.find((d) => d.diary_date === list);
 
           return (
-            <div key={i} className={style["diary-container"]} data-date={dateStr(w)}>
+            <div key={i} className={style["diary-container"]} id={dateStr(w)} data-date={dateStr(w)}>
               <div className={style["date-box"]}>
-                <p
-                  className={`${style.date} ${day === 0 || day === 6 ? style.weekend : ""} ${
-                    dateStr(today()) === list ? style.today : ""
-                  }`.trim()}
-                >{`${dateNum}일`}</p>
-                <p className={style.day}>{`${days[day]}요일`}</p>
+                <p className={`${style.date} ${day === 0 || day === 6 ? style.weekend : ""} ${dateStr(today()) === list ? style.today : ""}`.trim()}>{`${dateNum}일`}</p>
+                <p className={style.day}>{`${DAY_LABEL[day]}요일`}</p>
               </div>
               <div className={style["content-box"]}>
-                {!findDiary ? (
-                  <AddDiary date={dateStr(w)} weekNum={weekNum} />
-                ) : (
-                  <DiaryContent id={findDiary.id} title={findDiary.title!} text={findDiary.text!} />
-                )}
+                {!findDiary ? <AddDiary date={dateStr(w)} weekNum={weekNum} /> : <DiaryContent id={findDiary.id} title={findDiary.title!} text={findDiary.text!} />}
               </div>
             </div>
           );
         })}
       </div>
-      <div className={style["empty-space"]}></div>
+      <EmptySpace />
     </>
   );
 }

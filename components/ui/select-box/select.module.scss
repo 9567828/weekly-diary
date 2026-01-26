@@ -1,0 +1,73 @@
+@use "../../../styles/abstract/index" as *;
+
+.select-wrapper {
+  @include flex(null, null, center, 8px);
+  @include font-theme($bodySm-b);
+}
+
+.select-box {
+  width: 80px;
+  position: relative;
+  @include font-theme($bodySm-b);
+}
+
+.default {
+  @include flex(null, space-between, center, null);
+  width: 100%;
+  padding: 8px;
+  background-color: white;
+}
+
+.repeat-btn {
+  border-radius: 8px;
+  border: 1px solid $gray-300;
+}
+
+.opt-wrap {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid $gray-300;
+  overflow: hidden;
+  position: absolute;
+  top: 43px;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.opt-item {
+  border-bottom: 1px solid $gray-300;
+  justify-content: flex-start;
+  gap: 8px;
+  &:last-child {
+    border-bottom: none;
+  }
+  .checked {
+    display: none;
+  }
+  &.active {
+    background-color: $gray-200;
+    .checked {
+      display: block;
+    }
+  }
+}
+
+/* PC 전용 hover */
+@media (hover: hover) {
+  .opt-item:hover {
+    background-color: $gray-200;
+    .checked {
+      display: block;
+    }
+  }
+}
+
+/* 모바일 전용 active */
+@media (hover: none) {
+  .opt-item:active {
+    background-color: $gray-200;
+    .checked {
+      display: block;
+    }
+  }
+}

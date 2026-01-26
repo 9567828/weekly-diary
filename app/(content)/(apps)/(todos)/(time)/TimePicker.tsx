@@ -5,7 +5,7 @@ import style from "./time.module.scss";
 import InputBox from "@/components/ui/InputBox";
 import { AmPmType } from "@/utils/supabase";
 
-interface ITime {
+export interface ITimePicker {
   onChangeHour: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeMin: (e: ChangeEvent<HTMLInputElement>) => void;
   onSelectChange: (e: ChangeEvent<HTMLSelectElement>) => void;
@@ -13,12 +13,11 @@ interface ITime {
   hourValue: string;
   minutesValue: string;
   isAmpm: AmPmType;
-  isOpen?: boolean;
 }
 
-export default function TimeWrite({ isOpen, hourValue, minutesValue, isAmpm, onChangeHour, onChangeMin, onSelectChange }: ITime) {
+export default function TimePicker({ hourValue, minutesValue, isAmpm, onChangeHour, onChangeMin, onSelectChange }: ITimePicker) {
   return (
-    <div className={`${style["time-container"]} ${isOpen ? style["open"] : ""}`.trim()}>
+    <div className={style["time-container"]}>
       <div className={style["time-text"]}>
         <select name="ampm" id="ampm" className={style.select} onChange={onSelectChange} defaultValue={isAmpm}>
           <option value="오전">오전</option>
@@ -32,6 +31,8 @@ export default function TimeWrite({ isOpen, hourValue, minutesValue, isAmpm, onC
               variant="input-time"
               inputMode="numeric"
               pattern="[0-9]*"
+              min="01"
+              max="12"
               onChange={onChangeHour}
               value={hourValue}
             />
@@ -44,6 +45,8 @@ export default function TimeWrite({ isOpen, hourValue, minutesValue, isAmpm, onC
               variant="input-time"
               inputMode="numeric"
               pattern="[0-9]*"
+              min="00"
+              max="59"
               onChange={onChangeMin}
               value={minutesValue}
             />

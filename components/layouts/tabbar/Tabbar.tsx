@@ -3,9 +3,9 @@
 import Link from "next/link";
 import "./tabbar.scss";
 import { useParams, usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/hooks";
-import { isChrome, isMobileSafari, isSafari, MobileView } from "react-device-detect";
+import { useIsMobile } from "@/hooks/useHooks";
+import { useEffect } from "react";
 
 const menuList = [
   {
@@ -40,8 +40,7 @@ export default function Tabbar() {
   const { date } = useParams();
   const todoOpen = useAppSelector((state) => state.tabbar.isTodoTexing);
   const diaryOpen = useAppSelector((state) => state.tabbar.isDiaryTexting);
-
-  console.log("todo? ", todoOpen, "diary? ", diaryOpen);
+  const isMobile = useIsMobile();
 
   const homePath = path === "/" || path === `/${String(date)}`;
 
@@ -52,14 +51,16 @@ export default function Tabbar() {
     return path.startsWith(menuHref);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [path]);
+
   return (
-    <footer
-      className={(isSafari || isChrome || MobileView || isMobileSafari) && (todoOpen != null || diaryOpen != null) ? "none" : ""}
-    >
+    <footer className={isMobile && (todoOpen != null || diaryOpen != null) ? "none" : ""}>
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>
-            <Link href={menu.href}>
+            <Link href={menu.href} replace>
               <img src={isActive(menu.href) ? menu.srcTabActive : menu.srcTab} alt={menu.alt} />
             </Link>
           </li>

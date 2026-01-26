@@ -8,9 +8,9 @@ import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useEditDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { EditDiaryType } from "@/utils/supabase";
 import { useQueryClient } from "@tanstack/react-query";
-import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleDiary } from "@/lib/slices/tabbarSlice";
+import { handleDiaryInvalidateQueries } from "@/utils/handlers";
 
 interface IEditDiary {
   id: string;
@@ -69,6 +69,7 @@ export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
 
     const newObj: EditDiaryType = {
       payload: {
+        updated_at: new Date().toISOString(),
         title: titleValue === "" ? "제목없음" : titleValue,
         text: textValue === "" ? "내용없음" : textValue,
       },
@@ -77,9 +78,7 @@ export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
 
     mutate(newObj, {
       onSuccess: (data) => {
-        queryClient.invalidateQueries({
-          queryKey: diaryQueryKey,
-        });
+        handleDiaryInvalidateQueries(queryClient);
         setTitleValue("");
         setTextValue("");
         closeEdit();
@@ -95,7 +94,13 @@ export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
       <form onSubmit={onSubmint}>
         <ConfirmActionBtn onCancelClick={handleCloseEdit} />
         <div className={style["text-container"]} onClick={() => dispath(handleDiary("edit"))}>
-          <InputBox id="diaryTitle" variant="input-underline" onChange={onChangeTitle} value={titleValue} maxLength={30} />
+          <InputBox
+            id="diaryTitle"
+            variant="input-underline"
+            onChange={onChangeTitle}
+            value={titleValue}
+            maxLength={30}
+          />
           <div className={style["text-wrap"]}>
             <div className={style["txt-padding"]}>
               <textarea
@@ -113,7 +118,12 @@ export default function EditDiary({ id, closeEdit, title, text }: IEditDiary) {
       </form>
 
       {modalOn ? (
-        <ConfirmModal message="변경사항 폐기" confirmOnly={false} onCancel={() => setModalOn(false)} onConfirm={modalClose} />
+        <ConfirmModal
+          message="변경사항 폐기"
+          confirmOnly={false}
+          onCancel={() => setModalOn(false)}
+          onConfirm={modalClose}
+        />
       ) : null}
     </>
   );

@@ -1,35 +1,56 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { RefObject, useEffect, useLayoutEffect, useState } from "react";
+import { ITEM_HEIGHT } from "@/utils/handlers";
 
-export const useScrollY = (state: Dispatch<SetStateAction<boolean>>) => {
-  let initialScrollY = 0;
+export const useSetInitialTime = (itemArr: any[], initial: string, ref: RefObject<HTMLDivElement | null>) => {
+  const renderIndex = itemArr.indexOf(initial);
 
-  const [isFocus, setIsFocus] = useState(false);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
+    el.scrollTop = renderIndex * ITEM_HEIGHT - (el.clientHeight - ITEM_HEIGHT) / 2;
+  }, [initial, itemArr]);
+};
+
+export const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+    const checkIsMobile = () => {
+      const userAgent = typeof window.navigator === "undefined" ? "" : navigator.userAgent;
+      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+      setIsMobile(mobile || ("ontouchstart" in window && window.innerWidth <= 1024));
+    };
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+  return isMobile;
+};
 
-      if (isFocus) {
-        if (!initialScrollY) {
-          initialScrollY = currentScrollY;
-        }
+export const useOnClickOutSide = (ref: React.RefObject<HTMLElement | null>, handler: () => void, btn?: React.RefObject<HTMLElement | null>, isGlobModalOpen?: boolean) => {
+  useEffect(() => {
+    if (isGlobModalOpen) return;
 
-        if (currentScrollY > initialScrollY) {
-          window.scrollTo(0, initialScrollY);
-        }
-      } else {
-        initialScrollY = 0;
-      }
+    if (btn?.current) return;
+
+    const listener = (e: MouseEvent) => {
+      if (!ref.current || ref.current.contains(e.target as Node)) return;
+      handler();
     };
 
-    window.visualViewport?.addEventListener("resize", handleScroll);
-    window.addEventListener("scroll", handleScroll);
+    document.addEventListener("mousedown", listener);
+    return () => document.removeEventListener("mousedown", listener);
+  }, [ref, handler]);
+};
 
-    return () => {
-      window.visualViewport?.removeEventListener("resize", handleScroll);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isFocus]);
+export const useClearBodyScroll = (modal: any) => {
+  useEffect(() => {
+    if (modal) {
+      window.document.body.style.overflow = "hidden";
+    } else {
+      window.document.body.removeAttribute("style");
+    }
+  }, [modal]);
 };

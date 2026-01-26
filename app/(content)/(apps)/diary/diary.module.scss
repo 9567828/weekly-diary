@@ -3,7 +3,7 @@
   min-height: 85px;
   border-radius: 15px;
   background-color: $bg-white;
-  @include grid-col(82px 1fr, null, center, center, null);
+  @include grid-col(65px 1fr, null, center, center, null);
 }
 
 .diary-list {
@@ -58,9 +58,4 @@
 .text {
   @include font-theme($bodySm-r);
   white-space: pre-wrap;
-}
-
-.empty-space {
-  width: 100%;
-  height: 200px;
 }

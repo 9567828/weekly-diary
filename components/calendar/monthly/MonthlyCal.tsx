@@ -1,24 +1,14 @@
 "use client";
 
-import DaysWrap from "../days-wrap/DaysWrap";
 import style from "../calender.module.scss";
-import { dateStr, makeWeekNum, today } from "../drawWeek";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
-import { format } from "date-fns";
+import { dateStr, drawWeeks, makeWeekNum, today } from "../drawWeek";
+import { format, parse } from "date-fns";
 import { useFetchDiaryByRange } from "@/hooks/useQuerys/useDiaryQuery";
+import DaysOfWeekWrap from "../days-wrap/DaysWrap";
+import Link from "next/link";
 
-export default function MonthlyCal({
-  allWeeks,
-  currYear,
-  currMonth,
-}: {
-  currYear: number;
-  currMonth: number;
-  allWeeks: Date[][];
-}) {
-  const path = usePathname();
+export default function MonthlyCal({ allWeeks, currYear, currMonth }: { currYear: number; currMonth: number; allWeeks: Date[][] }) {
+  const { getWeekStartFormatStr } = drawWeeks();
 
   const firstDate = new Date(currYear, currMonth - 1, 1);
   const endDate = new Date(currYear, currMonth, 1);
@@ -26,42 +16,35 @@ export default function MonthlyCal({
   const firstDateStr = format(firstDate, "yyyy-MM-dd");
   const endDateStr = format(endDate, "yyyy-MM-dd");
 
-  const { data: todo, error: todoErr, isError: isTodoErr } = useFetchTodosByRange(firstDateStr, endDateStr);
   const { data: diary, error: diaryErr, isError: isDiaryErr } = useFetchDiaryByRange(firstDateStr, endDateStr);
 
-  if (isTodoErr && isDiaryErr) {
-    console.log("todo? ", todoErr.message);
+  if (isDiaryErr) {
     console.log("diary? ", diaryErr.message);
   }
 
   return (
     <div>
-      <DaysWrap />
+      <DaysOfWeekWrap />
       <div>
         {allWeeks.map((w, wIndex) => (
-          <ul key={wIndex} className={style["week-wrap"]}>
+          <ul key={wIndex} className={`${style["week-wrap"]} ${style.monthly}`}>
             {w.map((d, i) => {
-              const weekNum = makeWeekNum(d);
-              const year = d.getFullYear();
               const month = d.getMonth() + 1;
               const date = d.getDate();
               const days = d.getDay();
               const todayStr = dateStr(today());
+              const weekStart = getWeekStartFormatStr(parse(dateStr(d), "yyyy-MM-dd", new Date()));
 
-              const findTodo = todo?.find((t) => t.todo_date === dateStr(d));
               const findDiary = diary?.find((diary) => diary.diary_date === dateStr(d));
 
               return (
-                <li
-                  key={i}
-                  className={`${style["date-box"]} ${todayStr === dateStr(d) ? style.today : ""} ${
-                    path === `/calendar/${dateStr(d)}` ? style.active : ""
-                  } ${currMonth !== month ? style["other-date"] : ""}`.trim()}
-                >
-                  <Link href={`/calendar/${dateStr(d)}`} className={`${days === 0 || days === 6 ? style.weekend : ""}`.trim()}>
-                    {date}
+                <li key={i} className={`${style["date-box"]} ${style.monthly}`}>
+                  <Link href={`/diary/${weekStart}#${dateStr(d)}`}>
+                    <div className={`${style.date} ${todayStr === dateStr(d) ? style.today : ""} ${days === 0 || days === 6 ? style.weekend : ""} ${currMonth !== month ? style["other-date"] : ""}`.trim()}>
+                      <span>{date}</span>
+                    </div>
+                    <div className={style.icon}>{findDiary?.diary_date === dateStr(d) ? <img src="/imgs/icons/ic_complete.svg" alt="완료" /> : <img src="/imgs/icons/ic_incomplete.svg" alt="미완료" />}</div>
                   </Link>
-                  {findTodo || findDiary ? <span className={style.dot}></span> : null}
                 </li>
               );
             })}

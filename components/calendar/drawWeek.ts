@@ -1,9 +1,10 @@
-import { format, getWeek } from "date-fns";
+import { format, getWeek, parse } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
 
 export const today = () => new Date();
 export const todayStr = () => format(today(), "yyyy-MM-dd");
 export const dateStr = (d: Date) => format(d, "yyyy-MM-dd");
+export const parseDate = (d: string) => parse(d, "yyyy-MM-dd", new Date());
 export const makeWeekNum = (d: Date) => getWeek(d, { weekStartsOn: 0 });
 
 export const drawWeeks = () => {
@@ -99,4 +100,15 @@ export const drawMonth = (year: number, month: number) => {
   }
 
   return { year, month, firstDate, lastDate, allWeeks };
+};
+
+export const handlePrevMonth = (year: number, month: number) => {
+  const d = new Date(year, month - 1, 1);
+
+  return { year: d.getFullYear(), month: d.getMonth() };
+};
+
+export const handleNextMonth = (year: number, month: number) => {
+  const d = new Date(year, month + 1, 1);
+  return { year: d.getFullYear(), month: d.getMonth() };
 };

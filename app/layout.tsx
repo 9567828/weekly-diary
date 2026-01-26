@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "@/styles/styles.scss";
 import ReduxProvider from "./ReduxProvider";
-import VersionChecker from "./../components/VersionChecker";
 import Providers from "./QueryProviders";
 
 export const metadata: Metadata = {
@@ -57,7 +56,6 @@ export default async function RootLayout({
       <body>
         <Providers>
           <ReduxProvider>
-            <VersionChecker />
             <div className="container">{children}</div>
           </ReduxProvider>
         </Providers>

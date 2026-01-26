@@ -1,31 +1,25 @@
-import style from "./todos.module.scss";
-import Todo from "./TodoBox";
 import { useState } from "react";
+import style from "./todo.module.scss";
+import Todo from "./TodoBox";
 import TodoListTitle from "@/components/ui/todoListTitle/TodoListTitle";
-import { TodoRow } from "@/utils/supabase";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { handleTodo } from "@/lib/slices/tabbarSlice";
+import { TodoRow, TodoWithRepeatType } from "@/utils/supabase";
+import { useClearBodyScroll } from "@/hooks/useHooks";
 
 interface ITodoSectionProps {
   title: string;
-  toDos: TodoRow[];
-  filter: (todo: TodoRow) => boolean;
+  toDos: TodoWithRepeatType[];
+  filter: (todo: TodoWithRepeatType) => boolean;
 }
 
 export default function TodoSection({ title, toDos, filter }: ITodoSectionProps) {
   const filteredTodos = toDos.filter(filter);
-  const dispatch = useAppDispatch();
-  const isEdit = useAppSelector((state) => state.tabbar.isTodoTexing);
 
   const [openEditId, setOpenEditId] = useState<string | null>(null);
 
+  useClearBodyScroll(openEditId);
+
   const onClickEdit = (id: string) => {
     setOpenEditId((prev) => (prev === id ? null : id));
-    // if (isEdit === "edit") {
-    //   dispatch(handleTodo(null));
-    // } else {
-    //   dispatch(handleTodo("edit"));
-    // }
   };
 
   return (
@@ -43,6 +37,9 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
             is_ampm={menu.is_ampm}
             todo_date={menu.todo_date}
             is_done={menu.is_done}
+            repeat_map={menu.repeat_map!}
+            day_of_week={menu.day_of_week}
+            repeat_until={menu.repeat_until}
             onClick={() => onClickEdit(menu.id)}
             isOpen={openEditId === menu.id}
           />

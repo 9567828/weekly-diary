@@ -4,9 +4,9 @@ import EditDiary from "../(edit)/EditDiary";
 import { useState } from "react";
 import { useDeleteDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleDiary } from "@/lib/slices/tabbarSlice";
+import { handleDiaryInvalidateQueries } from "@/utils/handlers";
 
 interface IDiary {
   id: string;
@@ -21,7 +21,7 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   const [editMode, setEditMode] = useState(false);
   const [onSetting, setOnSetting] = useState(false);
 
-  const hadndleOnSetting = () => {
+  const handleOnSetting = () => {
     setOnSetting((prev) => !prev);
     if (editMode) {
       setOnSetting(false);
@@ -37,9 +37,7 @@ export default function DiaryContent({ id, title, text }: IDiary) {
     mutate(id, {
       onSuccess: (data) => {
         console.log(data);
-        queryClient.invalidateQueries({
-          queryKey: diaryQueryKey,
-        });
+        handleDiaryInvalidateQueries(queryClient);
       },
       onError: (error) => {
         console.error(error);
@@ -87,7 +85,7 @@ export default function DiaryContent({ id, title, text }: IDiary) {
                 src="/imgs/icons/ic_menu.svg"
                 alt="일기설정"
                 className="btn-24"
-                onClick={hadndleOnSetting}
+                onClick={handleOnSetting}
               />
             </div>
           </div>

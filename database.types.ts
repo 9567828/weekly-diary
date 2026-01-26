@@ -21,6 +21,7 @@ export type Database = {
           id: string
           text: string | null
           title: string | null
+          updated_at: string | null
           user_id: string
           week_num: number
         }
@@ -30,6 +31,7 @@ export type Database = {
           id?: string
           text?: string | null
           title?: string | null
+          updated_at?: string | null
           user_id?: string
           week_num: number
         }
@@ -39,6 +41,7 @@ export type Database = {
           id?: string
           text?: string | null
           title?: string | null
+          updated_at?: string | null
           user_id?: string
           week_num?: number
         }
@@ -113,12 +116,14 @@ export type Database = {
       todo: {
         Row: {
           created_at: string
+          day_of_week: number[] | null
           id: string
           is_ampm: Database["public"]["Enums"]["ampm_enum"]
           is_done: boolean
           is_import: boolean | null
           is_repeat: boolean | null
           is_time: boolean | null
+          repeat_map: Json | null
           repeat_until: string | null
           text: string | null
           time: string | null
@@ -128,12 +133,14 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          day_of_week?: number[] | null
           id?: string
           is_ampm?: Database["public"]["Enums"]["ampm_enum"]
           is_done?: boolean
           is_import?: boolean | null
           is_repeat?: boolean | null
           is_time?: boolean | null
+          repeat_map?: Json | null
           repeat_until?: string | null
           text?: string | null
           time?: string | null
@@ -143,12 +150,14 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          day_of_week?: number[] | null
           id?: string
           is_ampm?: Database["public"]["Enums"]["ampm_enum"]
           is_done?: boolean
           is_import?: boolean | null
           is_repeat?: boolean | null
           is_time?: boolean | null
+          repeat_map?: Json | null
           repeat_until?: string | null
           text?: string | null
           time?: string | null
@@ -167,6 +176,22 @@ export type Database = {
     }
     Enums: {
       ampm_enum: "오전" | "오후"
+      repeat_enum:
+        | "none"
+        | "daily"
+        | "weekday"
+        | "weekend"
+        | "weekly"
+        | "biweekly"
+        | "monthly"
+      repeat_kr_enum:
+        | "안함"
+        | "매일"
+        | "평일"
+        | "주말"
+        | "매주"
+        | "격주"
+        | "매월"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -295,6 +320,16 @@ export const Constants = {
   public: {
     Enums: {
       ampm_enum: ["오전", "오후"],
+      repeat_enum: [
+        "none",
+        "daily",
+        "weekday",
+        "weekend",
+        "weekly",
+        "biweekly",
+        "monthly",
+      ],
+      repeat_kr_enum: ["안함", "매일", "평일", "주말", "매주", "격주", "매월"],
     },
   },
 } as const

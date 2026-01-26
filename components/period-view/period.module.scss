@@ -1,8 +1,13 @@
 .period-wrap {
-  @include flex(null, null, center, 10px);
+  @include flex(null, null, center, 8px);
 }
 
 .txt {
-  @include font-theme($bodyMdPlus-b);
+  @include font-theme($bodySm-b);
   color: $gray-600;
+}
+
+.img {
+  width: 18px;
+  height: 18px;
 }

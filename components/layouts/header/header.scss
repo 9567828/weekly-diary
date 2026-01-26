@@ -1,11 +1,17 @@
 header {
   width: 100%;
   max-width: 768px;
+  height: auto;
   background-color: $bg-white;
-  padding: 20px 30px 10px;
-  z-index: 20;
+  padding: 20px 25px 10px;
   ul {
     @include flex(null, space-between, center, null);
+  }
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    z-index: 20;
   }
 }
 

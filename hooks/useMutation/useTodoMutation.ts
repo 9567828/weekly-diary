@@ -2,6 +2,7 @@ import { EditTodoType } from "@/utils/supabase";
 import { checkDone, deleteTodo, editTodo, insertTodo } from "@/utils/supabase/sql/todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "../useQuerys/useTodoQuery";
+import { handleTodoInvalidateQueries } from "@/utils/handlers";
 
 export const useAddTodoMutation = () => {
   return useMutation({
@@ -21,8 +22,8 @@ export const useEditTodoMutation = () => {
 
 export const useEditDoneMutation = () => {
   return useMutation({
-    mutationFn: async ({ id, isDone }: { id: string; isDone: boolean }) => {
-      return await checkDone(id, isDone);
+    mutationFn: async ({ id, isDone, updated_at }: { id: string; isDone: boolean; updated_at: string }) => {
+      return await checkDone(id, isDone, updated_at);
     },
   });
 };
@@ -36,9 +37,7 @@ export const useDeleteTodoMutation = () => {
       return await deleteTodo(id);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: todoDateKey,
-      });
+      handleTodoInvalidateQueries(queryClient);
     },
     onError: (error) => {
       console.error(error);

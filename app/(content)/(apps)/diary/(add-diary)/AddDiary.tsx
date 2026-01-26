@@ -7,9 +7,9 @@ import { FormEvent, useState } from "react";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import { useAddDiaryMutation } from "@/hooks/useMutation/useDiaryMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleDiary } from "@/lib/slices/tabbarSlice";
+import { handleDiaryInvalidateQueries } from "@/utils/handlers";
 
 export default function AddDiary({ date, weekNum }: { date: string; weekNum: number }) {
   const queryClient = useQueryClient();
@@ -55,9 +55,7 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
     mutate(paylaod, {
       onSuccess: (data) => {
         console.log(data);
-        queryClient.invalidateQueries({
-          queryKey: diaryQueryKey,
-        });
+        handleDiaryInvalidateQueries(queryClient);
 
         dispatch(handleDiary(null));
         setTitleValue("");
@@ -79,25 +77,19 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
             setTextMode((prev) => !prev);
           }}
         >
-          <img src="/imgs/icons/ic_plus.svg" alt="추가" />
+          <img src="/imgs/icons/ic_plus.svg" alt="추가" className={style.img} />
           <h1>새로운 일기 추가</h1>
         </button>
       ) : (
         <form onSubmit={onSubmint}>
           <ConfirmActionBtn onCancelClick={handleCloseMode} />
           <div className={style["text-container"]} onClick={() => dispatch(handleDiary("add"))}>
-            <InputBox
-              id="diaryTitle"
-              variant="input-underline"
-              onChange={(e) => setTitleValue(e.target.value)}
-              value={titleValue}
-              placeholder="제목을 입력하세요"
-              maxLength={30}
-            />
+            <InputBox id="diaryTitle" variant="input-underline" onChange={(e) => setTitleValue(e.target.value)} value={titleValue} placeholder="제목을 입력하세요" maxLength={30} />
             <div className={style["text-wrap"]}>
               <div className={style["txt-padding"]}>
                 <textarea
-                  className={style.textarea}
+                  // className={style.textarea}
+                  className="text-area"
                   name="diaryContent"
                   id="diaryContent"
                   placeholder="내용을 입력하세요"
@@ -111,15 +103,8 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
           </div>
         </form>
       )}
-      {modalOn ? (
-        <ConfirmModal
-          message="변경사항 폐기"
-          confirmOnly={false}
-          onCancel={() => setModalOn((prev) => !prev)}
-          onConfirm={modalClose}
-        />
-      ) : null}
-      {confirmModal ? <ConfirmModal confirmOnly={true} message="공란" onConfirm={() => setConfirmModal(false)} /> : null}
+      {modalOn ? <ConfirmModal message="변경사항 폐기" confirmOnly={false} onCancel={() => setModalOn((prev) => !prev)} onConfirm={modalClose} /> : null}
+      {confirmModal ? <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmModal(false)} /> : null}
     </>
   );
 }
