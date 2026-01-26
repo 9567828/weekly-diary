@@ -118,7 +118,7 @@
   @include flex(null, space-between, center, null);
   input[type="date"] {
     flex-shrink: 0;
-    width: 125px;
+    // width: 125px;
     height: 100%
   }
 }

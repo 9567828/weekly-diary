@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import CheckBtn from "@/components/ui/checkBtn/CheckBtn";
 import InputDate from "@/components/ui/InputDate";
 import { RepeatMapType } from "@/utils/supabase";
+import { todayStr } from "@/components/calendar/drawWeek";
 
 type daysType = "월" | "화" | "수" | "목" | "금" | "토" | "일";
 type daysMapType = {
@@ -68,7 +69,7 @@ export default function RepeatWrap({ repeatType, selectDays, onSelectDays, until
               종료날짜
             </CheckBtn>
           </div>
-          {checkedEnd && <InputDate id="untilDate" value={untilValue} onChange={onChangeUntil} />}
+          {checkedEnd && <InputDate id="untilDate" value={untilValue || todayStr()} onChange={onChangeUntil} />}
         </div>
       )}
     </div>
