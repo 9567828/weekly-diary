@@ -120,3 +120,7 @@
 .check-wrap {
   @include flex(null, null, center, 8px);
 }
+
+.hidden {
+  display: none;
+}
