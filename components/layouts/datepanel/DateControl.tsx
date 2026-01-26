@@ -7,14 +7,15 @@ interface IButtn {
   nextBtn: () => void;
   today: () => void;
   date: string;
+  isMargin?: boolean;
 }
 
-export default function DateControl({ date, prevBtn, today, nextBtn }: IButtn) {
+export default function DateControl({ date, prevBtn, today, nextBtn, isMargin = false }: IButtn) {
   const path = usePathname();
   const isDiary = path.startsWith("/diary");
 
   return (
-    <div className={style["date-wrap"]}>
+    <div className={`${style["date-wrap"]} ${isMargin ? style.margin : ""}`.trim()}>
       <p className={style["this-month"]}>{date}</p>
       <div className={style["btn-wrap"]}>
         <Button existImg={true} src="/imgs/icons/ic_arrow-left.svg" alt="이전으로가기" variant="btn-18" onClick={prevBtn} />

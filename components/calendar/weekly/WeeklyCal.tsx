@@ -1,11 +1,13 @@
 "use client";
 
 import style from "../calender.module.scss";
-import { format } from "date-fns";
+import { differenceInMonths, format, getWeek, parse } from "date-fns";
 import { usePathname } from "next/navigation";
-import { useFetchTodoAll } from "@/hooks/useQuerys/useTodoQuery";
+import { useFetchTodoAll, useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import DaysOfWeekWrap from "../days-wrap/DaysWrap";
 import DatesWrap from "../days-wrap/DatesWrap";
+import { dateStr, parseDate } from "../drawWeek";
+import { isTodoVisibleOnDate } from "@/utils/handlers";
 
 interface IWeekDate {
   weekDates: Date[];
@@ -13,7 +15,10 @@ interface IWeekDate {
 
 export default function WeeklyCal({ weekDates }: IWeekDate) {
   const path = usePathname();
-  const { data, isError, error } = useFetchTodoAll();
+  const weekStart = dateStr(weekDates[0]);
+  const weekEnd = dateStr(weekDates[weekDates.length - 1]);
+
+  const { data, isError, error } = useFetchTodosByRange(weekStart, weekEnd);
 
   if (isError) {
     console.log(error.message);
@@ -31,15 +36,14 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
 
           const dateStr = format(w, "yyyy-MM-dd");
 
-          const existed = data?.find((t) => t.todo_date === dateStr);
-
+          const hasDot = data?.some((t) => isTodoVisibleOnDate(t, dateStr));
           return (
             <DatesWrap
               key={i}
               date={date}
               href={`/${dateStr}`}
               isActive={path === `/${dateStr}`}
-              isExisted={existed}
+              isExisted={hasDot}
               isToday={todayStr === dateStr}
               isWeekend={days === 0 || days === 6}
             />

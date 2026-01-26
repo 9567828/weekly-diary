@@ -6,7 +6,7 @@ import ToggleBtn from "@/components/ui/toggleBtn/ToggleBtn";
 import TimePicker from "../(time)/TimePicker";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
 import ConfirmActionBtn from "@/components/ui/confirmActionBtn/ConfirmActionBtn";
-import { AmPmType, EditTodoType } from "@/utils/supabase";
+import { AmPmType, EditTodoType, RepeatMapType, RepeatType } from "@/utils/supabase";
 import { useDeleteTodoMutation, useEditTodoMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/lib/hooks";
@@ -15,14 +15,18 @@ import { createPortal } from "react-dom";
 import CustomTimer from "./CustomTimer";
 import { getScrollIndex, handleOnScroll, handleTodoInvalidateQueries, makeTimes } from "@/utils/handlers";
 import { isMobile } from "react-device-detect";
+import SelectRepeat from "@/components/ui/select-box/SelectRepeat";
+import InputDate from "@/components/ui/InputDate";
+import RepeatWrap from "@/app/(content)/(apps)/(todos)/(editTodo)/RepeatWrap";
+import { parse, parseISO, setDay } from "date-fns";
 
-type toggleIdType = "is_import" | "is_time" | "is_date" | "is_repeat";
+type toggleIdType = "is_import" | "is_time";
 type toggleMap = Record<toggleIdType, boolean>;
 
 type selectType = {
   src: string;
   title: "중요" | "시간" | "날짜" | "반복";
-  toggleId: toggleIdType;
+  toggleId: toggleIdType | null;
 };
 
 interface IEditTodo {
@@ -30,18 +34,20 @@ interface IEditTodo {
   text: string;
   is_import: boolean;
   is_time: boolean;
-  is_repeat: boolean;
   time?: string;
   is_ampm?: AmPmType;
   todo_date?: string;
-  onClick: () => void;
+  day_of_week: number[];
+  repeat_until: string | null;
+  repeat_map: RepeatMapType;
+  onClose: () => void;
 }
 
 const selectBox: selectType[] = [
   { src: "/imgs/icons/ic_important.svg", title: "중요", toggleId: "is_import" },
   { src: "/imgs/icons/ic_time.svg", title: "시간", toggleId: "is_time" },
-  { src: "/imgs/icons/ic_calendar.svg", title: "날짜", toggleId: "is_date" },
-  { src: "/imgs/icons/ic_repeat.svg", title: "반복", toggleId: "is_repeat" },
+  { src: "/imgs/icons/ic_calendar.svg", title: "날짜", toggleId: null },
+  { src: "/imgs/icons/ic_repeat.svg", title: "반복", toggleId: null },
 ];
 
 const ampmList = ["오전", "오전", "오후", "오후"];
@@ -49,7 +55,14 @@ const hours = makeTimes("hour");
 const minutes = makeTimes("minute");
 
 export default function EditTodo({ ...props }: IEditTodo) {
-  const { id, text, is_import, is_time, time, is_ampm, is_repeat, todo_date, onClick } = props;
+  const { id, text, is_import, is_time, time, is_ampm, todo_date, repeat_map, repeat_until, day_of_week, onClose } = props;
+  let initRepeat: RepeatMapType;
+
+  if (!repeat_map) {
+    initRepeat = { label: "안함", value: "none" };
+  } else {
+    initRepeat = { label: repeat_map.label, value: repeat_map.value };
+  }
 
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
@@ -58,13 +71,15 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const [mount, setMount] = useState(false);
   const [value, setValue] = useState(text);
   const [dateValue, setDateValue] = useState(todo_date);
+  const [untilDate, setUntilDate] = useState(repeat_until ?? "");
+  const [checkedUntil, setCheckedUntil] = useState(repeat_until !== null);
+  const [selectRepeat, setSelectRepeat] = useState<RepeatMapType>(repeat_map ?? null);
+  const [days, setDays] = useState<number[]>(day_of_week ?? []);
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmOn, setConfirmOn] = useState(false);
   const [toggleChecked, setToggleChecked] = useState<toggleMap>({
     is_import,
     is_time,
-    is_repeat,
-    is_date: false,
   });
   const [ampm, setAmpm] = useState<AmPmType | null>(is_ampm ?? null);
   const getTime = () => {
@@ -73,7 +88,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     return { h, m };
   };
 
-  type HasChangedKey = "text" | "is_import" | "is_time" | "is_ampm" | "hour" | "min" | "is_repeat" | "date";
+  type HasChangedKey = "text" | "is_import" | "is_time" | "is_ampm" | "hour" | "min" | "is_repeat" | "date" | "untilDate";
   type HasChangedType = Record<HasChangedKey, boolean>;
 
   const [hour, setHour] = useState<string>(getTime().h ?? "");
@@ -87,6 +102,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     min: false,
     is_repeat: false,
     date: false,
+    untilDate: false,
   });
 
   const handleHasChanged = (changedKey: HasChangedKey, compare: boolean) => {
@@ -104,16 +120,16 @@ export default function EditTodo({ ...props }: IEditTodo) {
 
   const isValidDate = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v));
 
-  const onTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    handleHasChanged("text", text !== e.target.value);
-  };
+  // const onTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setValue(e.target.value);
+  //   handleHasChanged("text", text !== e.target.value);
+  // };
 
   const closeEdit = () => {
     if (anyChanged) {
       setModalOpen(true);
     } else {
-      onClick();
+      onClose();
     }
   };
 
@@ -126,12 +142,9 @@ export default function EditTodo({ ...props }: IEditTodo) {
       [targetId]: checked,
     }));
 
-    console.log(checked);
-
     const initialMap: Record<string, boolean> = {
       is_import,
       is_time,
-      is_repeat,
     };
 
     const keyMap: Record<string, HasChangedKey> = {
@@ -176,12 +189,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     }
   };
 
-  const onChangeScrollTime = (
-    ref: RefObject<HTMLDivElement | null>,
-    listArr: string[],
-    setState: Dispatch<SetStateAction<any>>,
-    changed: "is_ampm" | "hour" | "min",
-  ) => {
+  const onChangeScrollTime = (ref: RefObject<HTMLDivElement | null>, listArr: string[], setState: Dispatch<SetStateAction<any>>, changed: "is_ampm" | "hour" | "min") => {
     handleOnScroll(() => {
       const v = getScrollIndex(ref, listArr);
       setState(v);
@@ -191,6 +199,98 @@ export default function EditTodo({ ...props }: IEditTodo) {
       handleHasChanged(changed, compareValue !== v);
     });
   };
+
+  const handleSelectDays = (days: number) => {
+    setDays(
+      (prev) =>
+        prev.includes(days)
+          ? prev.filter((d) => d !== days) // 이미 있으면 제거
+          : [...prev, days], // 없으면 추가
+    );
+  };
+
+  const handleSelectRepeat = (opt: RepeatMapType) => {
+    const newDays = parse(dateValue!, "yyyy-MM-dd", new Date()).getDay();
+
+    if (opt.value === "weekday") {
+      setDays([1, 2, 3, 4, 5]);
+    }
+
+    if (opt.value === "weekend") {
+      setDays([0, 6]);
+    }
+
+    if (opt.value === "weekly" || opt.value === "biweekly") {
+      setDays([newDays]);
+    }
+
+    if (opt.value === "none") {
+      setDays([]);
+    }
+    setSelectRepeat({ value: opt.value, label: opt.label });
+
+    const isChanged = selectRepeat.label !== opt.label || selectRepeat.value !== opt.value;
+    handleHasChanged("is_repeat", isChanged);
+  };
+
+  useEffect(() => {
+    const newDays = parse(dateValue!, "yyyy-MM-dd", new Date()).getDay();
+    setDays([newDays]);
+  }, [dateValue]);
+
+  useEffect(() => {
+    const newDays = parse(dateValue!, "yyyy-MM-dd", new Date()).getDay();
+    const isDaily = days.length === 7;
+    const isWeekendOnly = days.length === 2 && days.every((d) => d === 0 || d === 6);
+    const isWeekDay = days.length === 5 && days.every((d) => d >= 1 && d <= 5);
+
+    if (selectRepeat.value === "weekly") {
+      if (!days.length) {
+        setDays([newDays]);
+        return;
+      }
+      if (isDaily) {
+        alert("매일로 변경 됩니다.");
+        setDays([]);
+        setSelectRepeat({ label: "매일", value: "daily" });
+        return;
+      }
+
+      if (isWeekendOnly) {
+        alert("주말로 변경 됩니다.");
+        setDays([]);
+        setSelectRepeat({ label: "주말", value: "weekend" });
+        return;
+      }
+
+      if (isWeekDay) {
+        alert("평일로 변경 됩니다.");
+        setDays([]);
+        setSelectRepeat({ label: "평일", value: "weekday" });
+        return;
+      }
+    }
+
+    if (selectRepeat.value === "biweekly") {
+      if (!days.length) {
+        setDays([newDays]);
+        return;
+      }
+      if (isDaily) {
+        setSelectRepeat({ label: "매일", value: "biweekly" });
+        return;
+      }
+      if (isWeekendOnly) {
+        setSelectRepeat({ label: "주말", value: "biweekly" });
+        return;
+      }
+      if (isWeekDay) {
+        setSelectRepeat({ label: "평일", value: "biweekly" });
+        return;
+      }
+      setSelectRepeat({ label: "격주", value: "biweekly" });
+    }
+  }, [days, selectRepeat.value]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -203,7 +303,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     }
 
     if (!anyChanged) {
-      onClick();
+      onClose();
       return;
     }
 
@@ -226,7 +326,10 @@ export default function EditTodo({ ...props }: IEditTodo) {
         is_time: toggleChecked.is_time,
         is_ampm: newAmpm!,
         time: newTime,
-        is_repeat: toggleChecked.is_repeat,
+        is_repeat: selectRepeat.label !== "안함",
+        day_of_week: days.length <= 0 ? null : days,
+        repeat_until: untilDate === "" || !checkedUntil ? null : untilDate,
+        repeat_map: selectRepeat,
       },
       id,
     };
@@ -234,7 +337,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     edit(editObj, {
       onSuccess: (data) => {
         handleTodoInvalidateQueries(queryClient);
-        onClick();
+        onClose();
       },
       onError: (error) => {
         console.error(error);
@@ -265,18 +368,24 @@ export default function EditTodo({ ...props }: IEditTodo) {
             <div className={style.inner}>
               <div className={style.scroll}>
                 <div className={style["edit-box"]}>
-                  <InputBox
+                  <textarea
+                    className="text-area todo"
+                    name="text"
                     id="text"
-                    variant="input-underline"
-                    onChange={onTextChange}
-                    value={value!}
+                    placeholder="내용을 입력하세요"
+                    rows={2}
+                    value={value}
+                    onChange={(e) => {
+                      setValue(e.target.value);
+                      handleHasChanged("text", text !== e.target.value);
+                    }}
                     onFocus={() => dispatch(handleTodo("edit"))}
                     onBlur={() => dispatch(handleTodo(null))}
                   />
 
                   <div className={style["select-wrap"]}>
                     {selectBox.map((s, i) => {
-                      const checked = toggleChecked[s.toggleId] ?? false;
+                      const checked = toggleChecked[s.toggleId!] ?? false;
 
                       return (
                         <div key={i}>
@@ -288,24 +397,58 @@ export default function EditTodo({ ...props }: IEditTodo) {
                               <div className={style.text}>
                                 <h5>{s.title}</h5>
                                 {s.toggleId === "is_time" && toggleChecked.is_time && <p>{`${ampm} ${hour}:${min}`}</p>}
+                                {s.title === "반복" && selectRepeat.value !== "none" && (
+                                  <div className={style["repeat-text"]}>
+                                    <img src="/imgs/icons/ic_repeat-small.svg" alt="반복아이콘" />
+                                    <div>
+                                      <p>{selectRepeat.value === "biweekly" && selectRepeat.label !== "격주" ? `격주 · ${selectRepeat.label}` : selectRepeat.label}</p>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
-                              <ToggleBtn id={s.toggleId} onChange={onChangeToggle} checked={checked} />
+                              {s.title === "날짜" ? (
+                                <InputDate
+                                  id="todoDate"
+                                  value={dateValue}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    setDateValue(value);
+                                    handleHasChanged("date", value !== "");
+                                  }}
+                                />
+                              ) : s.title === "반복" ? (
+                                <SelectRepeat type={selectRepeat!} onSelect={handleSelectRepeat} />
+                              ) : (
+                                <ToggleBtn id={s.toggleId!} onChange={onChangeToggle} checked={checked} />
+                              )}
                             </div>
                           </div>
-                          {s.toggleId === "is_date" && toggleChecked.is_date && (
-                            <input
-                              className={style["date-input"]}
-                              type="date"
-                              name="todo_date"
-                              id="todo_date"
-                              pattern="\d{4}-\d{2}-\d{2}"
-                              min="2000-01-01"
-                              max="2100-12-31"
-                              value={dateValue}
-                              onChange={(e) => {
+                          {s.title === "반복" && (
+                            <RepeatWrap
+                              repeatType={selectRepeat!}
+                              selectDays={days}
+                              onSelectDays={handleSelectDays}
+                              untilValue={untilDate!}
+                              checkedEnd={checkedUntil}
+                              onChangeCheckd={(e) => {
+                                const checked = e.target.checked;
+
+                                setCheckedUntil((prev) => !prev);
+                                handleHasChanged("date", checkedUntil !== checked);
+                              }}
+                              onChangeUntil={(e) => {
                                 const value = e.target.value;
-                                setDateValue(value);
-                                handleHasChanged("date", value !== "");
+                                const todoDate = parse(dateValue!, "yyyy-MM-dd", new Date());
+                                const untilDate = parse(value, "yyyy-MM-dd", new Date());
+
+                                if (todoDate > untilDate) {
+                                  alert("todo 날짜보다 이전일 수 없습니다.");
+                                  setUntilDate("");
+                                  return;
+                                }
+
+                                setUntilDate(value);
+                                handleHasChanged("untilDate", value !== "");
                               }}
                             />
                           )}
@@ -366,21 +509,15 @@ export default function EditTodo({ ...props }: IEditTodo) {
                     })}
                   </div>
                 </div>
-                <Button
-                  type="button"
-                  label="할일 삭제하기"
-                  variant="txt-btn"
-                  className="delete-txt-btn"
-                  onClick={() => deleteTodo(id)}
-                />
+                <div>
+                  <Button type="button" label="할일 삭제하기" variant="txt-btn" className="delete-txt-btn" onClick={() => deleteTodo(id)} />
+                </div>
               </div>
             </div>
           </div>
         </form>
       </div>
-      {confirmOn ? (
-        <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmOn(false)} />
-      ) : null}
+      {confirmOn ? <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmOn(false)} /> : null}
       {modalOpen ? (
         <ConfirmModal
           confirmOnly={false}
@@ -388,7 +525,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
           onCancel={() => {
             setModalOpen((prev) => !prev);
           }}
-          onConfirm={onClick}
+          onConfirm={onClose}
         />
       ) : null}
     </>,

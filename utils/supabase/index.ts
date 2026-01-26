@@ -1,15 +1,40 @@
-import { Enums, Tables } from "@/database.types";
+import { Enums, Json, Tables } from "@/database.types";
 
 export type TodoRow = Tables<"todo">;
 export type DiaryRow = Tables<"diary">;
 
 export type AmPmType = Enums<"ampm_enum">;
 export type RepeatType = Enums<"repeat_enum">;
+export type RepeatKrType = Enums<"repeat_kr_enum">;
+
+export type RepeatMapType = {
+  label: RepeatKrType;
+  value: RepeatType;
+};
+
+export type TodoWithRepeatType = {
+  created_at: string;
+  day_of_week: number[] | null;
+  id: string;
+  is_ampm: AmPmType;
+  is_done: boolean;
+  is_import: boolean | null;
+  is_time: boolean | null;
+  is_repeat: boolean | null;
+  repeat_map: RepeatMapType | null;
+  repeat_until: string | null;
+  text: string | null;
+  time: string | null;
+  todo_date: string;
+  updated_at: string | null;
+  user_id: string;
+};
 
 export type AddTodoType = {
   text: string;
   user_id: string;
   todo_date: string;
+  repeat_map: Json | null;
 };
 
 export type EditTodoType = {
@@ -22,6 +47,9 @@ export type EditTodoType = {
     is_ampm: AmPmType;
     todo_date: string;
     is_repeat: boolean;
+    day_of_week: number[] | null;
+    repeat_until: string | null;
+    repeat_map: RepeatMapType;
   };
   id: string;
 };

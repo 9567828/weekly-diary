@@ -5,6 +5,7 @@ import "./tabbar.scss";
 import { useParams, usePathname } from "next/navigation";
 import { useAppSelector } from "@/lib/hooks";
 import { useIsMobile } from "@/hooks/useHooks";
+import { useEffect } from "react";
 
 const menuList = [
   {
@@ -50,12 +51,16 @@ export default function Tabbar() {
     return path.startsWith(menuHref);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [path]);
+
   return (
     <footer className={isMobile && (todoOpen != null || diaryOpen != null) ? "none" : ""}>
       <ul>
         {menuList.map((menu, i) => (
           <li key={i}>
-            <Link href={menu.href}>
+            <Link href={menu.href} replace>
               <img src={isActive(menu.href) ? menu.srcTabActive : menu.srcTab} alt={menu.alt} />
             </Link>
           </li>

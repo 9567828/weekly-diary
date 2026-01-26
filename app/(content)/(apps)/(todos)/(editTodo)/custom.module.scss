@@ -5,7 +5,6 @@
   background-color: white;
 }
 
-
 .time-wrap {
   position: relative;
   width: 100%;
@@ -14,7 +13,7 @@
   padding: 8px 0;
   @include flex(null, center, flex-start, 24px);
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 51%;
     transform: translateY(-50%);
@@ -25,7 +24,6 @@
     pointer-events: none;
   }
 }
-
 
 .text-wrap {
   height: 100%;
@@ -56,4 +54,69 @@
     font-weight: $ext-weight;
     color: $bg-black;
   }
+}
+
+// date-wrap
+.date-container {
+  width: 100%;
+  padding-left: 38px;
+}
+
+.repeat-select {
+  padding: 8px 0;
+  @include flex(null, space-between, center, null);
+  border-bottom: 1px solid $gray-200;
+}
+
+.days-container {
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid $gray-200;
+  .tooltip-wrap {
+    position: relative;
+    p {
+      @include font-theme($captionXs-b);
+      color: $gray-600;
+    }
+    .tooltip {
+      position: absolute;
+      top: 0;
+      left: 48px;
+      @include flex(null, null, center, 2px);
+      p {
+        @include font-theme($captionXxs-r);
+        color: $gray-500;
+        background-color: $gray-100;
+        padding: 1px 4px;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .days-wrapper {
+    @include font-theme($bodySm-r);
+    @include flex(null, null, center, 4px);
+    margin-top: 8px;
+    button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      &.active {
+        font-weight: $bold;
+        background-color: $main-color;
+        color: white;
+      }
+    }
+  }
+}
+
+// repeat end
+.until-container {
+  width: 100%;
+  height: 54px;
+  padding: 8px 0;
+  @include flex(null, space-between, center, null);
+}
+.check-wrap {
+  @include flex(null, null, center, 8px);
 }

@@ -1,3 +1,11 @@
+.column {
+  @include flex(column, center, null, 40px);
+}
+.todo-list {
+  margin-top: 16px;
+  @include flex(column, center, null, 8px);
+}
+
 .position {
   width: 100%;
   position: relative;
@@ -27,17 +35,16 @@
 }
 
 .position.isDone .label {
-  width: 100%;
   color: $gray-400;
   text-decoration: line-through;
 }
 
-.time-line {
+.meta-wrap {
   @include flex(null, null, center, 3px);
   @include font-theme($captionXs-b);
 }
 
-.time {
+.meta {
   color: $gray-400;
 }
 
@@ -47,9 +54,17 @@
   @include flex(null, center, center, 15px);
 }
 
+.repeat-wrap {
+  @include flex(null, null, center, 2px);
+  .days-txt {
+    @include font-theme($captionXs-r);
+    color: $gray-600;
+  }
+}
+
 @media (max-width: 560px) {
   .label {
-    width: 200px;
+    width: 215px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

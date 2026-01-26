@@ -8,7 +8,6 @@ import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import { useAddTodoMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleTodo } from "@/lib/slices/tabbarSlice";
 import { handleTodoInvalidateQueries } from "@/utils/handlers";
@@ -48,7 +47,6 @@ export default function AddTodo() {
         onSuccess: () => {
           handleTodoInvalidateQueries(queryClient);
           setValue("");
-          inputRef.current?.blur();
         },
         onError: (error) => {
           console.log(error);
@@ -64,7 +62,7 @@ export default function AddTodo() {
         variant={"input-underline"}
         value={value}
         onChange={onChange}
-        maxLength={15}
+        maxLength={35}
         placeholder="할일을 입력하세요"
         onFocus={() => dispatch(handleTodo("add"))}
         onBlur={() => dispatch(handleTodo(null))}

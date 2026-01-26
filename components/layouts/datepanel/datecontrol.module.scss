@@ -1,6 +1,9 @@
 .date-wrap {
   @include flex(null, space-between, center, null);
   background-color: $bg-white;
+  &.margin {
+    margin-bottom: 12px;
+  }
 }
 
 .btn-wrap {

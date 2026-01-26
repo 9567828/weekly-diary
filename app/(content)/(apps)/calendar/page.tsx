@@ -1,12 +1,12 @@
-import DatePanel from "@/components/layouts/datepanel/DatePanel";
+import WrapperLayout from "../../WrapperLayout";
 import CalendarPanel from "./(calendarPanel)/CalendarPanel";
+import CalendarCover from "@/app/(content)/(apps)/calendar/(calendarPanel)/CalendarCover";
 
 export default function Page() {
   return (
-    <>
-      <DatePanel isMonthly>
-        <CalendarPanel />
-      </DatePanel>
-    </>
+    <WrapperLayout>
+      <CalendarCover />
+      <CalendarPanel />
+    </WrapperLayout>
   );
 }

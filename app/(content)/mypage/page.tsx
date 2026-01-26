@@ -13,8 +13,6 @@ export default function Page() {
     dispatch(logout);
   };
 
-  const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION;
-
   return (
     <WrapperLayout>
       <h1>내 페이지</h1>

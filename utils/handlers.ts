@@ -2,8 +2,13 @@ import { QueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { RefObject } from "react";
+import { RepeatKrType, TodoWithRepeatType } from "./supabase";
+import { parseDate } from "@/components/calendar/drawWeek";
+import { differenceInMonths, getWeek } from "date-fns";
 
 type timeType = "hour" | "minute";
+
+export const DAY_LABEL = ["일", "월", "화", "수", "목", "금", "토"];
 
 export const makeTimes = (time: timeType) => {
   let t: string[] = [];
@@ -53,4 +58,40 @@ export const getScrollIndex = (ref: RefObject<HTMLDivElement | null>, itemArr: a
   const valueIndex = index - DUMMY_COUNT_TOP;
 
   return itemArr[valueIndex];
+};
+
+export const SITE_URL = process.env.NODE_ENV === "development" ? process.env.NEXT_PUBLIC_DEV_SITE_URL : process.env.NEXT_PUBLIC_PROD_SITE_URL;
+
+export const isTodoVisibleOnDate = (t: TodoWithRepeatType, dateStr: string) => {
+  const todoParse = parseDate(t.todo_date);
+  const dateParse = parseDate(dateStr);
+  let untilParse;
+
+  if (t.repeat_until !== null) {
+    untilParse = parseDate(t.repeat_until);
+  }
+
+  if (!t.is_repeat) {
+    return t.todo_date === dateStr;
+  }
+
+  if (t.is_repeat) {
+    if (t.repeat_until !== null && dateParse > parseDate(t.repeat_until)) return false;
+
+    if (t.repeat_map?.value === "daily") return true;
+
+    if (t.repeat_map?.value === "monthly") {
+      const anchorDate = todoParse.getDate();
+      return dateParse.getDate() === anchorDate && differenceInMonths(dateParse.getDate(), anchorDate) >= 0;
+    } else {
+      if (t.day_of_week?.length) {
+        if (t.repeat_map?.value === "biweekly") {
+          const startWeek = getWeek(todoParse);
+          const currentWeek = getWeek(dateParse);
+          if ((currentWeek - startWeek) % 2 !== 0) return false;
+        }
+        return t.day_of_week.includes(dateParse.getDay());
+      }
+    }
+  }
 };

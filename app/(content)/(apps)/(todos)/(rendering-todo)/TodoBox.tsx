@@ -3,11 +3,11 @@ import CheckBtn from "@/components/ui/checkBtn/CheckBtn";
 import Button from "@/components/ui/Button";
 import EditTodo from "../(editTodo)/EditTodo";
 import { ChangeEvent } from "react";
-import { AmPmType } from "@/utils/supabase";
+import { AmPmType, RepeatMapType, RepeatType } from "@/utils/supabase";
 import { useDeleteTodoMutation, useEditDoneMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
-import { handleTodoInvalidateQueries } from "@/utils/handlers";
+import { DAY_LABEL, handleTodoInvalidateQueries } from "@/utils/handlers";
+import MetaText from "./MetaText";
 
 interface IHandler {
   onClick: () => void;
@@ -20,16 +20,18 @@ interface IBaseTodo {
   is_import: boolean;
   is_done: boolean;
   is_time: boolean;
-  is_repeat: boolean;
   time?: string;
   is_ampm?: AmPmType;
   todo_date?: string;
+  day_of_week: number[] | null;
+  repeat_until: string | null;
+  repeat_map: RepeatMapType;
 }
 
 type FullProps = IBaseTodo & IHandler;
 
 export default function Todo(props: FullProps) {
-  const { id, text, is_import, is_time, is_done, isOpen, onClick } = props;
+  const { id, text, is_import, is_time, is_done, isOpen, onClick, repeat_map, repeat_until, day_of_week } = props;
   const queryClient = useQueryClient();
   const { mutate: editDone } = useEditDoneMutation();
   const { mutate: deleteTodo } = useDeleteTodoMutation();
@@ -63,34 +65,28 @@ export default function Todo(props: FullProps) {
               {is_import ? <img src="/imgs/icons/ic_important-3x.svg" alt="중요" /> : null}
               <p className={style.label}>{text}</p>
             </div>
-            {is_time ? (
-              <div className={style["time-line"]}>
-                <img src="/imgs/icons/ic_clock.svg" alt="시간" />
-                <p className={style.time}>{`${props.is_ampm} ${props.time}`}</p>
+            {is_time && <MetaText icon="ic_clock" alt="시간" text={`${props.is_ampm} ${props.time}`} />}
+            {repeat_map !== null && repeat_map.label !== "안함" && (
+              <div className={style["repeat-wrap"]}>
+                <MetaText icon="ic_repeat-small" alt="반복" text={`${repeat_map.label} ${repeat_until !== null ? `· ${repeat_until} 까지` : ""}`} />
+                {(repeat_map.value === "biweekly" || repeat_map.value === "weekly") &&
+                  day_of_week?.map((d) => {
+                    return (
+                      <div key={d} className={style["days-txt"]}>
+                        <p>{DAY_LABEL[d]}</p>
+                      </div>
+                    );
+                  })}
               </div>
-            ) : null}
+            )}
           </CheckBtn>
         </div>
         <div className={style["btn-wrap"]}>
-          {!is_done ? (
-            <Button
-              existImg={true}
-              src="/imgs/icons/ic_edit-pencel.svg"
-              alt="투두수정"
-              className="btn-18"
-              onClick={onClick}
-            />
-          ) : null}
-          <Button
-            existImg={true}
-            src="/imgs/icons/ic_delete.svg"
-            alt="투두삭제"
-            className="btn-18"
-            onClick={() => deleteTodo(id)}
-          />
+          {!is_done ? <Button existImg={true} src="/imgs/icons/ic_edit-pencel.svg" alt="투두수정" className="btn-18" onClick={onClick} /> : null}
+          <Button existImg={true} src="/imgs/icons/ic_delete.svg" alt="투두삭제" className="btn-18" onClick={() => deleteTodo(id)} />
         </div>
       </div>
-      {isOpen ? (
+      {isOpen && (
         <EditTodo
           id={id}
           text={text!}
@@ -98,11 +94,13 @@ export default function Todo(props: FullProps) {
           is_time={is_time!}
           time={props.time!}
           is_ampm={props.is_ampm!}
-          is_repeat={props.is_repeat!}
           todo_date={props.todo_date}
-          onClick={onClick}
+          repeat_map={props.repeat_map}
+          day_of_week={props.day_of_week!}
+          repeat_until={props.repeat_until}
+          onClose={onClick}
         />
-      ) : null}
+      )}
     </>
   );
 }

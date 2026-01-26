@@ -31,7 +31,7 @@ export async function updateSession(request: NextRequest) {
   const isCallback = url.pathname.startsWith("/auth/callback");
 
   // ✅ callback은 무조건 통과
-  if (isCallback) return;
+  if (isCallback) return supabaseResponse;
 
   if (!session && !data.user?.email && !isLoginPage) {
     url.pathname = "/login";
@@ -43,4 +43,6 @@ export async function updateSession(request: NextRequest) {
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
+
+  return supabaseResponse;
 }

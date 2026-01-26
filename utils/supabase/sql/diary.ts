@@ -1,10 +1,8 @@
-import { PostgrestError } from "@supabase/supabase-js";
 import { AddDiaryType, DiaryRow, EditDiaryType } from "..";
 import { createClient } from "../client";
 
-const supabase = createClient();
-
 export const addDiary = async (props: AddDiaryType) => {
+  const supabase = createClient();
   const {
     data: { user },
     error: userErr,
@@ -20,6 +18,7 @@ export const addDiary = async (props: AddDiaryType) => {
 };
 
 export const updateDiary = async (props: EditDiaryType) => {
+  const supabase = createClient();
   const { data, error } = await supabase.from("diary").update(props.payload).eq("id", props.id).select().single();
 
   if (error) throw error;
@@ -28,6 +27,7 @@ export const updateDiary = async (props: EditDiaryType) => {
 };
 
 export const deleteDiary = async (id: string) => {
+  const supabase = createClient();
   const { error } = await supabase.from("diary").delete().eq("id", id);
 
   if (error) throw error;
@@ -36,6 +36,7 @@ export const deleteDiary = async (id: string) => {
 };
 
 export const selectDiaryByDate = async (date: string): Promise<{ diary_date: string | null }> => {
+  const supabase = createClient();
   const { data, error } = await supabase.from("diary").select("diary_date").eq("diary_date", date).maybeSingle();
 
   if (error) throw error;
@@ -44,6 +45,7 @@ export const selectDiaryByDate = async (date: string): Promise<{ diary_date: str
 };
 
 export const selectDiaryByRange = async (startDate: string, endDate: string): Promise<DiaryRow[]> => {
+  const supabase = createClient();
   const { data, error } = await supabase.from("diary").select("*").gte("diary_date", startDate).lt("diary_date", endDate);
 
   if (error) throw error;

@@ -28,3 +28,29 @@ export const useIsMobile = () => {
   }, []);
   return isMobile;
 };
+
+export const useOnClickOutSide = (ref: React.RefObject<HTMLElement | null>, handler: () => void, btn?: React.RefObject<HTMLElement | null>, isGlobModalOpen?: boolean) => {
+  useEffect(() => {
+    if (isGlobModalOpen) return;
+
+    if (btn?.current) return;
+
+    const listener = (e: MouseEvent) => {
+      if (!ref.current || ref.current.contains(e.target as Node)) return;
+      handler();
+    };
+
+    document.addEventListener("mousedown", listener);
+    return () => document.removeEventListener("mousedown", listener);
+  }, [ref, handler]);
+};
+
+export const useClearBodyScroll = (modal: any) => {
+  useEffect(() => {
+    if (modal) {
+      window.document.body.style.overflow = "hidden";
+    } else {
+      window.document.body.removeAttribute("style");
+    }
+  }, [modal]);
+};

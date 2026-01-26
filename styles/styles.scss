@@ -5,21 +5,40 @@
 // 전체설정
 body {
   background-color: #f2f1f5;
-  overflow: hidden;
-  overscroll-behavior: none;
+  //overflow: hidden;
+  //overscroll-behavior: none;
+  //-webkit-overflow-scrolling: touch;
 }
+
+// body::-webkit-scrollbar {
+//   display: none;
+// }
+
 .container {
   width: 100%;
   max-width: 768px;
-  height: 100dvh;
-   margin: 0 auto;
-  //position: fixed;
-  //top: 0;
-  //left: 50%;
-  //transform: translateX(-50%);
+  margin: 0 auto;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
-  background-color: $bg-white;
+  background-color: white;
+}
+
+article {
+  width: 100%;
+  height: 100%;
+  min-height: calc(100dvh - 47px);
+  padding: 20px;
+  background-color: $bg-gray;
+  &.mypage {
+    padding-top: 67px;
+    min-height: 100dvh;
+  }
+  &.calendar {
+    // min-height: calc(100dvh - 67px);
+    padding: 47px 0 0;
+    background-color: white;
+    @include flex(column, flex-start, null, 12px);
+  }
 }
 
 .account-container {
@@ -46,33 +65,46 @@ body {
   @include font-theme($titleXl-b);
 }
 
-.scroll-wrap {
+.empty-space {
   width: 100%;
-  height: calc(100dvh - 172px);
-  overflow: hidden;
-  &.mypage {
-    padding: 20px;
-    height: calc(100dvh - 126px);
+  height: 80px;
+  &.calendar {
+    height: 90px;
   }
-  &.diary {
-    // height: calc(100dvh - 226px);
-    height: calc(100dvh - 120px);
-  }
-  background-color: $bg-gray;
 }
-
 
 .input-wrap {
   width: 100%;
   @include flex(true, center, null, 5px);
 }
 
-article {
+.input-date {
+  @include font-theme($bodySm-b);
+  color: $gray-700;
+  padding: 8px 0;
+  input[type="date"]::-webkit-clear-button,
+  input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    font-size: 32px;
+  }
+}
+
+.text-area {
   width: 100%;
-  height: 100%;
-  padding: 20px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  height: 150px;
+  border-bottom: 1px solid $gray-300;
+  padding: 5px;
+  @include font-theme($bodySm-r);
+  &:focus {
+    border-bottom: 1px solid $spot-color;
+  }
+  &.todo {
+    height: inherit;
+    min-height: 30px;
+    font-weight: $bold;
+  }
 }
 
 // form태그 초기화
@@ -108,7 +140,8 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
-input, textarea {
+input,
+textarea {
   outline: none;
   box-shadow: none;
   border-radius: 0;
@@ -122,7 +155,6 @@ input[type="search"] {
   -webkit-appearance: none;
 }
 
-
 // input number 화살표 삭제
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -132,7 +164,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox  */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 

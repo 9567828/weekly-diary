@@ -1,9 +1,6 @@
 import { AddDiaryType, EditDiaryType } from "@/utils/supabase";
-import { createClient } from "@/utils/supabase/client";
 import { addDiary, deleteDiary, updateDiary } from "@/utils/supabase/sql/diary";
 import { useMutation } from "@tanstack/react-query";
-
-const supabase = createClient();
 
 export const useAddDiaryMutation = () => {
   return useMutation({

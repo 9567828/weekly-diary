@@ -6,5 +6,9 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|imgs|manifest.json|robots.txt|sitemap.xml|.well-known).*)"],
+  matcher: ["/((?!_next|favicon.ico|manifest.json|apple-touch-icon|imgs|robots.txt|sitemap.xml|\\.well-known).*)"],
 };
+
+// export const config = {
+//   matcher: ["/((?!_next/static|_next/image|favicon.ico|imgs|manifest.json|robots.txt|sitemap.xml|.well-known).*)"],
+// };

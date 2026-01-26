@@ -4,12 +4,10 @@ footer {
   padding: 15px 30px 35px;
   border-top: 1px solid $gray-300;
   background-color: $bg-white;
-  // transform: translateY(0);
   position: fixed;
   bottom: 0;
-
+  z-index: 10;
   &.none {
-    // transform: translateY(80px);
     display: none;
   }
   ul {

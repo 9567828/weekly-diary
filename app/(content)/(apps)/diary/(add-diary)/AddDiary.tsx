@@ -84,18 +84,12 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
         <form onSubmit={onSubmint}>
           <ConfirmActionBtn onCancelClick={handleCloseMode} />
           <div className={style["text-container"]} onClick={() => dispatch(handleDiary("add"))}>
-            <InputBox
-              id="diaryTitle"
-              variant="input-underline"
-              onChange={(e) => setTitleValue(e.target.value)}
-              value={titleValue}
-              placeholder="제목을 입력하세요"
-              maxLength={30}
-            />
+            <InputBox id="diaryTitle" variant="input-underline" onChange={(e) => setTitleValue(e.target.value)} value={titleValue} placeholder="제목을 입력하세요" maxLength={30} />
             <div className={style["text-wrap"]}>
               <div className={style["txt-padding"]}>
                 <textarea
-                  className={style.textarea}
+                  // className={style.textarea}
+                  className="text-area"
                   name="diaryContent"
                   id="diaryContent"
                   placeholder="내용을 입력하세요"
@@ -109,17 +103,8 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
           </div>
         </form>
       )}
-      {modalOn ? (
-        <ConfirmModal
-          message="변경사항 폐기"
-          confirmOnly={false}
-          onCancel={() => setModalOn((prev) => !prev)}
-          onConfirm={modalClose}
-        />
-      ) : null}
-      {confirmModal ? (
-        <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmModal(false)} />
-      ) : null}
+      {modalOn ? <ConfirmModal message="변경사항 폐기" confirmOnly={false} onCancel={() => setModalOn((prev) => !prev)} onConfirm={modalClose} /> : null}
+      {confirmModal ? <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmModal(false)} /> : null}
     </>
   );
 }
