@@ -39,6 +39,10 @@
   text-decoration: line-through;
 }
 
+.info-wrap {
+  // @include flex(column, null, null, null);
+}
+
 .meta-wrap {
   @include flex(null, null, center, 3px);
   @include font-theme($captionXs-b);

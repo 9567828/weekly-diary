@@ -17,8 +17,8 @@ import { isMobile } from "react-device-detect";
 import SelectRepeat from "@/components/ui/select-box/SelectRepeat";
 import InputDate from "@/components/ui/InputDate";
 import RepeatWrap from "@/app/(content)/(apps)/(todos)/(editTodo)/RepeatWrap";
-import { endOfMonth, lastDayOfMonth, parse } from "date-fns";
-import { dateStr, parseDate, today } from "@/components/calendar/drawWeek";
+import { endOfMonth, isSameDay, lastDayOfMonth, parse } from "date-fns";
+import { dateStr, parseDate, today, todayStr } from "@/components/calendar/drawWeek";
 import EmptySpace from "@/components/ui/EmptySpace";
 import CheckWrap from "./CheckWrap";
 
@@ -73,8 +73,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const [mount, setMount] = useState(false);
   const [value, setValue] = useState(text);
   const [dateValue, setDateValue] = useState(todo_date);
-  const [untilDate, setUntilDate] = useState(repeat_until ?? "");
-  const [checkedUntil, setCheckedUntil] = useState(repeat_until !== null);
+  const [untilDate, setUntilDate] = useState(repeat_until ?? todayStr());
   const [selectRepeat, setSelectRepeat] = useState<RepeatMapType>(repeat_map ?? null);
   const [days, setDays] = useState<number[]>(day_of_week ?? []);
   const [modalOpen, setModalOpen] = useState(false);
@@ -144,10 +143,13 @@ export default function EditTodo({ ...props }: IEditTodo) {
 
     if (targetId === "is_month" && checked) {
       const lastDay = lastDayOfMonth(today());
-      console.log(lastDay);
       setDateValue(dateStr(lastDay));
     } else {
       setDateValue(todo_date);
+    }
+
+    if (targetId === "is_until" && !checked) {
+      setUntilDate(todayStr());
     }
 
     const initialMap: Record<string, boolean> = {
@@ -314,6 +316,17 @@ export default function EditTodo({ ...props }: IEditTodo) {
       return;
     }
 
+    if (toggleChecked.is_until) {
+      if (untilDate === "") {
+        alert("반복종료 날짜 설정을 확인해 주세요");
+        return;
+      }
+      if (untilDate === dateValue) {
+        alert("종료일이 할 일 날짜와 같으면 반복이 적용되지 않습니다.");
+        return;
+      }
+    }
+
     const makeTime = `${hour}:${min}`;
 
     const newAmpm = !toggleChecked.is_time && ampm !== null ? "오전" : ampm;
@@ -331,7 +344,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
         is_repeat: selectRepeat.label !== "안함",
         is_month_end: toggleChecked.is_month,
         day_of_week: days.length <= 0 ? null : days,
-        repeat_until: untilDate === "" || !checkedUntil ? null : untilDate,
+        repeat_until: (untilDate === "" && !toggleChecked.is_until) || untilDate === dateValue ? null : untilDate,
         repeat_map: selectRepeat,
       },
       id,
@@ -446,8 +459,8 @@ export default function EditTodo({ ...props }: IEditTodo) {
                                     const untilDate = parse(value, "yyyy-MM-dd", new Date());
 
                                     if (todoDate > untilDate) {
-                                      alert("todo 날짜보다 이전일 수 없습니다.");
-                                      setUntilDate("");
+                                      alert("종료일은 할 일 날짜 이후로 설정해 주세요.");
+                                      setUntilDate(todayStr());
                                       return;
                                     }
 

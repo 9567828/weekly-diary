@@ -70,20 +70,22 @@ export default function Todo(props: FullProps) {
               {is_import ? <img src="/imgs/icons/ic_important-3x.svg" alt="중요" /> : null}
               <p className={style.label}>{text}</p>
             </div>
-            {is_time && <MetaText icon="ic_clock" alt="시간" text={`${props.is_ampm} ${props.time}`} />}
-            {repeat_map !== null && repeat_map.label !== "안함" && (
-              <div className={style["repeat-wrap"]}>
-                <MetaText icon="ic_repeat-small" alt="반복" text={repeatLable!} />
-                {(repeat_map.value === "biweekly" || repeat_map.value === "weekly") &&
-                  day_of_week?.map((d) => {
-                    return (
-                      <div key={d} className={style["days-txt"]}>
-                        <p>{DAY_LABEL[d]}</p>
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
+            <div className={style["info-wrap"]}>
+              {is_time && <MetaText icon="ic_clock" alt="시간" text={`${props.is_ampm} ${props.time}`} />}
+              {repeat_map !== null && repeat_map.label !== "안함" && (
+                <div className={style["repeat-wrap"]}>
+                  <MetaText icon="ic_repeat-small" alt="반복" text={repeatLable!} />
+                  {(repeat_map.value === "biweekly" || repeat_map.value === "weekly") &&
+                    day_of_week?.map((d) => {
+                      return (
+                        <div key={d} className={style["days-txt"]}>
+                          <p>{DAY_LABEL[d]}</p>
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
           </CheckBtn>
         </div>
         <div className={style["btn-wrap"]}>

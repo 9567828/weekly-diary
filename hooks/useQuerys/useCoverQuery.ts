@@ -1,6 +1,8 @@
 import { getCoverImgUrl, selectCover } from "@/utils/supabase/sql/cover";
 import { useQuery } from "@tanstack/react-query";
 
+export const coverQuerykey = ["cover"];
+
 export const useSelectCover = (year: number, month: number) => {
   return useQuery({
     queryKey: ["cover", year, month],

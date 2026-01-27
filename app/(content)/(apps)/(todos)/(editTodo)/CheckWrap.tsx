@@ -22,7 +22,7 @@ export default function CheckWrap({ mode, id, text, checked, onChangeChecked, va
           {text}
         </CheckBtn>
       </div>
-      {mode === "date" && checked && <InputDate id="untilDate" value={value || todayStr()} onChange={onChangeDate} />}
+      {mode === "date" && checked && <InputDate id="untilDate" value={value} onChange={onChangeDate} />}
     </div>
   );
 }

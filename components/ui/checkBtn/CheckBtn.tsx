@@ -14,13 +14,7 @@ interface ICheckBtn {
 export default function CheckBtn({ id, shape = "square", onChange, checked, children }: ICheckBtn) {
   return (
     <>
-      <input
-        type="checkbox"
-        className={`${shape === "square" ? style["square-check-box"] : style["circle-check-box"]}`}
-        id={id}
-        onChange={onChange}
-        checked={checked}
-      />
+      <input type="checkbox" className={`${shape === "square" ? style["square-check-box"] : style["circle-check-box"]}`} id={id} onChange={onChange} checked={checked} />
       <label htmlFor={id}></label>
       <label htmlFor={id} className={style["meta"]}>
         {children}

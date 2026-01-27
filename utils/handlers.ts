@@ -5,6 +5,7 @@ import { RefObject } from "react";
 import { RepeatKrType, TodoWithRepeatType } from "./supabase";
 import { parseDate } from "@/components/calendar/drawWeek";
 import { differenceInMonths, getWeek, isLastDayOfMonth } from "date-fns";
+import { coverQuerykey } from "@/hooks/useQuerys/useCoverQuery";
 
 type timeType = "hour" | "minute";
 
@@ -35,6 +36,13 @@ export const handleTodoInvalidateQueries = (client: QueryClient) => {
 export const handleDiaryInvalidateQueries = (client: QueryClient) => {
   void client.invalidateQueries({
     queryKey: diaryQueryKey,
+  });
+};
+
+export const handleCoverInvalidateQueries = (client: QueryClient) => {
+  void client.invalidateQueries({
+    queryKey: coverQuerykey,
+    refetchType: "active",
   });
 };
 

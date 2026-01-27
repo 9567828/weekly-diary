@@ -6,12 +6,19 @@ import { useIsMobile } from "@/hooks/useHooks";
 import { saveCoverImg } from "@/utils/supabase/sql/cover";
 import { useAddCoverMutation } from "@/hooks/useMutation/useCoverMutation";
 import { useSelectCover } from "@/hooks/useQuerys/useCoverQuery";
+import { handleCoverInvalidateQueries } from "@/utils/handlers";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CalendarCover({ year, month }: { year: number; month: number }) {
   const isMobile = useIsMobile();
   const newMonth = month + 1;
-  const { data, isError, error } = useSelectCover(year, newMonth);
+  const queryClient = useQueryClient();
+  const { data, isError, error, isLoading } = useSelectCover(year, newMonth);
   const { mutate } = useAddCoverMutation();
+
+  if (isLoading) {
+    return null;
+  }
 
   const imgUrl = data?.url;
   const coverDate = data?.data;
@@ -23,21 +30,22 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
-    if (files && files.length === 1) {
-      const file = files[0];
-      // const id = await saveCoverImg({ year, month, file });
-      mutate(
-        { year, month: newMonth, file },
-        {
-          onSuccess: (data) => {
-            console.log(data);
-          },
-          onError: (error) => {
-            console.error(error);
-          },
+    const file = files?.[0];
+    if (!file) return;
+
+    mutate(
+      { year, month: newMonth, file },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          handleCoverInvalidateQueries(queryClient);
+          e.target.value = "";
         },
-      );
-    }
+        onError: (error) => {
+          console.error(error);
+        },
+      },
+    );
   };
 
   return (
