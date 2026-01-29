@@ -25,25 +25,27 @@ export default function CalendarPanel() {
   return (
     <>
       <CalendarCover year={year} month={month} />
-      <div className={style.month}>
-        <DateControl
-          isMargin
-          date={`${year}년 ${month + 1}월`}
-          nextBtn={() => {
-            const { year: nextYear, month: nextMonth } = handleNextMonth(year, month);
-            setYear(nextYear);
-            setMonth(nextMonth);
-            route.push(`/calendar?year=${nextYear}&month=${nextMonth + 1}`);
-          }}
-          prevBtn={() => {
-            const { year: prevYear, month: prevMonth } = handlePrevMonth(year, month);
-            setYear(prevYear);
-            setMonth(prevMonth);
-            route.push(`/calendar?year=${prevYear}&month=${prevMonth + 1}`);
-          }}
-          today={goToday}
-        />
-        <MonthlyCal allWeeks={allWeeks} currYear={year} currMonth={month + 1} />
+      <div>
+        <div className={style.month}>
+          <DateControl
+            isMargin
+            date={`${year}년 ${month + 1}월`}
+            nextBtn={() => {
+              const { year: nextYear, month: nextMonth } = handleNextMonth(year, month);
+              setYear(nextYear);
+              setMonth(nextMonth);
+              route.push(`/calendar?year=${nextYear}&month=${nextMonth + 1}`);
+            }}
+            prevBtn={() => {
+              const { year: prevYear, month: prevMonth } = handlePrevMonth(year, month);
+              setYear(prevYear);
+              setMonth(prevMonth);
+              route.push(`/calendar?year=${prevYear}&month=${prevMonth + 1}`);
+            }}
+            today={goToday}
+          />
+          <MonthlyCal allWeeks={allWeeks} currYear={year} currMonth={month + 1} />
+        </div>
         <EmptySpace isCalendar />
       </div>
     </>

@@ -103,7 +103,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
           {imgSrc && <img src={imgSrc} alt="사진" />}
           <div className={style["edit-img"]}>
             <button ref={btnRef} type="button" className={style["action-btn"]} onClick={() => setEditMode((prev) => !prev)} disabled={addIsPendig}>
-              <img src="/imgs/icons/ic_menu.svg" alt="메뉴" />
+              <img src="/imgs/icons/ic_menu.svg" alt="메뉴" loading="eager" fetchPriority="high" />
             </button>
             {editMode && (
               <div ref={editRef} className={style["edit-btn-wrap"]}>
