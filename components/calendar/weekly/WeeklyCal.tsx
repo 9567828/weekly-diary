@@ -18,7 +18,9 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
   const weekStart = dateStr(weekDates[0]);
   const weekEnd = dateStr(weekDates[weekDates.length - 1]);
 
-  const { data, isError, error } = useFetchTodosByRange(weekStart, weekEnd);
+  const { data, isError, error, isLoading, isFetching } = useFetchTodosByRange(weekStart, weekEnd);
+
+  const safeData = isFetching ? [] : data;
 
   if (isError) {
     console.log(error.message);
@@ -35,7 +37,7 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
           const todayStr = format(new Date(), "yyyy-MM-dd");
 
           const dateStr = format(w, "yyyy-MM-dd");
-          const todoCnt = data?.filter((t) => isTodoVisibleOnDate(t, dateStr));
+          const todoCnt = safeData?.filter((t) => isTodoVisibleOnDate(t, dateStr));
           const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStr));
           const done = todoCnt?.filter((t) => isDoneByDate(t, dateStr));
 
@@ -51,9 +53,9 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
               key={i}
               date={date}
               href={`/${dateStr}`}
-              cnt={notDone?.length ?? 0}
-              isDone={!allNotDone && notDone?.length! > 0}
-              allDone={allDone}
+              cnt={isFetching || !notDone?.length ? 0 : notDone.length}
+              isDone={!isFetching && !allNotDone && notDone!.length > 0}
+              allDone={!isFetching && allDone}
               isActive={path === `/${dateStr}`}
               isToday={todayStr === dateStr}
               isWeekend={days === 0 || days === 6}

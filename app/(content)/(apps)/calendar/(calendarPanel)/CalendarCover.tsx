@@ -16,6 +16,8 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
   const newMonth = month + 1;
   const queryClient = useQueryClient();
   const [editMode, setEditMode] = useState(false);
+  const [prevCover, setPrevCover] = useState("");
+
   const { data, isError, error, isFetching } = useSelectCover(year, newMonth, supabase);
   const { mutate: upSertCover, isPending: addIsPendig } = useUpsertCoverMutation();
   const { mutate: deleteCover } = useDeleteCoverMutation();
@@ -27,17 +29,18 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     console.log(error);
   }
 
-  if (isFetching || addIsPendig) {
-    return (
-      <div className={style.empty}>
-        <Loading />
-      </div>
-    );
-  }
+  // if (isFetching || addIsPendig) {
+  //   return (
+  //     <div className={style.empty}>
+  //       <Loading />
+  //     </div>
+  //   );
+  // }
 
   const imgUrl = data?.url;
   const coverData = data?.data;
-  const hasCover = Boolean(imgUrl);
+  const imgSrc = prevCover || imgUrl;
+  const hasCover = Boolean(imgSrc);
 
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -45,13 +48,19 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     const file = files?.[0];
     if (!file) return;
 
+    const previewUrl = URL.createObjectURL(file);
+
+    setPrevCover(previewUrl);
+    setEditMode(false);
+
     upSertCover(
       { year, month: newMonth, file },
       {
         onSuccess: (data) => {
           console.log(data);
           handleCoverInvalidateQueries(queryClient);
-          setEditMode(false);
+          URL.revokeObjectURL(previewUrl);
+          setPrevCover("");
           e.target.value = "";
         },
         onError: (error) => {
@@ -81,7 +90,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     <>
       {!hasCover ? (
         <div className={style.default}>
-          <input type="file" id="inputFile" onChange={onChangeFile} disabled={addIsPendig} />
+          <input type="file" id="inputFile" onChange={onChangeFile} disabled={addIsPendig} accept=".jpg, .jpeg, .png" />
           <label htmlFor="inputFile" className={style["cover-btn"]}>
             <div className={style.icon}>
               <img src="/imgs/icons/ic_album.svg" alt="기본이미지" />
@@ -89,11 +98,15 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
             <span className={style["cover-text"]}>커버 추가</span>
           </label>
         </div>
+      ) : isFetching || addIsPendig ? (
+        <div className={style.empty}>
+          <Loading />
+        </div>
       ) : (
         <div className={`${style.img} ${isMobile ? style["img-mobile"] : ""}`.trim()}>
-          <img src={imgUrl} alt="사진" />
+          {imgSrc && <img src={imgSrc} alt="사진" />}
           <div className={style["edit-img"]}>
-            <button ref={btnRef} type="button" className={style["action-btn"]} onClick={() => setEditMode((prev) => !prev)}>
+            <button ref={btnRef} type="button" className={style["action-btn"]} onClick={() => setEditMode((prev) => !prev)} disabled={addIsPendig}>
               <img src="/imgs/icons/ic_menu.svg" alt="메뉴" />
             </button>
             {editMode && (
@@ -101,7 +114,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
                 <label htmlFor="inputFileEdit" className={`${style["btn-init"]}`}>
                   <img src="/imgs/icons/ic_edit-note.svg" alt="사진수정" />
                   <span>수정</span>
-                  <input type="file" id="inputFileEdit" onChange={onChangeFile} />
+                  <input type="file" id="inputFileEdit" onChange={onChangeFile} accept=".jpg, .jpeg, .png" />
                 </label>
                 <button type="button" className={`${style["btn-init"]}`} onClick={handleDeleteCover}>
                   <img src="/imgs/icons/ic_delete.svg" alt="사진삭제" />

@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div>
+    <div className="loading-container">
       <svg fill="#F83439" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <circle cx="12" cy="3" r="0">
           <animate id="spinner_6RAU" begin="0;spinner_GErc.end-0.5s" attributeName="r" calcMode="spline" dur="0.6s" values="0;2;0" keySplines=".27,.42,.37,.99;.53,0,.61,.73" />

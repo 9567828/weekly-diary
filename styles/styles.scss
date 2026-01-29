@@ -103,6 +103,16 @@ article {
   }
 }
 
+.loading-container {
+  width: 100%;
+  height: 100vh;
+  @include flex(null, center, center, null);
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 // form태그 초기화
 button {
   outline: none;

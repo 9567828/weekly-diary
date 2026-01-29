@@ -22,7 +22,9 @@ export default function DiaryPage() {
   const startStr = dateStr(weekStart);
   const endDate = addDays(weekEnd(weekStart), 1);
   const endStr = dateStr(endDate);
-  const { data, error, isError } = useFetchDiaryByRange(startStr, endStr);
+  const { data, error, isError, isFetching } = useFetchDiaryByRange(startStr, endStr);
+
+  const safeData = isFetching ? [] : data;
 
   if (isError) {
     console.log(error.message);
@@ -36,7 +38,7 @@ export default function DiaryPage() {
           const dateNum = w.getDate();
           const weekNum = makeWeekNum(w);
           const day = w.getDay();
-          const findDiary = data?.find((d) => d.diary_date === list);
+          const findDiary = safeData?.find((d) => d.diary_date === list);
 
           return (
             <div key={i} className={style["diary-container"]} id={dateStr(w)} data-date={dateStr(w)}>
