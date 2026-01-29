@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 // The client you created from the Server-Side Auth instructions
-import { createClient } from "@/utils/supabase/server";
 import { type TablesInsert } from "@/database.types";
+import { createServClient } from "@/utils/supabase/service/server";
 
 type ProfileInsert = TablesInsert<"profiles">;
 
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   }
 
   if (code) {
-    const supabase = await createClient();
+    const supabase = await createServClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
