@@ -11,7 +11,13 @@ export const POST = async (req: Request) => {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  const resized = await sharp(buffer).resize({ width: 1080 }).webp({ quality: 75 }).toBuffer();
+  const resized = await sharp(buffer)
+    .resize({ width: 1080, withoutEnlargement: true })
+    .webp({
+      quality: 70,
+      effort: 6,
+    })
+    .toBuffer();
 
   const { origin, resize, id, base } = await saveCoverImg({ year, month, originFile: file, resizeFile: resized });
 
