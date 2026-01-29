@@ -8,12 +8,9 @@ import { useClearBodyScroll } from "@/hooks/useHooks";
 interface ITodoSectionProps {
   title: string;
   toDos: TodoWithRepeatType[];
-  filter: (todo: TodoWithRepeatType) => boolean;
 }
 
-export default function TodoSection({ title, toDos, filter }: ITodoSectionProps) {
-  const filteredTodos = toDos.filter(filter);
-
+export default function TodoSection({ title, toDos }: ITodoSectionProps) {
   const [openEditId, setOpenEditId] = useState<string | null>(null);
 
   useClearBodyScroll(openEditId);
@@ -24,12 +21,14 @@ export default function TodoSection({ title, toDos, filter }: ITodoSectionProps)
 
   return (
     <div>
-      <TodoListTitle title={title} number={filteredTodos.length} />
+      <TodoListTitle title={title} number={toDos.length} />
       <div className={style["todo-list"]}>
-        {filteredTodos.map((menu) => (
+        {toDos.map((menu) => (
           <Todo
             key={menu.id}
             id={menu.id}
+            done={menu.done}
+            is_repeat={menu.is_repeat}
             text={menu.text!}
             is_time={menu.is_time!}
             is_import={menu.is_import!}

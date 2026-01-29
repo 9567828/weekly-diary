@@ -28,7 +28,7 @@
 .modal-btn {
   @extend .primary-btn;
   height: 100%;
-  padding: 5px 8px;
+  padding: 8px;
   border-radius: 8px;
   @include font-theme($captionSm-b);
   &.cancel {

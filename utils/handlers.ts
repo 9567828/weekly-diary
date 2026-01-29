@@ -2,9 +2,9 @@ import { QueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { RefObject } from "react";
-import { RepeatKrType, TodoWithRepeatType } from "./supabase";
+import { TodoWithRepeatType } from "./supabase";
 import { parseDate } from "@/components/calendar/drawWeek";
-import { differenceInMonths, getWeek, isLastDayOfMonth } from "date-fns";
+import { getWeek, isLastDayOfMonth } from "date-fns";
 import { coverQuerykey } from "@/hooks/useQuerys/useCoverQuery";
 
 type timeType = "hour" | "minute";
@@ -75,8 +75,8 @@ export const isTodoVisibleOnDate = (t: TodoWithRepeatType, dateStr: string) => {
   const dateParse = parseDate(dateStr);
   let untilParse;
 
-  if (t.repeat_until !== null) {
-    untilParse = parseDate(t.repeat_until);
+  if (t.done.some((d) => d.render_date === dateStr && d.is_delete === true)) {
+    return false;
   }
 
   if (!t.is_repeat) {
@@ -84,6 +84,7 @@ export const isTodoVisibleOnDate = (t: TodoWithRepeatType, dateStr: string) => {
   }
 
   if (dateParse < todoParse) return false;
+  if (t.repeat_until && dateParse > parseDate(t.repeat_until)) return false;
 
   if (t.repeat_until !== null && dateParse > parseDate(t.repeat_until)) return false;
 
@@ -106,6 +107,8 @@ export const isTodoVisibleOnDate = (t: TodoWithRepeatType, dateStr: string) => {
     return false;
   }
 };
+
+export const isDoneByDate = (t: TodoWithRepeatType, dateStr: string) => t.done.some((d) => d.render_date === dateStr && d.is_done === true);
 
 export const getExtFromMime = (file: File) => {
   const map: Record<string, string> = {

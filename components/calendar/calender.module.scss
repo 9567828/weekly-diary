@@ -29,7 +29,21 @@
 .date-box {
   @include flex(column, space-between, center, 2px);
   width: 40px;
-  height: 40px;
+  // height: 40px;
+
+  .todo-box {
+    width: 20px;
+    height: 20px;
+    background-color: $gray-300;
+    border-radius: 6px;
+    @include font-theme($captionXxs-ext);
+    text-align: center;
+    line-height: 20px;
+    color: $bg-white;
+    &.done {
+      background-color: $spot-color;
+    }
+  }
   &.monthly {
     width: 44px;
     height: 100%;
@@ -48,15 +62,14 @@
   .date {
     color: $gray-700;
     text-align: center;
-    @include font-theme($captionSm-b);
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    @include font-theme($captionXs-b);
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
     border-radius: 100%;
     &.today {
       color: $main-color;
       font-weight: $ext-weight;
-      font-size: $bodySm-size;
 
       &.active {
         color: $bg-white;

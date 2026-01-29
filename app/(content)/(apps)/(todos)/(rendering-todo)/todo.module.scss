@@ -39,9 +39,6 @@
   text-decoration: line-through;
 }
 
-.info-wrap {
-  // @include flex(column, null, null, null);
-}
 
 .meta-wrap {
   @include flex(null, null, center, 3px);
@@ -66,9 +63,23 @@
   }
 }
 
+.check-wrap {
+  justify-self: flex-start;
+  margin: 8px 0 0 18px;
+  .check-box {
+    @include flex(null, null, center, 8px);
+    label {
+      @include font-theme($bodySm-b);
+    }
+    &:last-child {
+      margin-top: 8px;
+    }
+  }
+}
+
 @media (max-width: 560px) {
   .label {
-    width: 215px;
+    width: 200px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

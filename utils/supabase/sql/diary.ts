@@ -1,5 +1,5 @@
 import { AddDiaryType, DiaryRow, EditDiaryType } from "..";
-import { createClient } from "../client";
+import { createClient } from "../service/client";
 
 export const addDiary = async (props: AddDiaryType) => {
   const supabase = createClient();

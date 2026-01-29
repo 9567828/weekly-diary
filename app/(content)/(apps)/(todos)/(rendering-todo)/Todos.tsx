@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import { useFetchTodoByDate } from "@/hooks/useQuerys/useTodoQuery";
 import EmptySpace from "@/components/ui/EmptySpace";
-import { isTodoVisibleOnDate } from "@/utils/handlers";
+import { isDoneByDate, isTodoVisibleOnDate } from "@/utils/handlers";
 
 export default function Todos() {
   const { date } = useParams();
@@ -20,14 +20,16 @@ export default function Todos() {
   //   return null;
   // }
 
-  const toDos = data?.filter((t) => isTodoVisibleOnDate(t, dateStr)) ?? [];
+  const withDoneState = data?.filter((t) => isTodoVisibleOnDate(t, dateStr)) ?? [];
+  const notDone = withDoneState?.filter((t) => !isDoneByDate(t, dateStr));
+  const done = withDoneState?.filter((t) => isDoneByDate(t, dateStr));
 
   return (
     <>
       <div className={style["column"]}>
         <AddTodo />
-        <TodoSection title="할일 목록" toDos={toDos} filter={(t) => !t.is_done} />
-        <TodoSection title="완료 목록" toDos={toDos} filter={(t) => t.is_done} />
+        <TodoSection title="할일 목록" toDos={notDone} />
+        <TodoSection title="완료 목록" toDos={done} />
       </div>
       <EmptySpace />
     </>

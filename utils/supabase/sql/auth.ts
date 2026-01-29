@@ -2,10 +2,10 @@
 
 import { Provider } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { createServClient } from "../service/server";
 
 export const signIn = async (provider: Provider): Promise<void> => {
-  const supabase = await createClient();
+  const supabase = await createServClient();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
@@ -26,7 +26,7 @@ export const signIn = async (provider: Provider): Promise<void> => {
 export const signInGoogle = async () => signIn("google");
 
 export const signOut = async () => {
-  const supabase = await createClient();
+  const supabase = await createServClient();
 
   const { error } = await supabase.auth.signOut();
 
@@ -38,7 +38,7 @@ export const signOut = async () => {
 };
 
 export async function getUserId(): Promise<string | null> {
-  const supabase = await createClient();
+  const supabase = await createServClient();
   const {
     data: { user },
     error,

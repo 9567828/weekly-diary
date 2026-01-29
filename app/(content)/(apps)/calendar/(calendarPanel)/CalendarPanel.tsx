@@ -33,11 +33,13 @@ export default function CalendarPanel() {
             const { year: nextYear, month: nextMonth } = handleNextMonth(year, month);
             setYear(nextYear);
             setMonth(nextMonth);
+            route.push(`/calendar?year=${nextYear}&month=${nextMonth + 1}`);
           }}
           prevBtn={() => {
             const { year: prevYear, month: prevMonth } = handlePrevMonth(year, month);
             setYear(prevYear);
             setMonth(prevMonth);
+            route.push(`/calendar?year=${prevYear}&month=${prevMonth + 1}`);
           }}
           today={goToday}
         />

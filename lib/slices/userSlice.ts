@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/service/client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface IUser {

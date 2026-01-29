@@ -7,7 +7,7 @@ import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import DaysOfWeekWrap from "../days-wrap/DaysWrap";
 import DatesWrap from "../days-wrap/DatesWrap";
 import { dateStr } from "../drawWeek";
-import { isTodoVisibleOnDate } from "@/utils/handlers";
+import { isDoneByDate, isTodoVisibleOnDate } from "@/utils/handlers";
 
 interface IWeekDate {
   weekDates: Date[];
@@ -35,15 +35,26 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
           const todayStr = format(new Date(), "yyyy-MM-dd");
 
           const dateStr = format(w, "yyyy-MM-dd");
+          const todoCnt = data?.filter((t) => isTodoVisibleOnDate(t, dateStr));
+          const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStr));
+          const done = todoCnt?.filter((t) => isDoneByDate(t, dateStr));
 
-          const hasDot = data?.some((t) => isTodoVisibleOnDate(t, dateStr));
+          let allDone;
+          let allNotDone;
+          if (todoCnt?.length !== 0) {
+            allDone = todoCnt?.length === done?.length;
+            allNotDone = todoCnt?.length === notDone?.length;
+          }
+
           return (
             <DatesWrap
               key={i}
               date={date}
               href={`/${dateStr}`}
+              cnt={notDone?.length ?? 0}
+              isDone={!allNotDone && notDone?.length! > 0}
+              allDone={allDone}
               isActive={path === `/${dateStr}`}
-              isExisted={hasDot}
               isToday={todayStr === dateStr}
               isWeekend={days === 0 || days === 6}
             />

@@ -1,5 +1,5 @@
-import { EditTodoType } from "@/utils/supabase";
-import { checkDone, deleteTodo, editTodo, insertTodo } from "@/utils/supabase/sql/todo";
+import { EditTodoCheck, EditTodoType } from "@/utils/supabase";
+import { checkDoneTable, deleteTodo, editTodo, insertTodo } from "@/utils/supabase/sql/todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "../useQuerys/useTodoQuery";
 import { handleTodoInvalidateQueries } from "@/utils/handlers";
@@ -22,8 +22,8 @@ export const useEditTodoMutation = () => {
 
 export const useEditDoneMutation = () => {
   return useMutation({
-    mutationFn: async ({ id, isDone, updated_at }: { id: string; isDone: boolean; updated_at: string }) => {
-      return await checkDone(id, isDone, updated_at);
+    mutationFn: async (props: EditTodoCheck) => {
+      return await checkDoneTable(props);
     },
   });
 };
@@ -32,9 +32,9 @@ export const useDeleteTodoMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ id, render_date, isAll, isRepeat }: { id: string; render_date: string; isAll: boolean; isRepeat: boolean }) => {
       if (!id) throw new Error("id is required");
-      return await deleteTodo(id);
+      return await deleteTodo(id, render_date, isAll, isRepeat);
     },
     onSuccess: () => {
       handleTodoInvalidateQueries(queryClient);

@@ -1,24 +1,25 @@
-import { AddCoverType } from "@/utils/supabase";
-import { insertCover, saveCoverImg } from "@/utils/supabase/sql/cover";
+import { deleteCover } from "@/utils/supabase/sql/cover";
 import { useMutation } from "@tanstack/react-query";
 
-export const useAddCoverMutation = () => {
+export const useUpsertCoverMutation = () => {
   return useMutation({
     mutationFn: async ({ year, month, file }: { year: number; month: number; file: File }) => {
-      const {
-        id,
-        data: { id: storage_id, path },
-      } = await saveCoverImg({ year, month, file });
+      let formData = new FormData();
+      formData.append("file", file);
+      formData.append("year", String(year));
+      formData.append("month", String(month));
 
-      const newObj: AddCoverType = {
-        year,
-        month,
-        path,
-        storage_id,
-        user_id: id!,
-      };
+      const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/add-cover`, { method: "POST", body: formData });
 
-      return await insertCover(newObj);
+      return await req.json();
+    },
+  });
+};
+
+export const useDeleteCoverMutation = () => {
+  return useMutation({
+    mutationFn: async ({ year, month, path }: { year: number; month: number; path: string }) => {
+      return await deleteCover(year, month, path);
     },
   });
 };

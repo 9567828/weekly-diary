@@ -49,31 +49,37 @@ export type Database = {
       }
       month_cover: {
         Row: {
+          base_path: string | null
           created_at: string
           id: string
           month: number | null
+          origin_path: string | null
           path: string | null
-          storage_id: string | null
+          storage_id: string
           updated_at: string | null
           user_id: string
           year: number | null
         }
         Insert: {
+          base_path?: string | null
           created_at?: string
           id?: string
           month?: number | null
+          origin_path?: string | null
           path?: string | null
-          storage_id?: string | null
+          storage_id: string
           updated_at?: string | null
           user_id?: string
           year?: number | null
         }
         Update: {
+          base_path?: string | null
           created_at?: string
           id?: string
           month?: number | null
+          origin_path?: string | null
           path?: string | null
-          storage_id?: string | null
+          storage_id?: string
           updated_at?: string | null
           user_id?: string
           year?: number | null
@@ -172,6 +178,47 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      todo_done: {
+        Row: {
+          created_at: string
+          id: number
+          is_delete: boolean | null
+          is_done: boolean | null
+          render_date: string | null
+          todo_id: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          is_delete?: boolean | null
+          is_done?: boolean | null
+          render_date?: string | null
+          todo_id?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          is_delete?: boolean | null
+          is_done?: boolean | null
+          render_date?: string | null
+          todo_id?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "todo_done_todo_id_fkey"
+            columns: ["todo_id"]
+            isOneToOne: false
+            referencedRelation: "todo"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

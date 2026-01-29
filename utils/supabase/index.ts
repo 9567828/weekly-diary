@@ -14,10 +14,15 @@ export type RepeatMapType = {
 };
 
 export type TodoWithRepeatType = {
-  created_at: string;
-  day_of_week: number[] | null;
   id: string;
+  day_of_week: number[] | null;
   is_ampm: AmPmType;
+  done: {
+    todo_id: string;
+    is_done: boolean | null;
+    render_date: string | null;
+    is_delete: boolean | null;
+  }[];
   is_done: boolean;
   is_import: boolean | null;
   is_time: boolean | null;
@@ -28,8 +33,7 @@ export type TodoWithRepeatType = {
   text: string | null;
   time: string | null;
   todo_date: string;
-  updated_at: string | null;
-  user_id: string;
+  user_id?: string;
 };
 
 export type AddTodoType = {
@@ -57,6 +61,12 @@ export type EditTodoType = {
   id: string;
 };
 
+export type EditTodoCheck = {
+  render_date: string;
+  is_done: boolean;
+  todo_id: string;
+};
+
 export type AddDiaryType = {
   title: string;
   text: string;
@@ -76,6 +86,8 @@ export type EditDiaryType = {
 export type AddCoverType = {
   user_id: string;
   path: string;
+  origin_path: string;
+  base_path: string;
   year: number;
   month: number;
   storage_id: string;

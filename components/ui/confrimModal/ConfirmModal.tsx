@@ -5,14 +5,16 @@ interface IButtn {
   message: string;
   onCancel?: () => void;
   onConfirm: () => void;
-  confirmOnly: boolean;
+  confirmOnly?: boolean;
+  children?: React.ReactNode;
 }
 
-export default function ConfirmModal({ message, onCancel, onConfirm, confirmOnly }: IButtn) {
+export default function ConfirmModal({ message, onCancel, onConfirm, confirmOnly = false, children }: IButtn) {
   return (
     <div className={style.bg}>
       <div className={style["modal-warp"]}>
         <p className={style["modal-txt"]}>{message}</p>
+        <>{children}</>
         <div className={style["btn-wrap"]}>
           {confirmOnly ? (
             <Button onClick={onConfirm} label="확인" className="primary-btn modal-btn" />

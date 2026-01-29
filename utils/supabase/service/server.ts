@@ -1,6 +1,6 @@
 "use server";
 
-import { Database } from "../../database.types";
+import { Database } from "@/database.types";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -11,7 +11,7 @@ if (!supabaseURL || !supabaseAnonKey) {
   throw new Error("환경변수 설정이 안되었다");
 }
 
-export async function createClient() {
+export async function createServClient() {
   const cookieStore = await cookies();
 
   return createServerClient<Database>(supabaseURL!, supabaseAnonKey!, {

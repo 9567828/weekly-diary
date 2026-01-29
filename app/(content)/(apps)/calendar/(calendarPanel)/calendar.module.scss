@@ -8,12 +8,24 @@
 .img {
   width: 100%;
   height: 580px;
+  position: relative;
   &.img-mobile {
     height: 280px;
   }
   img {
     width: 100%;
     height: 100%;
+  }
+}
+
+.empty {
+  width: 100%;
+  height: 70px;
+  border: 1px solid $gray-100;
+  @include flex(null, center, center, null);
+  .loading {
+    width: 35px;
+    height: 35px;
   }
 }
 
@@ -47,10 +59,58 @@
   }
 }
 
+.edit-img {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0px 8px 25px rgba(6, 182, 212, 0.2);
+    backdrop-filter: blur(5px);
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.edit-btn-wrap {
+  width: 130px;
+  position: absolute;
+  top: 33px;
+  right: 0;
+  padding: 12px;
+  @include flex(column, null, null, 12px);
+  background-color: white;
+  border-radius: 12px;
+  .btn-init {
+    width: 100%;
+    @include flex(null, null, center, 8px);
+    img {
+      width: 16px;
+      height: 16px;
+    }
+    span {
+      @include font-theme($bodySm-b);
+    }
+  }
+  input[type="file"] {
+    display: none;
+  }
+}
+
 /* PC 전용 hover */
 @media (hover: hover) {
   .cover-btn:hover {
     background-color: $main-bg-300;
+  }
+  .btn-init {
+    &:hover span {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -58,5 +118,12 @@
 @media (hover: none) {
   .cover-btn:active {
     background-color: $main-bg-300;
+    font-weight: $ext-weight;
+  }
+  .btn-init {
+    &:active span {
+      text-decoration: underline;
+      font-weight: $ext-weight;
+    }
   }
 }
