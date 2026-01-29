@@ -29,13 +29,13 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     console.log(error);
   }
 
-  // if (isFetching || addIsPendig) {
-  //   return (
-  //     <div className={style.empty}>
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
+  if (isFetching || addIsPendig) {
+    return (
+      <div className={style.empty}>
+        <Loading />
+      </div>
+    );
+  }
 
   const imgUrl = data?.url;
   const coverData = data?.data;
@@ -97,10 +97,6 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
             </div>
             <span className={style["cover-text"]}>커버 추가</span>
           </label>
-        </div>
-      ) : isFetching || addIsPendig ? (
-        <div className={style.empty}>
-          <Loading />
         </div>
       ) : (
         <div className={`${style.img} ${isMobile ? style["img-mobile"] : ""}`.trim()}>
