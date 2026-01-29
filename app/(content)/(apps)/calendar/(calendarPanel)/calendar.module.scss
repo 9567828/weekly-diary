@@ -61,8 +61,8 @@
 
 .edit-img {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 12px;
+  right: 10px;
   .action-btn {
     width: 32px;
     height: 32px;
@@ -80,8 +80,8 @@
 .edit-btn-wrap {
   width: 130px;
   position: absolute;
-  top: 33px;
-  right: 0;
+  top: 35px;
+  right: -1px;
   padding: 12px;
   @include flex(column, null, null, 12px);
   background-color: white;
@@ -95,6 +95,7 @@
     }
     span {
       @include font-theme($bodySm-b);
+      color: $gray-800;
     }
   }
   input[type="file"] {

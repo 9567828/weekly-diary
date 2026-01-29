@@ -9,7 +9,7 @@ export const useUpsertCoverMutation = () => {
       formData.append("year", String(year));
       formData.append("month", String(month));
 
-      const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/add-cover`, { method: "POST", body: formData });
+      const req = await fetch(`/api/add-cover`, { method: "POST", body: formData });
 
       return await req.json();
     },
