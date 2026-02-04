@@ -85,3 +85,12 @@
     text-overflow: ellipsis;
   }
 }
+
+@media (max-width: 360px) {
+  .label {
+    width: 180px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

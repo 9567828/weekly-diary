@@ -13,10 +13,18 @@ export const metadata: Metadata = {
   },
   other: {
     "naver-site-verification": "d963822cab2587cfbddca3f64d87c50d5bf3d4ef",
+    "apple-touch-startup-image": "url(/splash/iphone-14-pro.png)",
   },
   icons: {
     icon: "/imgs/favicon/favicon.ico",
     apple: "/imgs/favicon/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    // iOS PWA 활성화
+    capable: true,
+    statusBarStyle: "default",
+    title: "WEEKLY",
+    startupImage: "/imgs/favicon/apple-touch-icon.png",
   },
   manifest: "/imgs/favicon/site.webmanifest",
   openGraph: {
@@ -34,11 +42,6 @@ export const metadata: Metadata = {
     ],
     locale: "ko_KR",
     type: "website",
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "WEEKLY",
   },
 };
 
