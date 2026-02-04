@@ -38,6 +38,7 @@
 }
 
 .action-btn {
+  width: 100%;
   @include flex(null, null, center, 8px);
   @include font-theme($bodyMd-b);
   color: $gray-800;
