@@ -29,7 +29,7 @@ export default function Todo(props: FullProps) {
   });
   useClearBodyScroll(openModal);
 
-  const { id, text, is_import, is_time, done, is_done, isOpen, onClick, repeat_map, repeat_until, day_of_week, is_month_end } = props;
+  const { id, text, is_import, is_time, done, isOpen, onClick, repeat_map, repeat_until, day_of_week, is_month_end } = props;
 
   const date = !params.date ? todayStr() : params.date;
 
@@ -46,8 +46,6 @@ export default function Todo(props: FullProps) {
   const onChangeDele = (e: ChangeEvent<HTMLInputElement>) => {
     const checkedId = e.target.id;
     const checked = e.target.checked;
-
-    console.log(checked, checkedId);
 
     setCheckDel((prev) => ({
       all: false,
@@ -130,14 +128,14 @@ export default function Todo(props: FullProps) {
           </CheckBtn>
         </div>
         <div className={style["btn-wrap"]}>
-          {!is_done ? <Button existImg={true} src="/imgs/icons/ic_edit-pencel.svg" alt="투두수정" className="btn-18" onClick={onClick} /> : null}
+          {!isDone ? <Button existImg={true} src="/imgs/icons/ic_edit-pencel.svg" alt="투두수정" className="btn-18" onClick={onClick} /> : null}
           <Button
             existImg={true}
             src="/imgs/icons/ic_delete.svg"
             alt="투두삭제"
             className="btn-18"
             onClick={() => {
-              if (repeat_map?.label !== "안함") {
+              if (repeat_map?.label !== "안함" && repeat_map !== null) {
                 setOpenModal(true);
                 return;
               }

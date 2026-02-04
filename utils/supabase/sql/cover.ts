@@ -37,6 +37,7 @@ export const saveCoverImg = async ({ year, month, originFile, resizeFile }: { ye
     supabase.storage.from(COVER).upload(resizePath, resizeFile, {
       upsert: true,
       contentType: "image/webp",
+      cacheControl: "public, max-age=86400",
     }),
   ]);
 

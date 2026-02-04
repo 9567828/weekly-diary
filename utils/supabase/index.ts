@@ -23,7 +23,6 @@ export type TodoWithRepeatType = {
     render_date: string | null;
     is_delete: boolean | null;
   }[];
-  is_done: boolean;
   is_import: boolean | null;
   is_time: boolean | null;
   is_repeat: boolean | null;

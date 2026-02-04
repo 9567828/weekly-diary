@@ -97,7 +97,7 @@ article {
     border-bottom: 1px solid $spot-color;
   }
   &.todo {
-    height: inherit;
+    height: auto;
     min-height: 30px;
     font-weight: $bold;
   }

@@ -1,6 +1,5 @@
 import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import style from "./edittodo.module.scss";
-import Button from "@/components/ui/Button";
 import ToggleBtn from "@/components/ui/toggleBtn/ToggleBtn";
 import TimePicker from "../(time)/TimePicker";
 import ConfirmModal from "@/components/ui/confrimModal/ConfirmModal";
@@ -17,7 +16,7 @@ import { isMobile } from "react-device-detect";
 import SelectRepeat from "@/components/ui/select-box/SelectRepeat";
 import InputDate from "@/components/ui/InputDate";
 import RepeatWrap from "@/app/(content)/(apps)/(todos)/(editTodo)/RepeatWrap";
-import { endOfMonth, isSameDay, lastDayOfMonth, parse } from "date-fns";
+import { lastDayOfMonth, parse } from "date-fns";
 import { dateStr, parseDate, today, todayStr } from "@/components/calendar/drawWeek";
 import EmptySpace from "@/components/ui/EmptySpace";
 import CheckWrap from "./CheckWrap";
@@ -528,7 +527,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
                     })}
                   </div>
                 </div>
-                <EmptySpace addMargin />
+                {/* <EmptySpace addMargin /> */}
               </div>
             </div>
           </div>

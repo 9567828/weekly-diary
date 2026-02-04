@@ -9,6 +9,7 @@ import { handleCoverInvalidateQueries } from "@/utils/handlers";
 import { useQueryClient } from "@tanstack/react-query";
 import Loading from "../Loading";
 import { createClient } from "@/utils/supabase/service/client";
+import imageCompression from "browser-image-compression";
 
 export default function CalendarCover({ year, month }: { year: number; month: number }) {
   const supabase = createClient();
@@ -48,26 +49,37 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     const file = files?.[0];
     if (!file) return;
 
-    const previewUrl = URL.createObjectURL(file);
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 720,
+      useWebWorker: true,
+    };
 
-    setPrevCover(previewUrl);
-    setEditMode(false);
+    try {
+      const compressedFile = await imageCompression(file, options);
 
-    upSertCover(
-      { year, month: newMonth, file },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-          handleCoverInvalidateQueries(queryClient);
-          URL.revokeObjectURL(previewUrl);
-          setPrevCover("");
-          e.target.value = "";
+      // const previewUrl = URL.createObjectURL(compressedFile);
+      // setPrevCover(previewUrl);
+      setEditMode(false);
+
+      upSertCover(
+        { year, month: newMonth, file: compressedFile },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            handleCoverInvalidateQueries(queryClient);
+            // URL.revokeObjectURL(previewUrl);
+            setPrevCover("");
+            e.target.value = "";
+          },
+          onError: (error) => {
+            console.error(error);
+          },
         },
-        onError: (error) => {
-          console.error(error);
-        },
-      },
-    );
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDeleteCover = () => {
@@ -90,7 +102,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     <>
       {!hasCover ? (
         <div className={style.default}>
-          <input type="file" id="inputFile" onChange={onChangeFile} disabled={addIsPendig} accept=".jpg, .jpeg, .png" />
+          <input type="file" id="inputFile" onChange={onChangeFile} disabled={addIsPendig} accept="image/*" />
           <label htmlFor="inputFile" className={style["cover-btn"]}>
             <div className={style.icon}>
               <img src="/imgs/icons/ic_album.svg" alt="기본이미지" />
@@ -110,7 +122,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
                 <label htmlFor="inputFileEdit" className={`${style["btn-init"]}`}>
                   <img src="/imgs/icons/ic_edit-note.svg" alt="사진수정" />
                   <span>수정</span>
-                  <input type="file" id="inputFileEdit" onChange={onChangeFile} accept=".jpg, .jpeg, .png" />
+                  <input type="file" id="inputFileEdit" onChange={onChangeFile} accept="image/*" />
                 </label>
                 <button type="button" className={`${style["btn-init"]}`} onClick={handleDeleteCover}>
                   <img src="/imgs/icons/ic_delete.svg" alt="사진삭제" />

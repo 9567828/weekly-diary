@@ -71,7 +71,7 @@
     height: 100%;
     @include flex(null, space-between, center, null);
     padding: 8px 0;
-    border-bottom: 1px solid $gray-300;
+    border-bottom: 1px solid $gray-200;
     .text {
       h5 {
         @include font-theme($bodySm-b);
