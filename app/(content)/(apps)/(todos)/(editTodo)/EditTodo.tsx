@@ -9,7 +9,6 @@ import { useEditTodoMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleTodo } from "@/lib/slices/tabbarSlice";
-import { createPortal } from "react-dom";
 import CustomTimer from "./CustomTimer";
 import { getScrollIndex, handleOnScroll, handleTodoInvalidateQueries, makeTimes } from "@/utils/handlers";
 import { isMobile } from "react-device-detect";
@@ -369,7 +368,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
 
   return (
     <ModalLayout mode="todo">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} style={{ height: "100%" }}>
         <ConfirmActionBtn onCancelClick={closeEdit} />
         <div className={style.inner}>
           <div className={style.scroll}>
@@ -424,7 +423,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
                               }}
                             />
                           ) : s.title === "반복" ? (
-                            <SelectRepeat type={selectRepeat!} isOpenTime={toggleChecked.is_time} onSelect={handleSelectRepeat} />
+                            <SelectRepeat type={selectRepeat!} isOpenTime={isMobile && toggleChecked.is_time} onSelect={handleSelectRepeat} />
                           ) : (
                             <ToggleBtn id={s.toggleId!} onChange={onChangeToggle} checked={checked} />
                           )}
