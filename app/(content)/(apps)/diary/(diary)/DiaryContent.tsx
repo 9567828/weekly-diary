@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleDiary } from "@/lib/slices/tabbarSlice";
 import { handleDiaryInvalidateQueries } from "@/utils/handlers";
-import { useOnClickOutSide } from "@/hooks/useHooks";
+import { useClearBodyScroll, useOnClickOutSide } from "@/hooks/useHooks";
 import EditModal from "@/components/ui/edit-modal/EditModal";
 
 interface IDiary {
@@ -27,6 +27,7 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   const setRef = useRef<HTMLButtonElement>(null);
 
   useOnClickOutSide(delRef, () => setOnSetting(false), setRef);
+  useClearBodyScroll(onSetting);
 
   const handleOnSetting = () => {
     setOnSetting((prev) => !prev);
