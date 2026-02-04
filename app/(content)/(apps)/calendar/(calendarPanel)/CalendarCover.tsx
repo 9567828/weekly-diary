@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useRef, useState } from "react";
 import style from "./calendar.module.scss";
-import { useIsMobile, useOnClickOutSide } from "@/hooks/useHooks";
+import { useIsMobile, useOnClickOutSide, useClearBodyScroll } from "@/hooks/useHooks";
 import { useDeleteCoverMutation, useUpsertCoverMutation } from "@/hooks/useMutation/useCoverMutation";
 import { useSelectCover } from "@/hooks/useQuerys/useCoverQuery";
 import { handleCoverInvalidateQueries } from "@/utils/handlers";
@@ -10,6 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Loading from "../Loading";
 import { createClient } from "@/utils/supabase/service/client";
 import imageCompression from "browser-image-compression";
+import EditModal from "@/components/ui/edit-modal/EditModal";
 
 export default function CalendarCover({ year, month }: { year: number; month: number }) {
   const supabase = createClient();
@@ -20,7 +21,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
   const [prevCover, setPrevCover] = useState("");
 
   const { data, isError, error, isFetching } = useSelectCover(year, newMonth, supabase);
-  const { mutate: upSertCover, isPending: addIsPendig } = useUpsertCoverMutation();
+  const { mutate: upSertCover, isPending: addIsPending } = useUpsertCoverMutation();
   const { mutate: deleteCover } = useDeleteCoverMutation();
   const btnRef = useRef<HTMLButtonElement>(null);
   const editRef = useRef<HTMLDivElement>(null);
@@ -30,7 +31,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     console.log(error);
   }
 
-  if (isFetching || addIsPendig) {
+  if (isFetching || addIsPending) {
     return (
       <div className={style.empty}>
         <Loading />
@@ -99,10 +100,15 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
   };
 
   return (
-    <>
+    <div className={style["cover-wrap"]}>
+      {hasCover && (
+        <button ref={btnRef} type="button" className={style["action-btn"]} onClick={() => setEditMode((prev) => !prev)} disabled={addIsPending}>
+          <img src="/imgs/icons/ic_menu.svg" alt="메뉴" loading="eager" fetchPriority="high" />
+        </button>
+      )}
       {!hasCover ? (
         <div className={style.default}>
-          <input type="file" id="inputFile" onChange={onChangeFile} disabled={addIsPendig} accept="image/*" />
+          <input type="file" id="inputFile" onChange={onChangeFile} disabled={addIsPending} accept="image/*" />
           <label htmlFor="inputFile" className={style["cover-btn"]}>
             <div className={style.icon}>
               <img src="/imgs/icons/ic_album.svg" alt="기본이미지" />
@@ -111,28 +117,9 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
           </label>
         </div>
       ) : (
-        <div className={`${style.img} ${isMobile ? style["img-mobile"] : ""}`.trim()}>
-          {imgSrc && <img src={imgSrc} alt="사진" />}
-          <div className={style["edit-img"]}>
-            <button ref={btnRef} type="button" className={style["action-btn"]} onClick={() => setEditMode((prev) => !prev)} disabled={addIsPendig}>
-              <img src="/imgs/icons/ic_menu.svg" alt="메뉴" loading="eager" fetchPriority="high" />
-            </button>
-            {editMode && (
-              <div ref={editRef} className={style["edit-btn-wrap"]}>
-                <label htmlFor="inputFileEdit" className={`${style["btn-init"]}`}>
-                  <img src="/imgs/icons/ic_edit-note.svg" alt="사진수정" />
-                  <span>수정</span>
-                  <input type="file" id="inputFileEdit" onChange={onChangeFile} accept="image/*" />
-                </label>
-                <button type="button" className={`${style["btn-init"]}`} onClick={handleDeleteCover}>
-                  <img src="/imgs/icons/ic_delete.svg" alt="사진삭제" />
-                  <span>삭제</span>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+        <div className={`${style.img} ${isMobile ? style["img-mobile"] : ""}`.trim()}>{imgSrc && <img src={imgSrc} alt="사진" />}</div>
       )}
-    </>
+      {editMode && <EditModal mode="calendar" ref={editRef} onImgChange={onChangeFile} onDelete={handleDeleteCover} />}
+    </div>
   );
 }

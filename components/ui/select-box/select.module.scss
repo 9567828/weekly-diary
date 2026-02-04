@@ -16,11 +16,11 @@
   width: 100%;
   padding: 8px;
   background-color: white;
-}
-
-.repeat-btn {
-  border-radius: 8px;
-  border: 1px solid $gray-300;
+  color: $gray-800;
+  &.repeat-btn {
+    border-radius: 8px;
+    border: 1px solid $gray-300;
+  }
 }
 
 .opt-wrap {
@@ -32,6 +32,9 @@
   top: 43px;
   z-index: 5;
   cursor: pointer;
+  &.open {
+    top: -265px;
+  }
 }
 
 .opt-item {

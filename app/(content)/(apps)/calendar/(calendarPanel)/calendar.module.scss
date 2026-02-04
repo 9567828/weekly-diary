@@ -60,48 +60,19 @@
   }
 }
 
-.edit-img {
-  position: absolute;
-  top: 12px;
-  right: 10px;
-  .action-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.55);
-    box-shadow: 0px 8px 25px rgba(6, 182, 212, 0.2);
-    backdrop-filter: blur(5px);
-    img {
-      width: 24px;
-      height: 24px;
-    }
-  }
+.cover-wrap {
+  width: 100%;
+  @include flex(column, $gap: 4px);
 }
 
-.edit-btn-wrap {
-  width: 130px;
-  position: absolute;
-  top: 35px;
-  right: -1px;
-  padding: 12px;
-  @include flex(column, null, null, 12px);
-  background-color: white;
-  border-radius: 12px;
-  border: 1px solid $gray-200;
-  .btn-init {
+.action-btn {
+  width: 24px;
+  height: 24px;
+  align-self: flex-end;
+  margin-right: 12px;
+  img {
     width: 100%;
-    @include flex(null, null, center, 8px);
-    img {
-      width: 16px;
-      height: 16px;
-    }
-    span {
-      @include font-theme($bodySm-b);
-      color: $gray-800;
-    }
-  }
-  input[type="file"] {
-    display: none;
+    height: 100%;
   }
 }
 

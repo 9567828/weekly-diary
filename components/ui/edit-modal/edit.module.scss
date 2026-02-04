@@ -1,0 +1,58 @@
+@use "../../../styles/abstract/index" as *;
+
+.dim {
+  width: 100%;
+  max-width: 768px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.43);
+  z-index: 50;
+}
+
+.modal-wrap {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 30px 20px 10px;
+  border-radius: 20px 20px 0 0;
+  background-color: $bg-white;
+  z-index: 60;
+  &.todo {
+    height: 95%;
+  }
+  &.normal {
+    height: 30%;
+  }
+}
+
+.edit-modal {
+  width: 100%;
+  @include flex(column, null, flex-start, null);
+  padding: 10px;
+  background-color: $gray-100;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.action-btn {
+  @include flex(null, null, center, 8px);
+  @include font-theme($bodyMd-b);
+  color: $gray-800;
+  padding: 12px;
+  img {
+    width: 18px;
+    height: 18px;
+  }
+  input[type="file"] {
+    display: none;
+  }
+  &.edit-btn {
+    border-bottom: 1px solid $gray-200;
+  }
+  &.del-btn {
+    color: $red-color;
+  }
+}

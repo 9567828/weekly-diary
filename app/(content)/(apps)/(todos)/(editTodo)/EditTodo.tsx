@@ -18,8 +18,8 @@ import InputDate from "@/components/ui/InputDate";
 import RepeatWrap from "@/app/(content)/(apps)/(todos)/(editTodo)/RepeatWrap";
 import { lastDayOfMonth, parse } from "date-fns";
 import { dateStr, parseDate, today, todayStr } from "@/components/calendar/drawWeek";
-import EmptySpace from "@/components/ui/EmptySpace";
 import CheckWrap from "./CheckWrap";
+import ModalLayout from "@/components/ui/edit-modal/ModalLayout";
 
 type toggleIdType = "is_import" | "is_time" | "is_month" | "is_until";
 type toggleMap = Record<toggleIdType, boolean>;
@@ -69,7 +69,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const { mutate: edit } = useEditTodoMutation();
-  const [mount, setMount] = useState(false);
   const [value, setValue] = useState(text);
   const [dateValue, setDateValue] = useState(todo_date);
   const [untilDate, setUntilDate] = useState(repeat_until ?? todayStr());
@@ -368,171 +367,159 @@ export default function EditTodo({ ...props }: IEditTodo) {
     }
   }, [toggleChecked.is_time]);
 
-  useEffect(() => {
-    setMount(true);
-  }, []);
+  return (
+    <ModalLayout mode="todo">
+      <form onSubmit={onSubmit}>
+        <ConfirmActionBtn onCancelClick={closeEdit} />
+        <div className={style.inner}>
+          <div className={style.scroll}>
+            <div className={style["edit-box"]}>
+              <textarea
+                className="text-area todo"
+                name="text"
+                id="text"
+                placeholder="내용을 입력하세요"
+                rows={2}
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                  handleHasChanged("text", text !== e.target.value);
+                }}
+                onFocus={() => dispatch(handleTodo("edit"))}
+                onBlur={() => dispatch(handleTodo(null))}
+              />
 
-  if (!mount) return null;
+              <div className={style["select-wrap"]}>
+                {selectBox.map((s, i) => {
+                  const checked = toggleChecked[s.toggleId!] ?? false;
 
-  return createPortal(
-    <>
-      <div className={style.bg}>
-        <form onSubmit={onSubmit}>
-          <div className={style["edit-todo-wrap"]}>
-            <ConfirmActionBtn onCancelClick={closeEdit} />
-            <div className={style.inner}>
-              <div className={style.scroll}>
-                <div className={style["edit-box"]}>
-                  <textarea
-                    className="text-area todo"
-                    name="text"
-                    id="text"
-                    placeholder="내용을 입력하세요"
-                    rows={2}
-                    value={value}
-                    onChange={(e) => {
-                      setValue(e.target.value);
-                      handleHasChanged("text", text !== e.target.value);
-                    }}
-                    onFocus={() => dispatch(handleTodo("edit"))}
-                    onBlur={() => dispatch(handleTodo(null))}
-                  />
-
-                  <div className={style["select-wrap"]}>
-                    {selectBox.map((s, i) => {
-                      const checked = toggleChecked[s.toggleId!] ?? false;
-
-                      return (
-                        <div key={i}>
-                          <div className={style["select-box"]}>
-                            <div className={style.icon}>
-                              <img src={s.src} alt={`${s.title}아이콘`} />
-                            </div>
-                            <div className={style["meta-wrap"]}>
-                              <div className={style.text}>
-                                <h5>{s.title}</h5>
-                                {s.toggleId === "is_time" && toggleChecked.is_time && <p>{`${ampm} ${hour}:${min}`}</p>}
-                                {s.title === "반복" && selectRepeat.value !== "none" && (
-                                  <div className={style["repeat-text"]}>
-                                    <img src="/imgs/icons/ic_repeat-small.svg" alt="반복아이콘" />
-                                    <div>
-                                      <p>{selectRepeat.value === "biweekly" && selectRepeat.label !== "격주" ? `격주 · ${selectRepeat.label}` : selectRepeat.label}</p>
-                                    </div>
-                                  </div>
-                                )}
+                  return (
+                    <div key={i}>
+                      <div className={style["select-box"]}>
+                        <div className={style.icon}>
+                          <img src={s.src} alt={`${s.title}아이콘`} />
+                        </div>
+                        <div className={style["meta-wrap"]}>
+                          <div className={style.text}>
+                            <h5>{s.title}</h5>
+                            {s.toggleId === "is_time" && toggleChecked.is_time && <p>{`${ampm} ${hour}:${min}`}</p>}
+                            {s.title === "반복" && selectRepeat.value !== "none" && (
+                              <div className={style["repeat-text"]}>
+                                <img src="/imgs/icons/ic_repeat-small.svg" alt="반복아이콘" />
+                                <div>
+                                  <p>{selectRepeat.value === "biweekly" && selectRepeat.label !== "격주" ? `격주 · ${selectRepeat.label}` : selectRepeat.label}</p>
+                                </div>
                               </div>
-                              {s.title === "날짜" ? (
-                                <InputDate
-                                  id="todoDate"
-                                  value={dateValue}
-                                  onChange={(e) => {
-                                    const value = e.target.value;
-                                    setDateValue(value);
-                                    setDays([parseDate(value).getDay()]);
-                                    handleHasChanged("date", value !== "");
-                                  }}
-                                />
-                              ) : s.title === "반복" ? (
-                                <SelectRepeat type={selectRepeat!} onSelect={handleSelectRepeat} />
-                              ) : (
-                                <ToggleBtn id={s.toggleId!} onChange={onChangeToggle} checked={checked} />
-                              )}
-                            </div>
+                            )}
                           </div>
-                          {s.title === "반복" && (
-                            <RepeatWrap repeatType={selectRepeat!} selectDays={days} onSelectDays={handleSelectDays}>
-                              {selectRepeat.label === "매월" && (
-                                <CheckWrap id="is_month" mode="nomal" text="말일" checked={toggleChecked.is_month} onChangeChecked={onChangeToggle} />
-                              )}
-                              {selectRepeat.value !== "none" && (
-                                <CheckWrap
-                                  id="is_until"
-                                  mode="date"
-                                  text="종료날짜"
-                                  checked={toggleChecked.is_until}
-                                  onChangeChecked={onChangeToggle}
-                                  value={untilDate}
-                                  onChangeDate={(e) => {
-                                    const value = e.target.value;
-                                    const todoDate = parse(dateValue!, "yyyy-MM-dd", new Date());
-                                    const untilDate = parse(value, "yyyy-MM-dd", new Date());
-
-                                    if (todoDate > untilDate) {
-                                      alert("종료일은 할 일 날짜 이후로 설정해 주세요.");
-                                      setUntilDate(todayStr());
-                                      return;
-                                    }
-
-                                    setUntilDate(value);
-                                    handleHasChanged("untilDate", value !== "");
-                                  }}
-                                />
-                              )}
-                            </RepeatWrap>
-                          )}
-                          {s.toggleId === "is_time" && toggleChecked.is_time && (
-                            <>
-                              {!isMobile ? (
-                                <TimePicker
-                                  checked={true}
-                                  isAmpm={ampm as AmPmType}
-                                  hourValue={hour}
-                                  minutesValue={min}
-                                  onChangeHour={(e) => onChangeTimes(e.target.value, "hour")}
-                                  onChangeMin={(e) => onChangeTimes(e.target.value, "min")}
-                                  onSelectChange={(e) => {
-                                    const selValue = e.target.value as AmPmType;
-                                    setAmpm(selValue);
-                                    handleHasChanged("is_ampm", is_ampm !== selValue);
-                                  }}
-                                />
-                              ) : (
-                                <CustomTimer
-                                  toggleTime={toggleChecked.is_time}
-                                  timer={[
-                                    {
-                                      variant: "ampm",
-                                      list: ampmList,
-                                      time: ampm!,
-                                      timeRef: ampmRef,
-                                      onScroll: () => {
-                                        onChangeScrollTime(ampmRef, ampmList, setAmpm, "is_ampm");
-                                      },
-                                    },
-                                    {
-                                      variant: "hour",
-                                      list: hours,
-                                      time: hour,
-                                      timeRef: hourRef,
-                                      onScroll: () => {
-                                        onChangeScrollTime(hourRef, hours, setHour, "hour");
-                                      },
-                                    },
-                                    {
-                                      variant: "min",
-                                      list: minutes,
-                                      time: min,
-                                      timeRef: minRef,
-                                      onScroll: () => {
-                                        onChangeScrollTime(minRef, minutes, setMin, "min");
-                                      },
-                                    },
-                                  ]}
-                                />
-                              )}
-                            </>
+                          {s.title === "날짜" ? (
+                            <InputDate
+                              id="todoDate"
+                              value={dateValue}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                setDateValue(value);
+                                setDays([parseDate(value).getDay()]);
+                                handleHasChanged("date", value !== "");
+                              }}
+                            />
+                          ) : s.title === "반복" ? (
+                            <SelectRepeat type={selectRepeat!} isOpenTime={toggleChecked.is_time} onSelect={handleSelectRepeat} />
+                          ) : (
+                            <ToggleBtn id={s.toggleId!} onChange={onChangeToggle} checked={checked} />
                           )}
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                {/* <EmptySpace addMargin /> */}
+                      </div>
+                      {s.title === "반복" && (
+                        <RepeatWrap repeatType={selectRepeat!} selectDays={days} onSelectDays={handleSelectDays}>
+                          {selectRepeat.label === "매월" && <CheckWrap id="is_month" mode="nomal" text="말일" checked={toggleChecked.is_month} onChangeChecked={onChangeToggle} />}
+                          {selectRepeat.value !== "none" && (
+                            <CheckWrap
+                              id="is_until"
+                              mode="date"
+                              text="종료날짜"
+                              checked={toggleChecked.is_until}
+                              onChangeChecked={onChangeToggle}
+                              value={untilDate}
+                              onChangeDate={(e) => {
+                                const value = e.target.value;
+                                const todoDate = parse(dateValue!, "yyyy-MM-dd", new Date());
+                                const untilDate = parse(value, "yyyy-MM-dd", new Date());
+
+                                if (todoDate > untilDate) {
+                                  alert("종료일은 할 일 날짜 이후로 설정해 주세요.");
+                                  setUntilDate(todayStr());
+                                  return;
+                                }
+
+                                setUntilDate(value);
+                                handleHasChanged("untilDate", value !== "");
+                              }}
+                            />
+                          )}
+                        </RepeatWrap>
+                      )}
+                      {s.toggleId === "is_time" && toggleChecked.is_time && (
+                        <>
+                          {!isMobile ? (
+                            <TimePicker
+                              checked={true}
+                              isAmpm={ampm as AmPmType}
+                              hourValue={hour}
+                              minutesValue={min}
+                              onChangeHour={(e) => onChangeTimes(e.target.value, "hour")}
+                              onChangeMin={(e) => onChangeTimes(e.target.value, "min")}
+                              onSelectChange={(e) => {
+                                const selValue = e.target.value as AmPmType;
+                                setAmpm(selValue);
+                                handleHasChanged("is_ampm", is_ampm !== selValue);
+                              }}
+                            />
+                          ) : (
+                            <CustomTimer
+                              toggleTime={toggleChecked.is_time}
+                              timer={[
+                                {
+                                  variant: "ampm",
+                                  list: ampmList,
+                                  time: ampm!,
+                                  timeRef: ampmRef,
+                                  onScroll: () => {
+                                    onChangeScrollTime(ampmRef, ampmList, setAmpm, "is_ampm");
+                                  },
+                                },
+                                {
+                                  variant: "hour",
+                                  list: hours,
+                                  time: hour,
+                                  timeRef: hourRef,
+                                  onScroll: () => {
+                                    onChangeScrollTime(hourRef, hours, setHour, "hour");
+                                  },
+                                },
+                                {
+                                  variant: "min",
+                                  list: minutes,
+                                  time: min,
+                                  timeRef: minRef,
+                                  onScroll: () => {
+                                    onChangeScrollTime(minRef, minutes, setMin, "min");
+                                  },
+                                },
+                              ]}
+                            />
+                          )}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
+
       {confirmOn ? <ConfirmModal confirmOnly={true} message="공란 입니다" onConfirm={() => setConfirmOn(false)} /> : null}
       {modalOpen ? (
         <ConfirmModal
@@ -544,7 +531,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
           onConfirm={onClose}
         />
       ) : null}
-    </>,
-    document.body,
+    </ModalLayout>
   );
 }

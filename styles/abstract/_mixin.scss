@@ -2,23 +2,23 @@
 @use "sass:math";
 @use "./variables" as *;
 
-@mixin flex($col, $justi, $align, $gap) {
+@mixin flex($col: null, $justi: null, $align: null, $gap: null) {
   display: flex;
   @if $col {
     flex-direction: column;
   }
   @if $justi {
-    justify-content: $justi
+    justify-content: $justi;
   }
   @if $align {
-    align-items: $align
+    align-items: $align;
   }
   @if $gap {
-    gap: $gap
+    gap: $gap;
   }
 }
 
-@mixin bgImg($url, $position:center, $size:cover) {
+@mixin bgImg($url, $position: center, $size: cover) {
   background-image: url($url);
   background-position: $position;
   background-size: $size;
@@ -31,16 +31,16 @@
     grid-template-columns: $col;
   }
   @if $justify-content {
-    justify-content: $justi
+    justify-content: $justi;
   }
   @if $justify-item {
     justify-items: $justify-item;
   }
   @if $align {
-    align-items: $align
+    align-items: $align;
   }
   @if $gap {
-    gap: $gap
+    gap: $gap;
   }
 }
 
@@ -53,25 +53,27 @@
   letter-spacing: $letter;
 }
 
-@mixin headXxl-font ($line, $weight) {
-  @include font-style($headXxl, $line, $weight, -0.02em)
+@mixin headXxl-font($line, $weight) {
+  @include font-style($headXxl, $line, $weight, -0.02em);
 }
 
 @mixin titleXl-font($line, $weight) {
-  @include font-style($titleXl, $line, $weight, -0.02em)
+  @include font-style($titleXl, $line, $weight, -0.02em);
 }
 
 @mixin body-font($size, $line, $weight) {
-  @include font-style($size, $line, $weight, -0.02em)
+  @include font-style($size, $line, $weight, -0.02em);
 }
 
 @mixin caption-font($size, $line, $weight) {
-  @include font-style($size, $line, $weight)
+  @include font-style($size, $line, $weight);
 }
 
 @mixin font-theme($name) {
   $f: map.get($font-map, $name);
-  @if $f == null { @error "Unknown theme `#{$name}`"; }
+  @if $f == null {
+    @error "Unknown theme `#{$name}`";
+  }
 
   @include font-style(map.get($f, size), map.get($f, line), map.get($f, weight), map.get($f, letter));
 }

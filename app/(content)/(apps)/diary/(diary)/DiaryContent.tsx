@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { handleDiary } from "@/lib/slices/tabbarSlice";
 import { handleDiaryInvalidateQueries } from "@/utils/handlers";
 import { useOnClickOutSide } from "@/hooks/useHooks";
+import EditModal from "@/components/ui/edit-modal/EditModal";
 
 interface IDiary {
   id: string;
@@ -68,14 +69,7 @@ export default function DiaryContent({ id, title, text }: IDiary) {
           <div className={style["content-head"]}>
             <p className={style.title}>{title ? title : "제목없음"}</p>
             <div className={style["btn-wrap"]}>
-              {onSetting && (
-                <div ref={delRef} className={style["del-wrapper"]}>
-                  <button type="button" onClick={() => handleDelete(id)} className={style["del-btn"]}>
-                    <img src="/imgs/icons/ic_delete.svg" alt="삭제" />
-                    <span>삭제</span>
-                  </button>
-                </div>
-              )}
+              {onSetting && <EditModal mode="diary" onDelete={() => handleDelete(id)} ref={delRef} />}
               <Button type="button" existImg={true} src="/imgs/icons/ic_edit-note.svg" alt="수정" className="btn-18" onClick={handleOnEditMode} />
               <Button type="button" btnRef={setRef} existImg={true} src="/imgs/icons/ic_menu.svg" alt="일기설정" className="btn-24" onClick={handleOnSetting} />
             </div>

@@ -95,7 +95,7 @@
 
   .days-wrapper {
     @include font-theme($bodySm-r);
-    @include flex(null, null, center, 8px);
+    @include flex(null, space-between, center, null);
     margin-top: 8px;
     button {
       width: 32px;
@@ -119,7 +119,7 @@
   @include flex(null, space-between, center, null);
   input[type="date"] {
     flex-shrink: 0;
-    height: 100%
+    height: 100%;
   }
 }
 .nomal {

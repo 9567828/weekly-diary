@@ -1,29 +1,6 @@
-.bg {
-  width: 100%;
-  max-width: 768px;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.43);
-  z-index: 50;
-}
-
-.edit-todo-wrap {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 95%;
-  padding: 30px 20px 10px;
-  border-radius: 20px 20px 0 0;
-  background-color: $bg-white;
-  z-index: 60;
-}
-
 .inner {
   width: 100%;
-  height: 690px;
+  height: calc(100% - 88px);
   margin-top: 30px;
   overflow: hidden;
 }
