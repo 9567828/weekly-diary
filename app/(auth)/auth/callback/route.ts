@@ -1,13 +1,19 @@
 import { NextResponse } from "next/server";
-// The client you created from the Server-Side Auth instructions
 import { type TablesInsert } from "@/database.types";
 import { createServClient } from "@/utils/supabase/service/server";
 
 type ProfileInsert = TablesInsert<"profiles">;
+const DEV_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
+
+  let url = origin;
+
+  if (origin.includes("localhost")) {
+    url = DEV_URL!;
+  }
 
   // if "next" is in param, use it as the redirect URL
   let next = searchParams.get("next") ?? "/";
@@ -38,16 +44,16 @@ export async function GET(request: Request) {
         // setting 테이블에 insert
         await supabase.from("setting").upsert({ id: user.id });
         console.log("data? ", data, "error? ", error);
-        return NextResponse.redirect(`${origin}${next}`);
+        return NextResponse.redirect(`${url}${next}`);
       } else {
         // ✅ 세션 교환은 됐는데 user 없음 → 로그인 페이지로
-        return NextResponse.redirect(`${origin}/login`);
+        return NextResponse.redirect(`${url}/login`);
       }
     } else {
       // ✅ 교환 실패 → 로그인 페이지로
-      return NextResponse.redirect(`${origin}/login`);
+      return NextResponse.redirect(`${url}/login`);
     }
   }
 
-  return NextResponse.redirect(`${origin}/login`);
+  return NextResponse.redirect(`${url}/login`);
 }

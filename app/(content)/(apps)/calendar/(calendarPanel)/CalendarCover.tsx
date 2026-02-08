@@ -3,7 +3,7 @@
 import { ChangeEvent, useRef, useState } from "react";
 import style from "./calendar.module.scss";
 import { useOnClickOutSide, useClearBodyScroll } from "@/hooks/useHooks";
-import { useDeleteCoverMutation, useUpsertCoverMutation } from "@/hooks/useMutation/useCoverMutation";
+import { useDeleteCoverMutation } from "@/hooks/useMutation/useCoverMutation";
 import { useSelectCover } from "@/hooks/useQuerys/useCoverQuery";
 import { handleCoverInvalidateQueries } from "@/utils/handlers";
 import { useQueryClient } from "@tanstack/react-query";
@@ -76,10 +76,9 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
 
   const handleDeleteCover = () => {
     deleteCover(
-      { year, month: newMonth, path: coverData.base_path },
+      { path: coverData.base_path },
       {
         onSuccess: (data) => {
-          console.log(data);
           handleCoverInvalidateQueries(queryClient);
           setEditMode(false);
         },

@@ -18,6 +18,8 @@ export const signIn = async (provider: Provider): Promise<void> => {
     },
   });
 
+  console.log(data.url);
+
   if (error) throw error;
 
   redirect(data.url as string);
@@ -44,7 +46,7 @@ export async function getUserId(): Promise<string | null> {
     error,
   } = await supabase.auth.getUser();
 
-  if (error) throw error;
+  if (error || !user?.id) return null;
 
-  return user?.id ?? null;
+  return user.id;
 }

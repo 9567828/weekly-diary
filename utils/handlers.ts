@@ -1,7 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { todoDateKey } from "@/hooks/useQuerys/useTodoQuery";
 import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
-import { RefObject } from "react";
+import { Dispatch, Ref, RefObject, SetStateAction } from "react";
 import { TodoWithRepeatType } from "./supabase";
 import { parseDate } from "@/components/calendar/drawWeek";
 import { getWeek, isLastDayOfMonth } from "date-fns";
@@ -13,15 +13,12 @@ export const DAY_LABEL = ["일", "월", "화", "수", "목", "금", "토"];
 
 export const makeTimes = (time: timeType) => {
   let t: string[] = [];
-  const num = time === "hour" ? 13 : 60;
+  const num = time === "hour" ? 12 : 59;
+  let i = time === "hour" ? 1 : 0;
 
-  for (let i = 0; i <= num; ++i) {
+  for (i; i <= num; ++i) {
     const h = String(i).padStart(2, "0");
     t.push(h);
-  }
-
-  if (time === "minute") {
-    t.unshift("99");
   }
 
   return t;
@@ -53,22 +50,58 @@ export const handleOnScroll = (fn: () => void) => {
   scrollTimeout = setTimeout(() => {
     // 스크롤 멈춘 뒤에만
     fn();
-  }, 120);
+  }, 130);
 };
 
 export const ITEM_HEIGHT = 50;
 export const DUMMY_COUNT_TOP = 1;
 
-export const getScrollIndex = (ref: RefObject<HTMLDivElement | null>, itemArr: any[]) => {
-  const el = ref.current!;
+export const getScrollIndex = (ref: RefObject<HTMLDivElement | null>, itemArr: any[], lastIndex: RefObject<number>, isAndroid: boolean) => {
+  // const el = ref.current!;
+  // const scrollTop = el.scrollTop;
 
-  const index = Math.round((el.scrollTop + el.clientHeight / 2) / ITEM_HEIGHT);
+  // const index = Math.round((scrollTop + el.clientHeight / 2) / ITEM_HEIGHT);
+  // const valueIndex = index - DUMMY_COUNT_TOP;
+
+  // const safeIndex = Math.max(0, Math.min(valueIndex, itemArr.length - 1));
+
+  // return itemArr[safeIndex];
+
+  const el = ref.current;
+  if (!el) return;
+
+  const centerY = el.scrollTop + el.clientHeight / 2;
+
+  const index = getStableIndex(centerY, lastIndex, isAndroid);
+
   const valueIndex = index - DUMMY_COUNT_TOP;
 
-  return itemArr[valueIndex];
+  const safeIndex = Math.max(0, Math.min(valueIndex, itemArr.length - 1));
+
+  console.log(safeIndex);
+
+  return itemArr[safeIndex];
 };
 
-export const SITE_URL = process.env.NODE_ENV === "development" ? process.env.NEXT_PUBLIC_DEV_SITE_URL : process.env.NEXT_PUBLIC_PROD_SITE_URL;
+export const getStableIndex = (centerY: number, lastIndexRef: RefObject<number>, isAndroid: boolean) => {
+  const OFFSET = DUMMY_COUNT_TOP * ITEM_HEIGHT;
+
+  // const rawIndex = (centerY - OFFSET) / ITEM_HEIGHT;
+  const rawIndex = centerY / ITEM_HEIGHT;
+
+  if (isAndroid) {
+    const diff = rawIndex - lastIndexRef.current;
+    if (Math.abs(diff) < 0.2) {
+      return lastIndexRef.current ?? 0;
+    }
+  }
+
+  // const idx = Math.round(rawIndex);
+  const idx = Number(rawIndex.toFixed());
+  lastIndexRef.current = idx;
+
+  return idx;
+};
 
 export const isTodoVisibleOnDate = (t: TodoWithRepeatType, dateStr: string) => {
   const todoParse = parseDate(t.todo_date);

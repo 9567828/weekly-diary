@@ -43,6 +43,7 @@
   @include font-theme($bodyMd-b);
   color: $gray-800;
   padding: 12px;
+  cursor: pointer;
   img {
     width: 18px;
     height: 18px;

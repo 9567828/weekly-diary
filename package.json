@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "data": "supabase gen types typescript --project-id \"uweadyjpzagnrgbdskqo\" --schema public > database.types.ts",
-    "dev": "next dev",
+    "dev": "npx next dev --turbo",
+    "dev:ssl": "npx next dev -H 0.0.0.0 --experimental-https --experimental-https-key ./certificates/ssl.key --experimental-https-cert ./certificates/ssl.cert",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

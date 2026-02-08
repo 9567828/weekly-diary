@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/service/client";
+import { getUserIdClient } from "@/utils/supabase/sql/authClient";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface IUser {
@@ -13,10 +14,11 @@ const initialState: IUser = {
 
 export const fetchUserThunk = createAsyncThunk("auth/fetchUser", async () => {
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
-  if (error) throw error;
 
-  return data.user?.id ?? null;
+  const userId = await getUserIdClient();
+  if (!userId) throw new Error("unauthenticated");
+
+  return userId;
 });
 
 const userSlice = createSlice({

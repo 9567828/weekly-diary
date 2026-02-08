@@ -24,8 +24,8 @@ export const useUpsertCoverMutation = () => {
 
 export const useDeleteCoverMutation = () => {
   return useMutation({
-    mutationFn: async ({ year, month, path }: { year: number; month: number; path: string }) => {
-      return await deleteCover(year, month, path);
+    mutationFn: async ({ path }: { path: string }) => {
+      return await deleteCover(path);
     },
   });
 };

@@ -16,7 +16,13 @@ const nextConfig: NextConfig = {
     includePaths: [path.join(__dirname, "styles")],
     additionalData: `@use "abstract/index.scss" as *;`,
   },
-  allowedDevOrigins: ["*.ngrok-free.dev", "localhost", "127.0.0.1"],
+  allowedDevOrigins: ["localhost", "222.111.69.130", "dev.weekly-diary.com"],
+  turbopack: {
+    resolveAlias: {
+      underscore: "lodash",
+    },
+    resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".json"],
+  },
 };
 
 export default withPwa(nextConfig);

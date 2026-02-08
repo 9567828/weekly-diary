@@ -25,31 +25,11 @@ export default function TimePicker({ hourValue, minutesValue, isAmpm, onChangeHo
         </select>
         <div className={style["input-time"]}>
           <div className={style.width}>
-            <InputBox
-              id="hour"
-              type="number"
-              variant="input-time"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              min="01"
-              max="12"
-              onChange={onChangeHour}
-              value={hourValue}
-            />
+            <InputBox id="hour" type="number" variant="input-time" inputMode="numeric" pattern="[0-9]*" min="01" max="12" onChange={onChangeHour} value={hourValue} />
           </div>
           <p>:</p>
           <div className={style.width}>
-            <InputBox
-              id="minute"
-              type="number"
-              variant="input-time"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              min="00"
-              max="59"
-              onChange={onChangeMin}
-              value={minutesValue}
-            />
+            <InputBox id="minute" type="number" variant="input-time" inputMode="numeric" pattern="[0-9]*" min="00" max="59" onChange={onChangeMin} value={minutesValue} />
           </div>
         </div>
       </div>

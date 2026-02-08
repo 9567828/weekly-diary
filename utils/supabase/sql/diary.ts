@@ -1,16 +1,14 @@
 import { AddDiaryType, DiaryRow, EditDiaryType } from "..";
 import { createClient } from "../service/client";
+import { getUserIdClient } from "./authClient";
 
 export const addDiary = async (props: AddDiaryType) => {
   const supabase = createClient();
-  const {
-    data: { user },
-    error: userErr,
-  } = await supabase.auth.getUser();
 
-  if (userErr) throw userErr;
+  const userId = await getUserIdClient();
+  if (!userId) throw new Error("unauthenticated");
 
-  const { data, error } = await supabase.from("diary").insert({ ...props, user_id: user?.id });
+  const { data, error } = await supabase.from("diary").insert({ ...props, user_id: userId });
 
   if (error) throw error;
 

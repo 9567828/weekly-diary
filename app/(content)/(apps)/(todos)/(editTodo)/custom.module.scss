@@ -28,15 +28,16 @@
 .text-wrap {
   height: 100%;
   @include flex(column, null, null, null);
-  scroll-snap-type: y proximity;
-  scroll-snap-stop: always;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  // scroll-snap-type: y proximity;
+  // scroll-snap-stop: always;
+  // overflow-y: scroll;
+  // -webkit-overflow-scrolling: touch;
+  transform: translate3d(0, 50px, 0);
 }
 
-.text-wrap::-webkit-scrollbar {
-  display: none;
-}
+// .text-wrap::-webkit-scrollbar {
+//   display: none;
+// }
 
 .time-text {
   width: 50px;

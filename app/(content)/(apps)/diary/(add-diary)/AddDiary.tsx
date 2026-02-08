@@ -54,7 +54,6 @@ export default function AddDiary({ date, weekNum }: { date: string; weekNum: num
 
     mutate(paylaod, {
       onSuccess: (data) => {
-        console.log(data);
         handleDiaryInvalidateQueries(queryClient);
 
         dispatch(handleDiary(null));

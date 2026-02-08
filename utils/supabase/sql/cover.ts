@@ -10,7 +10,6 @@ const COVER = "cover";
 export const saveCoverImg = async ({ year, month, originFile, resizeFile }: { year: string; month: string; originFile: File; resizeFile: Buffer }) => {
   const supabase = await createServClient();
   const id = await getUserId();
-
   if (!id) {
     throw new Error("id is required");
   }
@@ -75,7 +74,6 @@ export const upsertCover = async (payload: AddCoverType) => {
 
 export const selectCover = async (year: number, month: number, supabase: SupabaseClient) => {
   const id = await getUserId();
-
   if (!id) throw new Error("id is required");
 
   const { data, error } = await supabase.from("month_cover").select("*").eq("user_id", id).eq("year", year).eq("month", month).maybeSingle();
@@ -84,7 +82,7 @@ export const selectCover = async (year: number, month: number, supabase: Supabas
   return data;
 };
 
-export const deleteCover = async (year: number, month: number, path: string) => {
+export const deleteCover = async (path: string) => {
   const supabase = createClient();
   const id = await getUserId();
   if (!id) throw new Error("id is required");

@@ -1,24 +1,21 @@
 "use client";
 
-import { AddTodoType, AmPmType, EditTodoCheck, EditTodoType, RepeatMapType, TodoRow, TodoWithRepeatType } from "..";
+import { AddTodoType, EditTodoCheck, EditTodoType, RepeatMapType, TodoRow, TodoWithRepeatType } from "..";
 import { Json } from "@/database.types";
 import { createClient } from "../service/client";
+import { getUserIdClient } from "./authClient";
 
 const JOIN_DOEN = `done:todo_done(todo_id, render_date, is_done, is_delete)`;
 
 export const insertTodo = async (text: string, todoDate: string) => {
   const supabase = createClient();
 
-  const {
-    data: { user },
-    error: userErr,
-  } = await supabase.auth.getUser();
-
-  if (userErr) throw userErr;
+  const userId = await getUserIdClient();
+  if (!userId) throw new Error("unauthenticated");
 
   const payload: AddTodoType = {
     text,
-    user_id: user?.id!,
+    user_id: userId,
     todo_date: todoDate,
     repeat_map: { label: "안함", value: "none" },
   };
@@ -79,17 +76,13 @@ export const selectTodoByDate = async (todoDate: string): Promise<TodoWithRepeat
 export const checkDoneTable = async (props: EditTodoCheck) => {
   const supabase = createClient();
 
-  const {
-    data: { user },
-    error: userErr,
-  } = await supabase.auth.getUser();
-
-  if (userErr) throw userErr;
+  const userId = await getUserIdClient();
+  if (!userId) throw new Error("unauthenticated");
 
   const newObj = {
     ...props,
     updated_at: new Date().toISOString(),
-    user_id: user?.id,
+    user_id: userId,
   };
 
   const { data, error } = await supabase.from("todo_done").upsert(newObj, { onConflict: "todo_id, render_date" }).select().single();
@@ -118,12 +111,9 @@ export const editTodo = async (props: EditTodoType) => {
 
 export const deleteTodo = async (id: string, render_date: string, isAll: boolean, isRepeat: boolean) => {
   const supabase = createClient();
-  const {
-    data: { user },
-    error: userErr,
-  } = await supabase.auth.getUser();
 
-  if (userErr) throw userErr;
+  const userId = await getUserIdClient();
+  if (!userId) throw new Error("unauthenticated");
 
   if (isRepeat) {
     if (isAll) {
@@ -138,7 +128,7 @@ export const deleteTodo = async (id: string, render_date: string, isAll: boolean
         todo_id: id,
         render_date,
         is_delete: true,
-        user_id: user?.id,
+        user_id: userId,
       };
 
       const { data, error } = await supabase.from("todo_done").upsert(payload, { onConflict: "todo_id, render_date" }).select().single();

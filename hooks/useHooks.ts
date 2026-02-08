@@ -29,6 +29,25 @@ export const useIsMobile = () => {
   return isMobile;
 };
 
+export const useIsAndroid = () => {
+  const [isAndroid, setIsAndroid] = useState(false);
+
+  useEffect(() => {
+    const checkAndroid = () => {
+      const userAgent = typeof window.navigator === "undefined" ? "" : navigator.userAgent;
+      const mobile = /Android/i.test(userAgent);
+      // const isPWA = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
+      setIsAndroid(mobile);
+    };
+    checkAndroid();
+
+    window.addEventListener("resize", checkAndroid);
+    return () => window.removeEventListener("resize", checkAndroid);
+  }, []);
+
+  return isAndroid;
+};
+
 export const useOnClickOutSide = (innerRef: React.RefObject<HTMLElement | null>, handler: () => void, btn?: React.RefObject<HTMLElement | null>, isGlobModalOpen?: boolean) => {
   useEffect(() => {
     if (isGlobModalOpen) return;

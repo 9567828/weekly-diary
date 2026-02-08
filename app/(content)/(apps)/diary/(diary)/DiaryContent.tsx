@@ -44,7 +44,6 @@ export default function DiaryContent({ id, title, text }: IDiary) {
   const handleDelete = (id: string) => {
     mutate(id, {
       onSuccess: (data) => {
-        console.log(data);
         handleDiaryInvalidateQueries(queryClient);
       },
       onError: (error) => {

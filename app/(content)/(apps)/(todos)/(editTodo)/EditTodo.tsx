@@ -19,6 +19,7 @@ import { lastDayOfMonth, parse } from "date-fns";
 import { dateStr, parseDate, today, todayStr } from "@/components/calendar/drawWeek";
 import CheckWrap from "./CheckWrap";
 import ModalLayout from "@/components/ui/edit-modal/ModalLayout";
+import { useIsAndroid } from "@/hooks/useHooks";
 
 type toggleIdType = "is_import" | "is_time" | "is_month" | "is_until";
 type toggleMap = Record<toggleIdType, boolean>;
@@ -51,7 +52,7 @@ const selectBox: selectType[] = [
   { src: "/imgs/icons/ic_repeat.svg", title: "반복", toggleId: null },
 ];
 
-const ampmList = ["오전", "오전", "오후", "오후"];
+const ampmList = ["오전", "오후"];
 const hours = makeTimes("hour");
 const minutes = makeTimes("minute");
 
@@ -68,6 +69,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const { mutate: edit } = useEditTodoMutation();
+  const isAndroid = useIsAndroid();
   const [value, setValue] = useState(text);
   const [dateValue, setDateValue] = useState(todo_date);
   const [untilDate, setUntilDate] = useState(repeat_until ?? todayStr());
@@ -200,13 +202,18 @@ export default function EditTodo({ ...props }: IEditTodo) {
     }
   };
 
-  const onChangeScrollTime = (ref: RefObject<HTMLDivElement | null>, listArr: string[], setState: Dispatch<SetStateAction<any>>, changed: "is_ampm" | "hour" | "min") => {
+  const onChangeScrollTime = (
+    ref: RefObject<HTMLDivElement | null>,
+    listArr: string[],
+    lastIndexRef: RefObject<number>,
+    setState: Dispatch<SetStateAction<any>>,
+    changed: "is_ampm" | "hour" | "min",
+  ) => {
     handleOnScroll(() => {
-      const v = getScrollIndex(ref, listArr);
+      const v = getScrollIndex(ref, listArr, lastIndexRef, isAndroid);
+      if (!v) return;
       setState(v);
-
       const compareValue = changed === "is_ampm" ? is_ampm : changed === "hour" ? getTime().h : getTime().m;
-
       handleHasChanged(changed, compareValue !== v);
     });
   };
@@ -477,33 +484,24 @@ export default function EditTodo({ ...props }: IEditTodo) {
                           ) : (
                             <CustomTimer
                               toggleTime={toggleChecked.is_time}
-                              timer={[
+                              config={[
                                 {
                                   variant: "ampm",
                                   list: ampmList,
                                   time: ampm!,
                                   timeRef: ampmRef,
-                                  onScroll: () => {
-                                    onChangeScrollTime(ampmRef, ampmList, setAmpm, "is_ampm");
-                                  },
                                 },
                                 {
                                   variant: "hour",
                                   list: hours,
                                   time: hour,
                                   timeRef: hourRef,
-                                  onScroll: () => {
-                                    onChangeScrollTime(hourRef, hours, setHour, "hour");
-                                  },
                                 },
                                 {
                                   variant: "min",
                                   list: minutes,
                                   time: min,
                                   timeRef: minRef,
-                                  onScroll: () => {
-                                    onChangeScrollTime(minRef, minutes, setMin, "min");
-                                  },
                                 },
                               ]}
                             />
