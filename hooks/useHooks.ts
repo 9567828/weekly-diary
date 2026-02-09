@@ -1,18 +1,6 @@
 "use client";
 
-import { RefObject, useEffect, useLayoutEffect, useState } from "react";
-import { ITEM_HEIGHT } from "@/utils/handlers";
-
-export const useSetInitialTime = (itemArr: any[], initial: string, ref: RefObject<HTMLDivElement | null>) => {
-  const renderIndex = itemArr.indexOf(initial);
-
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    el.scrollTop = renderIndex * ITEM_HEIGHT - (el.clientHeight - ITEM_HEIGHT) / 2;
-  }, [initial, itemArr]);
-};
+import { useEffect, useState } from "react";
 
 export const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -36,7 +24,6 @@ export const useIsAndroid = () => {
     const checkAndroid = () => {
       const userAgent = typeof window.navigator === "undefined" ? "" : navigator.userAgent;
       const mobile = /Android/i.test(userAgent);
-      // const isPWA = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
       setIsAndroid(mobile);
     };
     checkAndroid();

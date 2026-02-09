@@ -37,7 +37,7 @@ export default function RepeatWrap({ repeatType, selectDays, onSelectDays, child
             <p>요일선택</p>
             <div className={style.tooltip}>
               <img src="/imgs/icons/ic_help.svg" alt="도움말" />
-              <p>요일을 선택하지 않으면 날짜 기준으로 반복됩니다.</p>
+              <p>요일 초기설정은 날짜기준 입니다.</p>
             </div>
           </div>
           <div className={style["days-wrapper"]}>

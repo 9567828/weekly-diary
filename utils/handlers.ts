@@ -53,60 +53,9 @@ export const handleOnScroll = (fn: () => void) => {
   }, 130);
 };
 
-export const ITEM_HEIGHT = 50;
-export const DUMMY_COUNT_TOP = 1;
-
-export const getScrollIndex = (ref: RefObject<HTMLDivElement | null>, itemArr: any[], lastIndex: RefObject<number>, isAndroid: boolean) => {
-  // const el = ref.current!;
-  // const scrollTop = el.scrollTop;
-
-  // const index = Math.round((scrollTop + el.clientHeight / 2) / ITEM_HEIGHT);
-  // const valueIndex = index - DUMMY_COUNT_TOP;
-
-  // const safeIndex = Math.max(0, Math.min(valueIndex, itemArr.length - 1));
-
-  // return itemArr[safeIndex];
-
-  const el = ref.current;
-  if (!el) return;
-
-  const centerY = el.scrollTop + el.clientHeight / 2;
-
-  const index = getStableIndex(centerY, lastIndex, isAndroid);
-
-  const valueIndex = index - DUMMY_COUNT_TOP;
-
-  const safeIndex = Math.max(0, Math.min(valueIndex, itemArr.length - 1));
-
-  console.log(safeIndex);
-
-  return itemArr[safeIndex];
-};
-
-export const getStableIndex = (centerY: number, lastIndexRef: RefObject<number>, isAndroid: boolean) => {
-  const OFFSET = DUMMY_COUNT_TOP * ITEM_HEIGHT;
-
-  // const rawIndex = (centerY - OFFSET) / ITEM_HEIGHT;
-  const rawIndex = centerY / ITEM_HEIGHT;
-
-  if (isAndroid) {
-    const diff = rawIndex - lastIndexRef.current;
-    if (Math.abs(diff) < 0.2) {
-      return lastIndexRef.current ?? 0;
-    }
-  }
-
-  // const idx = Math.round(rawIndex);
-  const idx = Number(rawIndex.toFixed());
-  lastIndexRef.current = idx;
-
-  return idx;
-};
-
 export const isTodoVisibleOnDate = (t: TodoWithRepeatType, dateStr: string) => {
   const todoParse = parseDate(t.todo_date);
   const dateParse = parseDate(dateStr);
-  let untilParse;
 
   if (t.done.some((d) => d.render_date === dateStr && d.is_delete === true)) {
     return false;

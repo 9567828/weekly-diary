@@ -152,6 +152,31 @@
   transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
+// 로딩화면
+.loading-container {
+  width: 100%;
+  max-width: 768px;
+  aspect-ratio: 5 / 4.1;
+  position: fixed;
+  top: 55px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background-color: white;
+  @include flex(null, center, center, null);
+  .loading-wrap {
+    @include flex(null, null, center, 20px);
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+    p {
+      @include font-theme($bodySm-b);
+      color: $main-color;
+    }
+  }
+}
+
 /* PC 전용 hover */
 @media (hover: hover) {
   .cover-btn:hover {

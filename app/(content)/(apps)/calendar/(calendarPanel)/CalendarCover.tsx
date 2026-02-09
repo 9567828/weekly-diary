@@ -19,7 +19,6 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
   const queryClient = useQueryClient();
   const [editMode, setEditMode] = useState(false);
   const [prev, setPrev] = useState("");
-  const [file, setFile] = useState<File | null>(null);
 
   const { data, isError, error, isFetching } = useSelectCover(year, newMonth, supabase);
   const { mutate: deleteCover } = useDeleteCoverMutation();
@@ -52,7 +51,6 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     const file = files?.[0];
     if (!file) return;
 
-    setFile(file);
     setEditMode(false);
 
     const options = {
@@ -117,7 +115,6 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
           month={newMonth}
           onClose={() => setPrev("")}
           onSuccess={() => {
-            setFile(null);
             setPrev("");
           }}
         />

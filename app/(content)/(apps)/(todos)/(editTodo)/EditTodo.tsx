@@ -10,7 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleTodo } from "@/lib/slices/tabbarSlice";
 import CustomTimer from "../(time)/CustomTimer";
-import { getScrollIndex, handleOnScroll, handleTodoInvalidateQueries, makeTimes } from "@/utils/handlers";
+import { handleTodoInvalidateQueries, makeTimes } from "@/utils/handlers";
 import { isMobile } from "react-device-detect";
 import SelectRepeat from "@/components/ui/select-box/SelectRepeat";
 import InputDate from "@/components/ui/InputDate";
