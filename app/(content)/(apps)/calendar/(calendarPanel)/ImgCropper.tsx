@@ -56,6 +56,10 @@ export default function ImgCropper({ img, year, month, onClose, onSuccess }: ICr
     );
   };
 
+  const handleImgRotation = () => {
+    setRotate((prev) => prev + (90 % 360));
+  };
+
   useEffect(() => {
     setMount(true);
   }, []);
@@ -73,9 +77,9 @@ export default function ImgCropper({ img, year, month, onClose, onSuccess }: ICr
             완료
           </button>
         </div>
-        <Cropper image={img} crop={crop} zoom={zoom} rotation={rotate} onCropChange={setCrop} onCropComplete={onCropComplete} onZoomChange={setZoom} onRotationChange={setRotate} />
-        {!isMobile && (
-          <div className={style["controls-wrap"]}>
+        <Cropper image={img} crop={crop} zoom={zoom} rotation={rotate} onCropChange={setCrop} onCropComplete={onCropComplete} onZoomChange={setZoom} onRotationChange={undefined} />
+        <div className={style["controls-wrap"]}>
+          {!isMobile && (
             <div className={style.control}>
               <img src="/imgs/icons/ic_zoom.svg" alt="확대" />
               <input
@@ -91,23 +95,13 @@ export default function ImgCropper({ img, year, month, onClose, onSuccess }: ICr
                 className={style.range}
               />
             </div>
-            <div className={style.control}>
-              <img src="/imgs/icons/ic_rotate.svg" alt="회전" />
-              <input
-                type="range"
-                value={rotate}
-                min={1}
-                max={180}
-                step={0.1}
-                aria-labelledby="Rotate"
-                onChange={(e) => {
-                  setRotate(Number(e.target.value));
-                }}
-                className={style.range}
-              />
-            </div>
+          )}
+          <div>
+            <button type="button" onClick={handleImgRotation}>
+              <img src="/imgs/icons/ic_rotate.svg" alt="회원" />
+            </button>
           </div>
-        )}
+        </div>
       </form>
     </div>,
     document.body,
