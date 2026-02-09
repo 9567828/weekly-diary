@@ -16,7 +16,7 @@ export default function EditModal({ mode, ref, onDelete, onImgChange }: IProps) 
         {mode === "calendar" && (
           <label htmlFor="inputFileEdit" className={`${style["action-btn"]} ${style["edit-btn"]}`}>
             <img src="/imgs/icons/ic_edit-note.svg" alt="사진수정" />
-            <span>수정 하기</span>
+            <span>{mode === "calendar" ? "새 이미지로 변경" : "수정 하기"}</span>
             <input type="file" id="inputFileEdit" onChange={onImgChange} accept="image/*" />
           </label>
         )}

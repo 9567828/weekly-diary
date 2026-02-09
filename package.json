@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "data": "supabase gen types typescript --project-id \"uweadyjpzagnrgbdskqo\" --schema public > database.types.ts",
-    "dev": "npx next dev --turbo",
-    "dev:ssl": "npx next dev -H 0.0.0.0 --experimental-https --experimental-https-key ./certificates/ssl.key --experimental-https-cert ./certificates/ssl.cert",
+    "dev": "npx next dev",
+    "dev:tunnel": "cross-env NEXT_PUBLIC_HOST=dev.weekly-diary.com next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -35,6 +35,7 @@
     "@types/node": "^20.19.11",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "sass": "^1.90.0",
     "supabase": "^2.39.2",
     "typescript": "^5.9.2"

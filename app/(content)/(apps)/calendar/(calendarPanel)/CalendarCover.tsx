@@ -40,10 +40,9 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
     );
   }
 
-  const imgUrl = data?.url;
-  const coverData = data?.data;
-  // const imgSrc = prevCover || imgUrl;
-  const hasCover = Boolean(imgUrl);
+  const baseURL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/resize_cover/`;
+  const imgURL = `${baseURL}${data?.path}`;
+  const hasCover = Boolean(data !== undefined && data !== null);
 
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -58,7 +57,8 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
 
     const options = {
       initialQuality: 1,
-      maxWidthOrHeight: 2048,
+      maxSizeMB: 3,
+      maxWidthOrHeight: 1920,
       useWebWorker: true,
     };
 
@@ -76,7 +76,7 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
 
   const handleDeleteCover = () => {
     deleteCover(
-      { path: coverData.base_path },
+      { path: data?.base_path! },
       {
         onSuccess: (data) => {
           handleCoverInvalidateQueries(queryClient);
@@ -107,13 +107,12 @@ export default function CalendarCover({ year, month }: { year: number; month: nu
           </label>
         </div>
       ) : (
-        <div className={style.img}>{imgUrl && <img src={imgUrl} alt="사진" />}</div>
+        <div className={style.img}>{imgURL && <img src={imgURL} alt="사진" />}</div>
       )}
       {editMode && <EditModal mode="calendar" ref={editRef} onImgChange={onChangeFile} onDelete={handleDeleteCover} />}
       {prev && (
         <ImgCropper
           img={prev}
-          originFile={file}
           year={year}
           month={newMonth}
           onClose={() => setPrev("")}

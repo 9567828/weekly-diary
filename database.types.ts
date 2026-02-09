@@ -53,9 +53,7 @@ export type Database = {
           created_at: string
           id: string
           month: number | null
-          origin_path: string | null
           path: string | null
-          storage_id: string
           updated_at: string | null
           user_id: string
           year: number | null
@@ -65,9 +63,7 @@ export type Database = {
           created_at?: string
           id?: string
           month?: number | null
-          origin_path?: string | null
           path?: string | null
-          storage_id: string
           updated_at?: string | null
           user_id?: string
           year?: number | null
@@ -77,9 +73,7 @@ export type Database = {
           created_at?: string
           id?: string
           month?: number | null
-          origin_path?: string | null
           path?: string | null
-          storage_id?: string
           updated_at?: string | null
           user_id?: string
           year?: number | null

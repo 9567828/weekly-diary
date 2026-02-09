@@ -2,7 +2,6 @@ import { ChangeEvent } from "react";
 import style from "./custom.module.scss";
 import CheckBtn from "@/components/ui/checkBtn/CheckBtn";
 import InputDate from "@/components/ui/InputDate";
-import { todayStr } from "@/components/calendar/drawWeek";
 
 interface ICheckProps {
   mode: "date" | "nomal";

@@ -85,9 +85,7 @@ export type EditDiaryType = {
 export type AddCoverType = {
   user_id: string;
   path: string;
-  origin_path: string;
   base_path: string;
   year: number;
   month: number;
-  storage_id: string;
 };

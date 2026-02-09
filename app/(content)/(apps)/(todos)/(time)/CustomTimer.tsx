@@ -1,4 +1,4 @@
-import style from "./custom.module.scss";
+import style from "./time.module.scss";
 import CustomTimerList, { TimeType } from "./CustomTimerList";
 import { RefObject } from "react";
 
@@ -7,6 +7,7 @@ type ITimeconfig = {
   list: string[];
   time: string;
   timeRef: RefObject<HTMLDivElement | null>;
+  getTimeFn: (time: string) => void;
 };
 
 interface ITimerProps {
@@ -19,7 +20,7 @@ export default function CustomTimer({ config, toggleTime }: ITimerProps) {
     <div className={style.container}>
       <div className={style["time-wrap"]}>
         {config.map((t, i) => {
-          return <CustomTimerList key={i} variant={t.variant} timeRef={t.timeRef} time={t.time} list={t.list} toggleTime={toggleTime} />;
+          return <CustomTimerList key={i} variant={t.variant} timeRef={t.timeRef} time={t.time} list={t.list} toggleTime={toggleTime} getTimeFn={t.getTimeFn} />;
         })}
       </div>
     </div>

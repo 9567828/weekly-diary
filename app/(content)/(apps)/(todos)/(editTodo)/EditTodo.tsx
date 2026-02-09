@@ -9,7 +9,7 @@ import { useEditTodoMutation } from "@/hooks/useMutation/useTodoMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/lib/hooks";
 import { handleTodo } from "@/lib/slices/tabbarSlice";
-import CustomTimer from "./CustomTimer";
+import CustomTimer from "../(time)/CustomTimer";
 import { getScrollIndex, handleOnScroll, handleTodoInvalidateQueries, makeTimes } from "@/utils/handlers";
 import { isMobile } from "react-device-detect";
 import SelectRepeat from "@/components/ui/select-box/SelectRepeat";
@@ -202,20 +202,10 @@ export default function EditTodo({ ...props }: IEditTodo) {
     }
   };
 
-  const onChangeScrollTime = (
-    ref: RefObject<HTMLDivElement | null>,
-    listArr: string[],
-    lastIndexRef: RefObject<number>,
-    setState: Dispatch<SetStateAction<any>>,
-    changed: "is_ampm" | "hour" | "min",
-  ) => {
-    handleOnScroll(() => {
-      const v = getScrollIndex(ref, listArr, lastIndexRef, isAndroid);
-      if (!v) return;
-      setState(v);
-      const compareValue = changed === "is_ampm" ? is_ampm : changed === "hour" ? getTime().h : getTime().m;
-      handleHasChanged(changed, compareValue !== v);
-    });
+  const onChangeScrollTime = (time: any, setState: Dispatch<SetStateAction<any>>, changed: "is_ampm" | "hour" | "min") => {
+    setState(time);
+    const compareValue = changed === "is_ampm" ? is_ampm : changed === "hour" ? getTime().h : getTime().m;
+    handleHasChanged(changed, compareValue !== time);
   };
 
   const handleSelectDays = (days: number) => {
@@ -490,18 +480,27 @@ export default function EditTodo({ ...props }: IEditTodo) {
                                   list: ampmList,
                                   time: ampm!,
                                   timeRef: ampmRef,
+                                  getTimeFn(time) {
+                                    onChangeScrollTime(time as AmPmType, setAmpm, "is_ampm");
+                                  },
                                 },
                                 {
                                   variant: "hour",
                                   list: hours,
                                   time: hour,
                                   timeRef: hourRef,
+                                  getTimeFn(time) {
+                                    onChangeScrollTime(time, setHour, "hour");
+                                  },
                                 },
                                 {
                                   variant: "min",
                                   list: minutes,
                                   time: min,
                                   timeRef: minRef,
+                                  getTimeFn(time) {
+                                    onChangeScrollTime(time, setMin, "min");
+                                  },
                                 },
                               ]}
                             />

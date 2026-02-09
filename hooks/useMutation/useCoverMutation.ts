@@ -3,9 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useUpsertCoverMutation = () => {
   return useMutation({
-    mutationFn: async ({ year, month, originFile, croppedFile }: { year: number; month: number; originFile: File; croppedFile: File }) => {
+    mutationFn: async ({ year, month, croppedFile }: { year: number; month: number; croppedFile: File }) => {
       let formData = new FormData();
-      formData.append("originFile", originFile);
       formData.append("croppedFile", croppedFile);
       formData.append("year", String(year));
       formData.append("month", String(month));

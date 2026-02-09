@@ -6,8 +6,6 @@ import { ISearchParams } from "@/utils/Props";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { createServClient } from "@/utils/supabase/service/server";
 import { today } from "@/components/calendar/drawWeek";
-import { Suspense } from "react";
-import Loading from "@/app/loading";
 
 export default async function Page({ searchParams }: ISearchParams) {
   const { year, month } = await searchParams;
