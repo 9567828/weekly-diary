@@ -13,7 +13,7 @@ export const coverQueryOptions = (year: number, month: number, supabase: Supabas
 
     return data;
   },
-  enabled: !!year && !!month,
+  enabled: true,
 });
 
 export const useSelectCover = (year: number, month: number, supabase: SupabaseClient) => {
