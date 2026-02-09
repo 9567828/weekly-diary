@@ -67,7 +67,7 @@ export default function ImgCropper({ img, year, month, onClose, onSuccess }: ICr
       <form encType="multipart/form-data" onSubmit={handleSaveImg}>
         <div className={style["btn-wrap"]}>
           <button type="button" onClick={onClose}>
-            <img src="/imgs/icons/ic_close.svg" alt="닫기" />
+            <img src="/imgs/icons/ic_Close.svg" alt="닫기" />
           </button>
           <button type="submit" className={style["confirm-btn"]} disabled={isPending}>
             완료
