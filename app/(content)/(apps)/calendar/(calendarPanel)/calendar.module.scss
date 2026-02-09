@@ -103,7 +103,7 @@
 
 .controls-wrap {
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
   left: 50%;
   width: 50%;
   transform: translateX(-50%);
@@ -113,8 +113,8 @@
   z-index: 200;
   @include flex(null, center, center, 30px);
   img {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
   }
 }
 
