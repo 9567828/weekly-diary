@@ -6,18 +6,18 @@ import { usePathname } from "next/navigation";
 import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import DaysOfWeekWrap from "../days-wrap/DaysWrap";
 import DatesWrap from "../days-wrap/DatesWrap";
-import { dateStr, today } from "../drawWeek";
+import { dateStr } from "../drawWeek";
 import { isDoneByDate, isTodoVisibleOnDate } from "@/utils/handlers";
 
 interface IWeekDate {
   weekDates: Date[];
-  key: string;
 }
 
-export default function WeeklyCal({ weekDates, key }: IWeekDate) {
+export default function WeeklyCal({ weekDates }: IWeekDate) {
   const path = usePathname();
   const weekStart = dateStr(weekDates[0]);
   const weekEnd = dateStr(weekDates[weekDates.length - 1]);
+
   const todayStr = format(new Date(), "yyyy-MM-dd");
 
   const { data, isError, error, isLoading, isFetching } = useFetchTodosByRange(weekStart, weekEnd);
@@ -51,7 +51,7 @@ export default function WeeklyCal({ weekDates, key }: IWeekDate) {
 
           return (
             <DatesWrap
-              key={key}
+              key={i}
               date={date}
               href={`/${dateStrForm}`}
               cnt={isFetching || !notDone?.length ? 0 : notDone.length}

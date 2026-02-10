@@ -19,7 +19,6 @@ import { lastDayOfMonth, parse } from "date-fns";
 import { dateStr, parseDate, today, todayStr } from "@/components/calendar/drawWeek";
 import CheckWrap from "./CheckWrap";
 import ModalLayout from "@/components/ui/edit-modal/ModalLayout";
-import { useIsAndroid, useIsIPhone } from "@/hooks/useHooks";
 
 type toggleIdType = "is_import" | "is_time" | "is_month" | "is_until";
 type toggleMap = Record<toggleIdType, boolean>;
@@ -142,7 +141,7 @@ export default function EditTodo({ ...props }: IEditTodo) {
     if (targetId === "is_month") {
       if (checked) {
         const lastDay = lastDayOfMonth(today());
-        setDateValue(dateStr(lastDay));
+        setDateValue(dateStr(lastDay)!);
       } else {
         setDateValue(todo_date);
       }
