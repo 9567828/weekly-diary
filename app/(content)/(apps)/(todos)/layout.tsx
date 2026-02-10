@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import DatePanel from "@/components/layouts/datepanel/DatePanel";
 import TodoPanel from "./(todoPanel)/TodoPanel";
 import WrapperLayout from "../../WrapperLayout";
