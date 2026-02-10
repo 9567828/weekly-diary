@@ -42,6 +42,8 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
 
           console.log(isToday(normalized));
 
+          console.log(normalized, new Date());
+
           let allDone;
           let allNotDone;
           if (todoCnt?.length !== 0) {
