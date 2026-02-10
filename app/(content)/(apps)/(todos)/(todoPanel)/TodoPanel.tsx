@@ -21,11 +21,10 @@ export default function TodoPanel() {
   const { date } = useParams();
 
   useEffect(() => {
-    if (date) {
-      const dateFormat = parse(String(date), "yyyy-MM-dd", new Date());
-      const sunday = getSunday(dateFormat);
-      setWeekStart(sunday);
-    }
+    const targetDate = date ? parse(String(date), "yyyy-MM-dd", new Date()) : new Date(); // date가 없으면 '진짜 지금' 시간을 가져옴
+
+    const sunday = getSunday(targetDate);
+    setWeekStart(sunday);
   }, [date]);
 
   const moveNextWeek = () => {
