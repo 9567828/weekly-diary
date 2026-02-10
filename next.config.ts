@@ -7,6 +7,10 @@ const withPwa = nextPWA({
   register: true,
   skipWaiting: true,
   clientsClaim: true,
+  reloadOnOnline: true,
+  cacheOnFrontEndNav: true,
+  // 특정 페이지를 캐시에서 제외
+  publicExcludes: ["!/[date]"],
   disable: process.env.NODE_ENV === "development",
 });
 

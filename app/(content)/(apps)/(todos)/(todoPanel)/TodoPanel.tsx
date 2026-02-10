@@ -17,6 +17,7 @@ const getSunday = (date: Date) => {
 export default function TodoPanel() {
   const route = useRouter();
   const { weekDates, goToday, getNextWeek, getPrevWeek } = drawWeeks();
+  const [mounted, setMounted] = useState(false);
   const [weekStart, setWeekStart] = useState<Date>(getSunday(new Date()));
   const { date } = useParams();
 
@@ -26,10 +27,9 @@ export default function TodoPanel() {
     //   const sunday = getSunday(dateFormat);
     //   setWeekStart(sunday);
     // }
-    const targetDate = date ? parse(String(date), "yyyy-MM-dd", new Date()) : new Date(); // / 경로일 때 여기서 최신 시간을 다시 가져옴
-
-    const sunday = getSunday(targetDate);
-    setWeekStart(sunday);
+    setMounted(true);
+    const realToday = date ? parse(String(date), "yyyy-MM-dd", new Date()) : new Date();
+    setWeekStart(getSunday(realToday));
   }, [date]);
 
   const moveNextWeek = () => {
@@ -43,6 +43,8 @@ export default function TodoPanel() {
     setWeekStart(prev);
     route.push(`/${dateStr(prev)}`);
   };
+
+  if (!mounted) return null;
 
   return (
     <>

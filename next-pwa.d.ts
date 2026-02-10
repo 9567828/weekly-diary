@@ -7,6 +7,9 @@ declare module "next-pwa" {
     register?: boolean;
     skipWaiting?: boolean;
     clientsClaim?: boolean;
+    reloadOnOnline?: boolean;
+    cacheOnFrontEndNav: ?boolean;
+    publicExcludes?: string[];
   };
 
   const withPWA =
