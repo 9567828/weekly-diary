@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import DaysOfWeekWrap from "../days-wrap/DaysWrap";
 import DatesWrap from "../days-wrap/DatesWrap";
-import { dateStr } from "../drawWeek";
+import { dateStr, today } from "../drawWeek";
 import { isDoneByDate, isTodoVisibleOnDate } from "@/utils/handlers";
 
 interface IWeekDate {
@@ -35,12 +35,14 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
           const date = normalized.getDate();
           const days = normalized.getDay();
 
-          const todayStr = format(new Date(), "yyyy-MM-dd");
+          const todayStr = dateStr(today());
 
-          const dateStr = format(normalized, "yyyy-MM-dd");
-          const todoCnt = safeData?.filter((t) => isTodoVisibleOnDate(t, dateStr));
-          const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStr));
-          const done = todoCnt?.filter((t) => isDoneByDate(t, dateStr));
+          console.log(todayStr);
+
+          const dateStrForm = dateStr(normalized);
+          const todoCnt = safeData?.filter((t) => isTodoVisibleOnDate(t, dateStrForm));
+          const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStrForm));
+          const done = todoCnt?.filter((t) => isDoneByDate(t, dateStrForm));
 
           let allDone;
           let allNotDone;
@@ -53,12 +55,12 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
             <DatesWrap
               key={i}
               date={date}
-              href={`/${dateStr}`}
+              href={`/${dateStrForm}`}
               cnt={isFetching || !notDone?.length ? 0 : notDone.length}
               isDone={!isFetching && !allNotDone && notDone!.length > 0}
               allDone={!isFetching && allDone}
-              isActive={path === `/${dateStr}`}
-              isToday={todayStr === dateStr}
+              isActive={path === `/${dateStrForm}`}
+              isToday={todayStr === dateStrForm}
               isWeekend={days === 0 || days === 6}
             />
           );
