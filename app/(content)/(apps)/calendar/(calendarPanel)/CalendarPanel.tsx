@@ -8,8 +8,11 @@ import { drawMonth, handleNextMonth, handlePrevMonth } from "@/components/calend
 import { useRouter } from "next/navigation";
 import EmptySpace from "@/components/ui/EmptySpace";
 import CalendarCover from "./CalendarCover";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchSelectCover } from "@/hooks/useQuerys/useCoverQuery";
 
 export default function CalendarPanel() {
+  const queryClient = useQueryClient();
   const route = useRouter();
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
@@ -30,16 +33,18 @@ export default function CalendarPanel() {
           <DateControl
             isMargin
             date={`${year}년 ${month + 1}월`}
-            nextBtn={() => {
+            nextBtn={async () => {
               const { year: nextYear, month: nextMonth } = handleNextMonth(year, month);
               setYear(nextYear);
               setMonth(nextMonth);
+              await fetchSelectCover(nextYear, nextMonth, queryClient);
               route.push(`/calendar?year=${nextYear}&month=${nextMonth + 1}`);
             }}
-            prevBtn={() => {
+            prevBtn={async () => {
               const { year: prevYear, month: prevMonth } = handlePrevMonth(year, month);
               setYear(prevYear);
               setMonth(prevMonth);
+              await fetchSelectCover(prevYear, prevMonth, queryClient);
               route.push(`/calendar?year=${prevYear}&month=${prevMonth + 1}`);
             }}
             today={goToday}

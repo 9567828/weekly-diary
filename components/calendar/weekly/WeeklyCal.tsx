@@ -31,12 +31,13 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
       <DaysOfWeekWrap />
       <ul className={style["date-wrap"]}>
         {weekDates.map((w, i) => {
-          const date = w.getDate();
-          const days = w.getDay();
+          const normalized = new Date(w.getFullYear(), w.getMonth(), w.getDate());
+          const date = normalized.getDate();
+          const days = normalized.getDay();
 
           const todayStr = format(new Date(), "yyyy-MM-dd");
 
-          const dateStr = format(w, "yyyy-MM-dd");
+          const dateStr = format(normalized, "yyyy-MM-dd");
           const todoCnt = safeData?.filter((t) => isTodoVisibleOnDate(t, dateStr));
           const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStr));
           const done = todoCnt?.filter((t) => isDoneByDate(t, dateStr));

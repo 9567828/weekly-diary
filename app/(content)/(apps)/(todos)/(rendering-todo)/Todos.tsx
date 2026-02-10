@@ -16,9 +16,9 @@ export default function Todos() {
 
   const { data, error, isError } = useFetchTodoByDate(dateStr);
 
-  // if (isError) {
-  //   return null;
-  // }
+  if (isError) {
+    console.error(error.message);
+  }
 
   const withDoneState = data?.filter((t) => isTodoVisibleOnDate(t, dateStr)) ?? [];
   const notDone = withDoneState?.filter((t) => !isDoneByDate(t, dateStr));

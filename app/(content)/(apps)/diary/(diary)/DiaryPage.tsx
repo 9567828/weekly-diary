@@ -9,6 +9,7 @@ import AddDiary from "../(add-diary)/AddDiary";
 import DiaryContent from "./DiaryContent";
 import EmptySpace from "@/components/ui/EmptySpace";
 import { DAY_LABEL } from "@/utils/handlers";
+import { DiaryRow } from "@/utils/supabase";
 
 export default function DiaryPage() {
   const { getTodayWeek, weekEnd } = drawWeeks();
@@ -22,7 +23,7 @@ export default function DiaryPage() {
   const startStr = dateStr(weekStart);
   const endDate = addDays(weekEnd(weekStart), 1);
   const endStr = dateStr(endDate);
-  const { data, error, isError, isFetching } = useFetchDiaryByRange(startStr, endStr);
+  const { data, error, isError, isFetching } = useFetchDiaryByRange<DiaryRow>(startStr, endStr, "*");
 
   const safeData = isFetching ? [] : data;
 

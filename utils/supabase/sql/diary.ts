@@ -1,4 +1,4 @@
-import { AddDiaryType, DiaryRow, EditDiaryType } from "..";
+import { AddDiaryType, DiaryDateType, DiaryRow, EditDiaryType } from "..";
 import { createClient } from "../service/client";
 import { getUserIdClient } from "./authClient";
 
@@ -33,7 +33,7 @@ export const deleteDiary = async (id: string) => {
   return id;
 };
 
-export const selectDiaryByDate = async (date: string): Promise<{ diary_date: string | null }> => {
+export const selectDiaryByDate = async (date: string): Promise<DiaryDateType> => {
   const supabase = createClient();
   const { data, error } = await supabase.from("diary").select("diary_date").eq("diary_date", date).maybeSingle();
 
@@ -42,11 +42,12 @@ export const selectDiaryByDate = async (date: string): Promise<{ diary_date: str
   return { diary_date: data?.diary_date || null };
 };
 
-export const selectDiaryByRange = async (startDate: string, endDate: string): Promise<DiaryRow[]> => {
+export const selectDiaryByRange = async <T>(startDate: string, endDate: string, select: "*" | "diary_date") => {
   const supabase = createClient();
-  const { data, error } = await supabase.from("diary").select("*").gte("diary_date", startDate).lt("diary_date", endDate);
+
+  const { data, error } = await supabase.from("diary").select(select).gte("diary_date", startDate).lt("diary_date", endDate);
 
   if (error) throw error;
 
-  return data ?? [];
+  return (data as T[]) ?? [];
 };

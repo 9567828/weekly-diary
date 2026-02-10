@@ -16,7 +16,7 @@ const getSunday = (date: Date) => {
 
 export default function TodoPanel() {
   const route = useRouter();
-  const { weekDates, goToday, getTodayWeek, getNextWeek, getPrevWeek } = drawWeeks();
+  const { weekDates, goToday, getNextWeek, getPrevWeek } = drawWeeks();
   const [weekStart, setWeekStart] = useState<Date>(getSunday(new Date()));
   const { date } = useParams();
 

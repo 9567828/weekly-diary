@@ -8,19 +8,17 @@ import { useSelectCover } from "@/hooks/useQuerys/useCoverQuery";
 import { handleCoverInvalidateQueries } from "@/utils/handlers";
 import { useQueryClient } from "@tanstack/react-query";
 import Loading from "../Loading";
-import { createClient } from "@/utils/supabase/service/client";
 import imageCompression from "browser-image-compression";
 import EditModal from "@/components/ui/edit-modal/EditModal";
 import ImgCropper from "./ImgCropper";
 
 export default function CalendarCover({ year, month }: { year: number; month: number }) {
-  const supabase = createClient();
   const newMonth = month + 1;
   const queryClient = useQueryClient();
   const [editMode, setEditMode] = useState(false);
   const [prev, setPrev] = useState("");
 
-  const { data, isError, error, isFetching } = useSelectCover(year, newMonth, supabase);
+  const { data, isError, error, isFetching } = useSelectCover(year, newMonth);
   const { mutate: deleteCover } = useDeleteCoverMutation();
   const btnRef = useRef<HTMLButtonElement>(null);
   const editRef = useRef<HTMLDivElement>(null);

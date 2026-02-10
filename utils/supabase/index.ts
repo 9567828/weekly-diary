@@ -13,6 +13,8 @@ export type RepeatMapType = {
   value: RepeatType;
 };
 
+export type DiaryDateType = { diary_date: string | null };
+
 export type TodoWithRepeatType = {
   id: string;
   day_of_week: number[] | null;
