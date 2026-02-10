@@ -48,7 +48,7 @@ export default function TodoPanel() {
         prevBtn={movePrevWeek}
         today={() => goToday(route, "/", setWeekStart)}
       />
-      <WeeklyCal weekDates={weekDates(weekStart)} />
+      <WeeklyCal key={dateStr(new Date())} weekDates={weekDates(weekStart)} />
     </>
   );
 }

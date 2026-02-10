@@ -11,12 +11,14 @@ import { isDoneByDate, isTodoVisibleOnDate } from "@/utils/handlers";
 
 interface IWeekDate {
   weekDates: Date[];
+  key: string;
 }
 
-export default function WeeklyCal({ weekDates }: IWeekDate) {
+export default function WeeklyCal({ weekDates, key }: IWeekDate) {
   const path = usePathname();
   const weekStart = dateStr(weekDates[0]);
   const weekEnd = dateStr(weekDates[weekDates.length - 1]);
+  const todayStr = format(new Date(), "yyyy-MM-dd");
 
   const { data, isError, error, isLoading, isFetching } = useFetchTodosByRange(weekStart, weekEnd);
 
@@ -35,10 +37,6 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
           const date = normalized.getDate();
           const days = normalized.getDay();
 
-          const todayStr = dateStr(today());
-
-          console.log(todayStr);
-
           const dateStrForm = dateStr(normalized);
           const todoCnt = safeData?.filter((t) => isTodoVisibleOnDate(t, dateStrForm));
           const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStrForm));
@@ -53,7 +51,7 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
 
           return (
             <DatesWrap
-              key={i}
+              key={key}
               date={date}
               href={`/${dateStrForm}`}
               cnt={isFetching || !notDone?.length ? 0 : notDone.length}
