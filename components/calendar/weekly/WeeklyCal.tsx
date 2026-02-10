@@ -6,17 +6,23 @@ import { usePathname } from "next/navigation";
 import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import DaysOfWeekWrap from "../days-wrap/DaysWrap";
 import DatesWrap from "../days-wrap/DatesWrap";
-import { dateStr } from "../drawWeek";
+import { dateStr, todayStr } from "../drawWeek";
 import { isDoneByDate, isTodoVisibleOnDate } from "@/utils/handlers";
 
 interface IWeekDate {
   weekDates: Date[];
+  date: string;
 }
 
-export default function WeeklyCal({ weekDates }: IWeekDate) {
-  const path = usePathname();
+export default function WeeklyCal({ weekDates, date }: IWeekDate) {
+  // const path = usePathname();
+  const path = date;
   const weekStart = dateStr(weekDates[0]);
   const weekEnd = dateStr(weekDates[weekDates.length - 1]);
+
+  const datePath = path === "undefined" ? todayStr() : path;
+
+  const today = format(new Date(), "yyyy-MM-dd");
 
   const { data, isError, error, isLoading, isFetching } = useFetchTodosByRange(weekStart, weekEnd);
 
@@ -40,9 +46,9 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
           const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStrForm));
           const done = todoCnt?.filter((t) => isDoneByDate(t, dateStrForm));
 
-          console.log(isToday(normalized));
+          // console.log(isToday(normalized));
 
-          console.log(normalized, new Date());
+          // console.log(normalized, new Date());
 
           let allDone;
           let allNotDone;
@@ -59,8 +65,8 @@ export default function WeeklyCal({ weekDates }: IWeekDate) {
               cnt={isFetching || !notDone?.length ? 0 : notDone.length}
               isDone={!isFetching && !allNotDone && notDone!.length > 0}
               allDone={!isFetching && allDone}
-              isActive={path === `/${dateStrForm}`}
-              isToday={isToday(normalized)}
+              isActive={datePath === dateStrForm}
+              isToday={today === dateStrForm}
               isWeekend={days === 0 || days === 6}
             />
           );

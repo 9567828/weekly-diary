@@ -21,11 +21,15 @@ export default function TodoPanel() {
   const { date } = useParams();
 
   useEffect(() => {
-    if (date) {
-      const dateFormat = parse(String(date), "yyyy-MM-dd", new Date());
-      const sunday = getSunday(dateFormat);
-      setWeekStart(sunday);
-    }
+    // if (date) {
+    //   const dateFormat = parse(String(date), "yyyy-MM-dd", new Date());
+    //   const sunday = getSunday(dateFormat);
+    //   setWeekStart(sunday);
+    // }
+    const targetDate = date ? parse(String(date), "yyyy-MM-dd", new Date()) : new Date(); // / 경로일 때 여기서 최신 시간을 다시 가져옴
+
+    const sunday = getSunday(targetDate);
+    setWeekStart(sunday);
   }, [date]);
 
   const moveNextWeek = () => {
@@ -48,7 +52,7 @@ export default function TodoPanel() {
         prevBtn={movePrevWeek}
         today={() => goToday(route, "/", setWeekStart)}
       />
-      <WeeklyCal weekDates={weekDates(weekStart)} />
+      <WeeklyCal date={String(date)} weekDates={weekDates(weekStart)} />
     </>
   );
 }
