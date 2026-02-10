@@ -13,7 +13,7 @@ interface ITodoSectionProps {
 export default function TodoSection({ title, toDos }: ITodoSectionProps) {
   const [openEditId, setOpenEditId] = useState<string | null>(null);
 
-  useClearBodyScroll(openEditId);
+  useClearBodyScroll(openEditId !== null);
 
   const onClickEdit = (id: string) => {
     setOpenEditId((prev) => (prev === id ? null : id));

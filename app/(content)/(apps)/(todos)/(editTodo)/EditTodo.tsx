@@ -19,7 +19,7 @@ import { lastDayOfMonth, parse } from "date-fns";
 import { dateStr, parseDate, today, todayStr } from "@/components/calendar/drawWeek";
 import CheckWrap from "./CheckWrap";
 import ModalLayout from "@/components/ui/edit-modal/ModalLayout";
-import { useIsAndroid } from "@/hooks/useHooks";
+import { useIsAndroid, useIsIPhone } from "@/hooks/useHooks";
 
 type toggleIdType = "is_import" | "is_time" | "is_month" | "is_until";
 type toggleMap = Record<toggleIdType, boolean>;
@@ -69,7 +69,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const { mutate: edit } = useEditTodoMutation();
-  const isAndroid = useIsAndroid();
   const [value, setValue] = useState(text);
   const [dateValue, setDateValue] = useState(todo_date);
   const [untilDate, setUntilDate] = useState(repeat_until ?? todayStr());
@@ -140,15 +139,19 @@ export default function EditTodo({ ...props }: IEditTodo) {
       [targetId]: checked,
     }));
 
-    if (targetId === "is_month" && checked) {
-      const lastDay = lastDayOfMonth(today());
-      setDateValue(dateStr(lastDay));
-    } else {
-      setDateValue(todo_date);
+    if (targetId === "is_month") {
+      if (checked) {
+        const lastDay = lastDayOfMonth(today());
+        setDateValue(dateStr(lastDay));
+      } else {
+        setDateValue(todo_date);
+      }
     }
 
-    if (targetId === "is_until" && !checked) {
-      setUntilDate(todayStr());
+    if (targetId === "is_until") {
+      if (checked) {
+        setUntilDate(todayStr());
+      }
     }
 
     const initialMap: Record<string, boolean> = {
@@ -214,7 +217,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
 
   const handleSelectRepeat = (opt: RepeatMapType) => {
     const newDays = parse(dateValue!, "yyyy-MM-dd", new Date()).getDay();
-
     if (opt.value === "weekday") {
       setDays([1, 2, 3, 4, 5]);
     }
@@ -319,6 +321,10 @@ export default function EditTodo({ ...props }: IEditTodo) {
         alert("종료일이 할 일 날짜와 같으면 반복이 적용되지 않습니다.");
         return;
       }
+      if (parseDate(dateValue!) > parseDate(untilDate)) {
+        alert("종료일을 확인해 주세요.");
+        return;
+      }
     }
 
     const makeTime = `${hour}:${min}`;
@@ -336,9 +342,9 @@ export default function EditTodo({ ...props }: IEditTodo) {
         is_ampm: newAmpm!,
         time: newTime,
         is_repeat: selectRepeat.label !== "안함",
-        is_month_end: toggleChecked.is_month,
+        is_month_end: toggleChecked.is_month && selectRepeat.value === "monthly",
         day_of_week: days.length <= 0 ? null : days,
-        repeat_until: (untilDate === "" && !toggleChecked.is_until) || untilDate === dateValue ? null : untilDate,
+        repeat_until: toggleChecked.is_until ? untilDate : null,
         repeat_map: selectRepeat,
       },
       id,
@@ -354,14 +360,6 @@ export default function EditTodo({ ...props }: IEditTodo) {
       },
     });
   };
-
-  useEffect(() => {
-    if (!toggleChecked.is_time) {
-      setHour(getTime().h ?? "");
-      setMin(getTime().m ?? "");
-      setAmpm(is_ampm ?? null);
-    }
-  }, [toggleChecked.is_time]);
 
   return (
     <ModalLayout mode="todo">
@@ -439,8 +437,8 @@ export default function EditTodo({ ...props }: IEditTodo) {
                               value={untilDate}
                               onChangeDate={(e) => {
                                 const value = e.target.value;
-                                const todoDate = parse(dateValue!, "yyyy-MM-dd", new Date());
-                                const untilDate = parse(value, "yyyy-MM-dd", new Date());
+                                const todoDate = parseDate(dateValue!);
+                                const untilDate = parseDate(value);
 
                                 if (todoDate > untilDate) {
                                   alert("종료일은 할 일 날짜 이후로 설정해 주세요.");

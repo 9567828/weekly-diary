@@ -13,7 +13,6 @@
   color: transparent;
   width: 24px;
   height: 24px;
-  transition: background-image 0.2s ease-in-out;
 }
 
 .square-check-box[type=checkbox] + label {
@@ -22,7 +21,6 @@
 
 .circle-check-box[type=checkbox] + label {
   @include bgImg("/imgs/icons/check-btn-circle.svg", 0, contain);
-  transition: all 0.2s ease-in-out;
 }
 
 .square-check-box[type=checkbox]:checked + label {
