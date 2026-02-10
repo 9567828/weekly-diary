@@ -5,7 +5,7 @@ import { Json } from "@/database.types";
 import { createClient } from "../service/client";
 import { getUserIdClient } from "./authClient";
 
-const JOIN_DOEN = `done:todo_done(todo_id, render_date, is_done, is_delete)`;
+const JOIN_DONE = `done:todo_done(todo_id, render_date, is_done, is_delete)`;
 
 export const insertTodo = async (text: string, todoDate: string) => {
   const supabase = createClient();
@@ -30,7 +30,7 @@ export const insertTodo = async (text: string, todoDate: string) => {
 export const selectTodoAll = async () => {
   const supabase = createClient();
 
-  const { data: row, error } = await supabase.from("todo").select(`*, ${JOIN_DOEN}`).order("is_import", { ascending: false }).order("created_at", { ascending: false });
+  const { data: row, error } = await supabase.from("todo").select(`*, ${JOIN_DONE}`).order("is_import", { ascending: false }).order("created_at", { ascending: false });
 
   if (error) throw error;
 
@@ -44,7 +44,7 @@ export const selectTodoByRange = async (startDate: string, endDate: string) => {
 
   const { data: row, error } = await supabase
     .from("todo")
-    .select(`*, ${JOIN_DOEN}`)
+    .select(`*, ${JOIN_DONE}`)
     .order("is_import", { ascending: false })
     .order("created_at", { ascending: false })
     .or(`and(todo_date.gte.${startDate},todo_date.lt.${endDate}),and(is_repeat.eq.true,todo_date.lte.${endDate},or(repeat_until.is.null,repeat_until.gte.${startDate}))`);
@@ -61,7 +61,7 @@ export const selectTodoByDate = async (todoDate: string): Promise<TodoWithRepeat
 
   const { data: row, error } = await supabase
     .from("todo")
-    .select(`*, ${JOIN_DOEN}`)
+    .select(`*, ${JOIN_DONE}`)
     .order("is_import", { ascending: false })
     .order("created_at", { ascending: false })
     .or(`todo_date.eq.${todoDate},and(is_repeat.eq.true,todo_date.lte.${todoDate},or(repeat_until.is.null,repeat_until.gte.${todoDate}))`);

@@ -122,7 +122,6 @@ export type Database = {
           day_of_week: number[] | null
           id: string
           is_ampm: Database["public"]["Enums"]["ampm_enum"]
-          is_done: boolean
           is_import: boolean | null
           is_month_end: boolean | null
           is_repeat: boolean | null
@@ -140,7 +139,6 @@ export type Database = {
           day_of_week?: number[] | null
           id?: string
           is_ampm?: Database["public"]["Enums"]["ampm_enum"]
-          is_done?: boolean
           is_import?: boolean | null
           is_month_end?: boolean | null
           is_repeat?: boolean | null
@@ -158,7 +156,6 @@ export type Database = {
           day_of_week?: number[] | null
           id?: string
           is_ampm?: Database["public"]["Enums"]["ampm_enum"]
-          is_done?: boolean
           is_import?: boolean | null
           is_month_end?: boolean | null
           is_repeat?: boolean | null
