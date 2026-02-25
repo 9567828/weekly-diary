@@ -1,7 +1,7 @@
 "use client";
 
 import style from "../calender.module.scss";
-import { format, isToday } from "date-fns";
+import { addDays, format, isToday } from "date-fns";
 import { usePathname } from "next/navigation";
 import { useFetchTodosByRange } from "@/hooks/useQuerys/useTodoQuery";
 import DaysOfWeekWrap from "../days-wrap/DaysWrap";
@@ -15,10 +15,9 @@ interface IWeekDate {
 }
 
 export default function WeeklyCal({ weekDates, date }: IWeekDate) {
-  // const path = usePathname();
   const path = date;
   const weekStart = dateStr(weekDates[0]);
-  const weekEnd = dateStr(weekDates[weekDates.length - 1]);
+  const weekEnd = dateStr(addDays(weekDates[weekDates.length - 1], 1));
 
   const datePath = path === "undefined" ? todayStr() : path;
 
@@ -46,16 +45,14 @@ export default function WeeklyCal({ weekDates, date }: IWeekDate) {
           const notDone = todoCnt?.filter((t) => !isDoneByDate(t, dateStrForm));
           const done = todoCnt?.filter((t) => isDoneByDate(t, dateStrForm));
 
-          // console.log(isToday(normalized));
-
-          // console.log(normalized, new Date());
-
           let allDone;
           let allNotDone;
           if (todoCnt?.length !== 0) {
             allDone = todoCnt?.length === done?.length;
             allNotDone = todoCnt?.length === notDone?.length;
           }
+
+          console.log(notDone, done);
 
           return (
             <DatesWrap
