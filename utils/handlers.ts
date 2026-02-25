@@ -4,7 +4,7 @@ import { diaryQueryKey } from "@/hooks/useQuerys/useDiaryQuery";
 import { Dispatch, Ref, RefObject, SetStateAction } from "react";
 import { TodoWithRepeatType } from "./supabase";
 import { parseDate } from "@/components/calendar/drawWeek";
-import { getWeek, isLastDayOfMonth } from "date-fns";
+import { format, getWeek, isLastDayOfMonth } from "date-fns";
 import { coverQuerykey } from "@/hooks/useQuerys/useCoverQuery";
 
 type timeType = "hour" | "minute";

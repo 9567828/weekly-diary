@@ -22,11 +22,6 @@ export default function TodoPanel() {
   const { date } = useParams();
 
   useEffect(() => {
-    // if (date) {
-    //   const dateFormat = parse(String(date), "yyyy-MM-dd", new Date());
-    //   const sunday = getSunday(dateFormat);
-    //   setWeekStart(sunday);
-    // }
     setMounted(true);
     const realToday = date ? parse(String(date), "yyyy-MM-dd", new Date()) : new Date();
     setWeekStart(getSunday(realToday));
