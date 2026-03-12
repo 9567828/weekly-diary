@@ -4,7 +4,7 @@ import { dateStr, drawWeeks } from "@/components/calendar/drawWeek";
 import DateControl from "@/components/layouts/datepanel/DateControl";
 import PeriodView from "@/components/period-view/PeriodView";
 import { useParams, useRouter } from "next/navigation";
-import { addDays, getWeek, parse } from "date-fns";
+import { addDays, parse } from "date-fns";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { preFetchDiaryByRange } from "@/hooks/useQuerys/useDiaryQuery";

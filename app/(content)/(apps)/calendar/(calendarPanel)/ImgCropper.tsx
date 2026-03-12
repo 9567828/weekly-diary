@@ -152,6 +152,7 @@ export default function ImgCropper({ img, year, month, onClose, onSuccess }: ICr
           </div>
         </>
 
+        {/* 테스트용 */}
         {/* {prev ? (
           <img src={prev} alt="미리보기" style={{ width: "100%", height: "100dvh", position: "absolute", top: "0", left: 0, aspectRatio: "4/3" }} />
         ) : (
