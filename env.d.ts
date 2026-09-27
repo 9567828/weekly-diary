@@ -5,3 +5,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: string;
   }
 }
+
+declare module "*.scss";
+declare module "*.sass";
+declare module "*.css";
